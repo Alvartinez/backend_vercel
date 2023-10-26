@@ -9,7 +9,7 @@ const { pg } = require("pg");
 // });
 
 const sequelize = new Sequelize(process.env.DB_NAME || "osl-udes", process.env.DB_USER || "postgres", process.env.DB_PASSWORD || "Jesus2023*", {
-    host: "192.168.3.16",
+    host: "https://192.168.3.16",
     port: 5432,
     dialect: "postgres",
     dialectModule: pg
