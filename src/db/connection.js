@@ -12,7 +12,13 @@ const sequelize = new Sequelize(process.env.DB_NAME || "verceldb", process.env.D
     host: "ep-shrill-haze-39862407-pooler.us-east-1.postgres.vercel-storage.com",
     port: 5432,
     dialect: "postgres",
-    dialectModule: pg
+    dialectModule: pg,
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false // Esto deshabilita la verificación del certificado, asegúrate de entender las implicaciones de seguridad.
+        }
+    }
 });
 
 module.exports = sequelize;
