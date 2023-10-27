@@ -8,7 +8,7 @@ const { pg } = require("pg");
 //     dialectModule: pg
 // });
 
-const sequelize = new Sequelize(process.env.DB_NAME || "healthTrain", process.env.DB_USER || "default", process.env.DB_PASSWORD || "Kpgoe0Vq8OUv", {
+const sequelize = new Sequelize(process.env.DB_NAME || "verceldb", process.env.DB_USER || "default", process.env.DB_PASSWORD || "Kpgoe0Vq8OUv", {
     host: "ep-shrill-haze-39862407-pooler.us-east-1.postgres.vercel-storage.com",
     port: 5432,
     dialect: "postgres",
