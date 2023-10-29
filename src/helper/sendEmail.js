@@ -8,7 +8,7 @@ const enviarMensajeInsideServer = async (usuarioDestino, asunto) => {
     const CLIENTD_ID = "877162813446-785knmt5drhn9urrq3nrmck4jpfme4t6.apps.googleusercontent.com";
     const CLIENT_SECRET = "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";
     const REDIRECT_URI = "https://developers.google.com/oauthplayground";
-    const REFRESH_TOKEN = "1//04wQ9rM-g9Nj5CgYIARAAGAQSNwF-L9IruClXXes-upfd7CU7m5TImyphbUOzMe8RZEs6kLjhacuVVQexsnTLphhZ2idDe6vQpRc";
+    const REFRESH_TOKEN = "1//04q3zNx6JQQHuCgYIARAAGAQSNwF-L9IrfKfiKwJIxfyOR7w6qHonwEEjFmHTgRUJTlKtAaTVY_q-szsUoWDwyB7kI4RMsMgaFIA";
 
     const oAuth2Client = new google.auth.OAuth2(CLIENTD_ID, CLIENT_SECRET, REDIRECT_URI);
     oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
