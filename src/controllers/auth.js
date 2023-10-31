@@ -188,6 +188,8 @@ const isRegisteredCourse = async (req, res) => {
           }
         }
       );
+
+      console.log(inscripcion);
   
       if (!inscripcion) {
         return res.status(200).json(isRegistered); // Retorna false si no está inscrito
