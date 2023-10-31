@@ -173,8 +173,6 @@ const isRegisteredCourse = async (req, res) => {
 
     const idCurso = req.params.idCurso;
     const idPersona = req.params.idPersona;
-
-    console.log("id Curso: "+idCurso+", id Persona: "+idPersona);
   
     try {
   
@@ -242,6 +240,8 @@ const usersRegisteredCourses = async (req, res) => {
 const registeredCourse = async (req, res) => {
   
     const { idCurso, idPersona } = req.body;
+
+    console.log("Curso: "+idCurso+", Persona: "+idPersona);
   
     try {
   
