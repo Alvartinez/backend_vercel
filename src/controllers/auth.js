@@ -240,8 +240,6 @@ const usersRegisteredCourses = async (req, res) => {
 const registeredCourse = async (req, res) => {
   
     const { idCurso, idPersona } = req.body;
-
-    console.log("Curso: "+idCurso+", Persona: "+idPersona);
   
     try {
   
@@ -254,6 +252,8 @@ const registeredCourse = async (req, res) => {
           }
         }
       );
+
+      console.log(inscripcion);
       
       if(inscripcion){
         return res.status(400).json({
