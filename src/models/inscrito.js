@@ -24,7 +24,8 @@ const Inscrito = sequelize.define("inscrito", {
     },
     id_inscrito:{
         type: DataTypes.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     }
 },{
     tableName: 'inscrito',

@@ -264,8 +264,6 @@ const registeredCourse = async (req, res) => {
       const month = currentDate.getMonth() + 1;
       const day = currentDate.getDate();
       const dateStr = `${year}-${month}-${day}`;
-
-      console.log("Curso: "+idCurso+", Persona: "+idPersona+", fecha: "+dateStr);
   
       await Inscrito.create({
         id_curso: idCurso,
