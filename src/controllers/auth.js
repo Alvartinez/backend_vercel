@@ -3,6 +3,7 @@ const Person = require("../models/persona");
 const jwt = require("jsonwebtoken");
 const generateJWT = require("../helper/generateJWT");
 const User = require("../models/user");
+const Inscrito = require("../models/inscrito");
 const Rol = require("../models/rol");
 const { QueryTypes } = require('sequelize'); 
 const sequelize = require("../db/connection");
