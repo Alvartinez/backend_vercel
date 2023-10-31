@@ -172,6 +172,8 @@ const isRegisteredCourse = async (req, res) => {
 
     const idCurso = req.params.idCurso;
     const idPersona = req.params.idPersona;
+
+    console.log("id Curso: "+idCurso+", id Persona: "+idPersona);
   
     try {
   
