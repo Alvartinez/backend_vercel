@@ -1,9 +1,9 @@
-const { Evaluation } = require("../models/evaluacion");
-const { MatchEvaluation } = require("../models/evaluacion_empareja");
-const { SelectEvaluation } = require("../models/evaluacion_seleccion");
-const { Inscrito } = require("../models/inscrito");
-const { Course } = require("../models/curso");
-const { ResponseEvaluation } = require("../models/respuesta_evaluacion");
+const  Evaluation  = require("../models/evaluacion");
+const  MatchEvaluation  = require("../models/evaluacion_empareja");
+const  SelectEvaluation  = require("../models/evaluacion_seleccion");
+const  Inscrito  = require("../models/inscrito");
+const  Course  = require("../models/curso");
+const  ResponseEvaluation  = require("../models/respuesta_evaluacion");
 
 exports.resultadoEvaluacion = async (req, res) => {
 
@@ -83,36 +83,6 @@ exports.resultadoEvaluacion = async (req, res) => {
                 fecha_respuesta
             });
 
-        }
-
-        const respuestaExistente = await ResponseEvaluation.findOne({
-            where: { id_persona: idPersona, id_evaluacion: idEva }
-        });
-
-        console.log(respuestaExistente);
-
-        if (respuestaExistente) {
-
-            if (intenta > 0) {
-                respuestaExistente.respuestas = respuestas;
-                intentosActuales = intenta - 1;
-                respuestaExistente.intentos = intentosActuales;
-                console.log(respuestaExistente.intentos);
-
-                await respuestaExistente.update(
-                    { respuestas: respuestaExistente.respuestas },
-                    { intentos: respuestaExistente.intentos }
-                );
-
-                return res.json({ msg: "Respuesta nueva guardada exitosamente" });
-
-            } else {
-                return res.status(400).json({ msg: "No quedan intentos disponibles" });
-            }
-        }
-
-        if (intenta > 0) {
-            intentosActuales = intenta - 1;
         }
 
         // Guardar la respuesta en la tabla respuesta_quiz

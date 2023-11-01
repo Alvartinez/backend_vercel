@@ -1,8 +1,8 @@
-const { Evaluation } = require("../models/evaluacion");
-const { MatchEvaluation } = require("../models/evaluacion_empareja");
-const { SelectEvaluation } = require("../models/evaluacion_seleccion");
-const { Match } = require("../models/empareja");
-const { Select } = require("../models/seleccion");
+const Evaluation = require("../models/evaluacion");
+const  MatchEvaluation  = require("../models/evaluacion_empareja");
+const  SelectEvaluation  = require("../models/evaluacion_seleccion");
+const  Match  = require("../models/empareja");
+const  Select  = require("../models/seleccion");
 
 exports.getEvaluacion = async (req, res) => {
     const id = req.params.id;
