@@ -104,8 +104,6 @@ exports.resultadoEvaluacion = async (req, res) => {
 
 exports.getResultsEvaluation = async (req, res) => {
 
-    const id = req.params.id;
-
     try {
 
         const idPersona = await ResponseEvaluation.findOne({ where: { id_persona: id } });
