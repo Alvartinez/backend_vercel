@@ -106,7 +106,7 @@ exports.getResultsEvaluation = async (req, res) => {
 
     try {
 
-        const idPersona = await ResponseEvaluation.findOne({ where: { id_persona: id } });
+        const idPersona = await ResponseEvaluation.findAll();
 
         if (idPersona) {
             // Se encontró un registro en la base de datos
