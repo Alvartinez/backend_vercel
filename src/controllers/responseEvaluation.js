@@ -108,7 +108,12 @@ exports.getResultsEvaluation = async (req, res) => {
 
         const idPersona = await ResponseEvaluation.findAll();
 
-        res.json(idPersona);
+        if(idPersona){
+            res.json(idPersona);
+        }else{
+            res.json("Hola");
+        }
+
 
     } catch (error) {
         console.error(error);
