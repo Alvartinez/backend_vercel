@@ -110,7 +110,13 @@ exports.getResultsEvaluation = async (req, res) => {
 
         const idPersona = await ResponseEvaluation.findOne({ where: { id_persona: id } });
 
-        console.log(idPersona);
+        if (idPersona) {
+            // Se encontró un registro en la base de datos
+            res.json(idPersona);
+        } else {
+            // No se encontró un registro en la base de datos, realizar otra acción
+            res.json({ msg: 'No se encontró un registro para el ID proporcionado' });
+        }
 
     } catch (error) {
         console.error(error);
