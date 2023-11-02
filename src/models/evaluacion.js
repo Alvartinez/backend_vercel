@@ -36,9 +36,6 @@ const Evaluation = sequelize.define("evaluacion", {
     objetivo: {
         type: DataTypes.STRING,
         allowNull:false
-    },
-    intentos: {
-        type: DataTypes.INTEGER
     }
 
 },{
