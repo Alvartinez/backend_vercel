@@ -99,7 +99,7 @@ const resultadoEvaluacion = async (req, res) => {
 
 const getResultsEvaluation = async (req, res) => {
 
-    const { id } = req.body;
+    const id = req.params.id;
 
     try {
 
@@ -109,7 +109,19 @@ const getResultsEvaluation = async (req, res) => {
             return console.log("No hay registro");
         }
 
+        let sumaPonderadoPuntaje = 0;
 
+        for (const pregunta of preguntas) {
+          const { opcion, puntaje } = pregunta;
+          const valorPonderado = opcion && opcion.ponderado;
+        
+          if (typeof valorPonderado === typeof puntaje) {
+            const valor = valorPonderado === puntaje ? valorPonderado : 0;
+            sumaPonderadoPuntaje += valor;
+          }
+        }
+
+        res.json(sumaPonderadoPuntaje);
 
     } catch (error) {
         console.error(error);
