@@ -111,14 +111,16 @@ const getResultsEvaluation = async (req, res) => {
 
         let sumaPonderadoPuntaje = 0;
 
-        for (const pregunta of preguntas) {
-          const { opcion, puntaje } = pregunta;
-          const valorPonderado = opcion && opcion.ponderado;
-        
-          if (typeof valorPonderado === typeof puntaje) {
-            const valor = valorPonderado === puntaje ? valorPonderado : 0;
-            sumaPonderadoPuntaje += valor;
-          }
+        const respuestas = idPersona.respuestas;
+
+        for (const respuesta of respuestas) {
+            const { opcion, puntaje } = respuesta;
+            const valorPonderado = opcion && opcion.ponderado;
+
+            if (typeof valorPonderado === typeof puntaje) {
+                const valor = valorPonderado === puntaje ? valorPonderado : 0;
+                sumaPonderadoPuntaje += valor;
+            }
         }
 
         res.json(sumaPonderadoPuntaje);
