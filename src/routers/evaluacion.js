@@ -6,6 +6,6 @@ const router = Router();
 
 router.get("/evaluacion/:id", getEvaluacion);
 router.post("/saveEvaluation", resultadoEvaluacion);
-router.get("/", getResultsEvaluation);
+router.get("/results", getResultsEvaluation);
 
 module.exports = router;

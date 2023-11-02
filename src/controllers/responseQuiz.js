@@ -5,7 +5,7 @@ const Quiz = require("../models/quiz_formativo");
 const Inscrito = require("../models/inscrito");
 const CourseModule = require("../models/curso_modulo");
 
-exports.resultadoQuiz = async (req, res) => {
+const resultadoQuiz = async (req, res) => {
 
     const {
         id_persona,
@@ -118,7 +118,7 @@ exports.resultadoQuiz = async (req, res) => {
     }
 }
 
-exports.getResultsQuiz = async (req, res) => {
+const getResultsQuiz = async (req, res) => {
     try {
         const results = await ResponseQuiz.findAll();
         res.json(results);
@@ -126,4 +126,9 @@ exports.getResultsQuiz = async (req, res) => {
         console.error(error);
         res.status(400).json({ msg: "Se ha producido un error" });
     }
+}
+
+module.exports = {
+    resultadoQuiz,
+    getResultsQuiz
 }

@@ -5,7 +5,7 @@ const  Inscrito  = require("../models/inscrito");
 const  Course  = require("../models/curso");
 const  ResponseEvaluation  = require("../models/respuesta_evaluacion");
 
-exports.resultadoEvaluacion = async (req, res) => {
+const resultadoEvaluacion = async (req, res) => {
 
     const { preguntas } = req.body;
 
@@ -102,7 +102,7 @@ exports.resultadoEvaluacion = async (req, res) => {
 
 }
 
-exports.getResultsEvaluation = async (req, res) => {
+const getResultsEvaluation = async (req, res) => {
 
     try {
 
@@ -120,4 +120,9 @@ exports.getResultsEvaluation = async (req, res) => {
         res.status(400).json({ msg: 'Se ha ocurrido un error' });
     }
 
+}
+
+module.exports = {
+    resultadoEvaluacion,
+    getResultsEvaluation
 }

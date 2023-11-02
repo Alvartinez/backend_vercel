@@ -4,7 +4,7 @@ const Select = require("../models/seleccion");
 const QuizMatch = require("../models/quiz_empareja");
 const QuizSelection = require("../models/quiz_seleccion");
 
-exports.getQuiz = async (req, res) => {
+const getQuiz = async (req, res) => {
 
     const id = req.params.id;
 
@@ -49,4 +49,8 @@ exports.getQuiz = async (req, res) => {
         res.status(400).json({ msg: 'Se ha producido un error' });
     }
 
-};
+}
+
+module.exports = {
+    getQuiz
+}
