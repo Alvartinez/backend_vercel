@@ -29,9 +29,6 @@ const ResponseEvaluation = sequelize.define("respuesta_evaluacion", {
     respuestas: {
         type: DataTypes.JSON,
         allowNull: false
-    },
-    intentos: {
-        type: DataTypes.INTEGER
     }
 
 },{
