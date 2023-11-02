@@ -13,8 +13,6 @@ const resultadoEvaluacion = async (req, res) => {
 
         let idPersona;
         let idEva;
-        let intenta;
-        let intentosActuales;
         const respuestas = [];
 
         for (const pregunta of preguntas) {
@@ -55,8 +53,6 @@ const resultadoEvaluacion = async (req, res) => {
                 return res.status(400).json({ msg: "La evaluación no existe" });
             }
 
-            intenta = evaluacion.intentos;
-
             const cursoExiste = await Course.findOne({ where: { id_curso: evaluacion.id_curso } });
 
             if (!cursoExiste) {
@@ -89,8 +85,7 @@ const resultadoEvaluacion = async (req, res) => {
         await ResponseEvaluation.create({
             id_persona: idPersona,
             id_evaluacion: idEva,
-            respuestas,
-            intentos: intentosActuales
+            respuestas
         });
 
         return res.json({ msg: "Respuesta guardada exitosamente" });
@@ -104,15 +99,16 @@ const resultadoEvaluacion = async (req, res) => {
 
 const getResultsEvaluation = async (req, res) => {
 
+    const { id } = req.body;
+
     try {
 
-        const idPersona = await ResponseEvaluation.findAll();
+        const idPersona = await ResponseEvaluation.findOne({ where: { id_persona: id } });
 
-        if(idPersona){
-            res.json(idPersona);
-        }else{
-            res.json("Hola");
+        if(!idPersona){
+            return console.log("No hay registro");
         }
+
 
 
     } catch (error) {
