@@ -7,7 +7,7 @@ const generateJWT = async (id = "", username = "", rol = "") => {
       payload,
       process.env.PASSWORD_KEY || "Magic Secret",
       {
-        expiresIn: "4h"
+        expiresIn: "24h"
       }
   );
 
