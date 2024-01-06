@@ -90,3 +90,161 @@ exports.getCurso = async (req, res) => {
         res.status(400).json({ msg: 'Se ha ocurrido un error' });
     }
 };
+
+exports.newCourse = async (req, res) => {
+    const { curso } = req.body;
+
+    try {
+        const {
+            nombre,
+            descripcion,
+            id_persona,
+            objetivos,
+            video_presentacion,
+            portada,
+            publicado
+        } = curso;
+
+        const cursoExistente = await Course.findOne({ where: { nombre: nombre } });
+
+        if (cursoExistente) {
+            return res.status(400).json({
+                msg: "El nombre del curso existe"
+            });
+        }
+
+        await Course.create({
+            nombre,
+            descripcion,
+            id_persona,
+            objetivos,
+            video_presentacion,
+            portada,
+            publicado
+        });
+        
+
+        return res.status(200).json({ msg: "Curso creado exitosamente" });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha producido un error' });
+    }
+};
+
+exports.updateCourse = async (req, res) => {
+    const {curso} = req.body;
+
+    try {
+
+        const {
+            id_curso,
+            nombre,
+            descripcion,
+            id_persona,
+            objetivos,
+            video_presentacion,
+            portada,
+            publicado
+        } = curso;
+
+        const cursoExistente = await Course.findOne({where: {id_curso: id_curso} });
+
+        if (cursoExistente) {
+
+            if (cursoExistente.nombre !== nombre ||
+                cursoExistente.descripcion !== descripcion ||
+                cursoExistente.id_persona !== id_persona ||
+                cursoExistente.objetivos !== objetivos ||
+                cursoExistente.video_presentacion !== video_presentacion ||
+                cursoExistente.portada !== portada ||
+                cursoExistente.publicado !== publicado) {
+
+                await Course.update({
+                    nombre,
+                    descripcion,
+                    id_persona,
+                    objetivos,
+                    video_presentacion,
+                    portada,
+                    publicado
+                }, { where: { id_curso: id_curso } });
+
+                return res.status(200).json({ msg: "Curso actualizado exitosamente" });
+
+            }
+
+        }
+
+        return res.status(400).json({ msg: "No hay cambios para realizar" });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+}
+
+exports.deleteCourse = async (req, res) => {
+
+    const id = req.params.id;
+
+    try{
+
+        const cursoExistente = await Course.findOne({ where: { id_curso: id } });
+
+        if(!cursoExistente){
+            return res.status(400).json({
+                msg: "EL curso no existe"
+            });
+        }
+
+        const deletedCourse = await Course.destroy({ where: {id_curso: id} });
+
+        if(deletedCourse > 0){
+            return res.status(200).json({
+                msg: "Curso eliminado exitosamente"
+            });
+        }
+
+        res.status(400).json({
+            msg: "Curso no ha sido eliminado exitosamente"
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}
+
+exports.publishedCourse = async (req, res) => {
+
+    const {id_curso} = req.body;
+    
+    try{
+
+        const course = await Course.findOne({ where: { id_curso: id_curso } });
+
+        if(!cursoExistente){
+            return res.status(400).json({
+                msg: "EL curso no existe"
+            });
+        }
+
+        await Course.update({
+            publicado: !course.publicado
+        },
+         { where: { id_curso: id_curso }
+        });
+
+        res.status(200).json({
+            msg: "Estado de publicación actualizado exitosamente",
+            nuevoEstado: !course.publicado,
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}

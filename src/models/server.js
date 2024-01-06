@@ -6,7 +6,8 @@ const routesAuth = require("../routers/auth");
 const routesModule = require('../routers/module');
 const routesQuiz = require('../routers/quiz');
 const sequelize = require("../db/connection");
-const routesEvaluacion = require("../routers/evaluacion")
+const routesEvaluacion = require("../routers/evaluacion");
+const routeRecurso = require("../routers/recurso")
 
 class Server {
 
@@ -31,7 +32,8 @@ class Server {
         this.app.use("/api/auth", routesAuth),
         this.app.use("/api/module", routesModule),
         this.app.use("/api/quiz", routesQuiz),
-        this.app.use("/api/evaluacion", routesEvaluacion)
+        this.app.use("/api/evaluacion", routesEvaluacion),
+        this.app.use("/api/recurso", routeRecurso)
     }
 
     middlewares() {
