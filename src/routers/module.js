@@ -3,6 +3,6 @@ const { getModule } = require('../controllers/module');
 
 const router = Router();
 
-router.get('/module/:id', getModule);
+router.get('/:id', getModule);
 
 module.exports = router;

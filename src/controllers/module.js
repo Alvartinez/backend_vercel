@@ -3,7 +3,7 @@ const Modulo = require('../models/modulo');
 const Quiz = require('../models/quiz_formativo');
 
 //Nuevo módulo
-exports.newModule = async (req, res) =>{
+const newModule = async (req, res) =>{
     const {modulo} = req.body;
 
     try{
@@ -52,7 +52,7 @@ exports.newModule = async (req, res) =>{
 }
 
 // Traer todos los módulos 
-exports.getModules = async (req, res) => {
+const getModules = async (req, res) => {
 
     const { id_curso } = req.body;
 
@@ -89,7 +89,7 @@ exports.getModules = async (req, res) => {
 }
 
 // Obtener un módulo en específico
-exports.getModule = async (req, res) => {
+const getModule = async (req, res) => {
     const id = req.params.id;
 
     try {
@@ -118,7 +118,7 @@ exports.getModule = async (req, res) => {
 }
 
 //Editar módulo
-exports.updateModule = async (req, res) => {
+const updateModule = async (req, res) => {
     const {modulo} = req.body;
 
     try{
@@ -176,3 +176,10 @@ exports.updateModule = async (req, res) => {
     }
 
 }
+
+module.exports = {
+    getModule,
+    getModules,
+    newModule,
+    updateModule
+};
