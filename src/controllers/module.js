@@ -99,7 +99,7 @@ const getModule = async (req, res) => {
                 {
                     model: Quiz,
                     as: 'quiz_formativo',
-                    attributes: ['id_modulo', 'titulo']
+                    attributes: ['id_quiz_formativo', 'titulo']
                 }
             ]
         });
