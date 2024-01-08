@@ -58,6 +58,16 @@ const getModules = async (req, res) => {
 
     try{
 
+        const cursoExiste = await .findOne({where:{id_curso:id_curso}});
+
+        if(!cursoExiste){
+            return res.status(400).json({
+                msg: "No existe el curso"
+            });
+        }
+
+        
+
         const availableModules = await Modulo.findAll({
             include: {
                 model: Course,

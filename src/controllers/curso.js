@@ -168,7 +168,7 @@ exports.updateCourse = async (req, res) => {
                     video_presentacion,
                     portada,
                     publicado
-                }, { where: { id_curso: id_curso } });
+                }, { where: { id_curso: cursoExistente.id_curso } });
 
                 return res.status(200).json({ msg: "Curso actualizado exitosamente" });
 
