@@ -150,14 +150,11 @@ exports.updateCourse = async (req, res) => {
         const cursoExistente = await Course.findOne({ where: { id_curso: id_curso } });
 
         if (cursoExistente) {
-            // Cambiada la condición para verificar si las variables son diferentes
-            if (cursoExistente.nombre !== nombre ||
-                cursoExistente.descripcion !== descripcion ||
-                cursoExistente.id_persona !== id_persona ||
-                cursoExistente.objetivos !== objetivos ||
-                cursoExistente.video_presentacion !== video_presentacion ||
-                cursoExistente.portada !== portada ||
-                cursoExistente.publicado !== publicado) {
+            
+            if ((cursoExistente.nombre !== nombre) || (cursoExistente.descripcion !== descripcion) ||
+                (cursoExistente.id_persona !== id_persona) || (cursoExistente.objetivos !== objetivos) ||
+                (cursoExistente.video_presentacion !== video_presentacion) ||
+                (cursoExistente.portada !== portada) || cursoExistente.publicado !== publicado) {
 
                 await Course.update({
                     nombre,
