@@ -147,40 +147,41 @@ exports.updateCourse = async (req, res) => {
             publicado
         } = curso;
 
+        // Buscar el curso existente en la base de datos
         const cursoExistente = await Course.findOne({ where: { id_curso: id_curso } });
 
-        if (cursoExistente) {
-            const cambios = {
-                nombre,
-                descripcion,
-                id_persona,
-                video_presentacion,
-                portada,
-                publicado
-            };
-
-            // Comparación de campos de tipo array
-            if (
-                JSON.stringify(cursoExistente.objetivos) !== JSON.stringify(objetivos)
-            ) {
-                cambios.objetivos = objetivos;
-            }
-
-            if (Object.values(cambios).some(value => value !== cursoExistente[value])) {
-                await Course.update(cambios, { where: { id_curso: cursoExistente.id_curso } });
-                return res.status(200).json({ msg: "Curso actualizado exitosamente" });
-            } else {
-                return res.status(400).json({ msg: "No hay cambios para realizar" });
-            }
-        } else {
-            return res.status(400).json({
-                msg: "No existe el curso"
-            });
+        if (!cursoExistente) {
+            return res.status(400).json({ msg: "No existe el curso" });
         }
+
+        // Verificar si hay cambios en los campos
+        const cambios = {
+            nombre,
+            descripcion,
+            id_persona,
+            video_presentacion,
+            portada,
+            publicado,
+            objetivos: JSON.stringify(objetivos) // Convertir a cadena JSON para comparación
+        };
+
+        const sonIguales = Object.entries(cambios).every(([key, value]) => {
+            // Comparar el valor actual con el valor en cursoExistente
+            return cursoExistente[key] === value;
+        });
+
+        if (sonIguales) {
+            return res.status(400).json({ msg: "No hay cambios para realizar" });
+        }
+
+        // Actualizar el curso si hay cambios
+        await Course.update(cambios, { where: { id_curso: cursoExistente.id_curso } });
+
+        return res.status(200).json({ msg: "Curso actualizado exitosamente" });
 
     } catch (error) {
         console.error(error);
-        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+        return res.status(400).json({ msg: 'Se ha ocurrido un error' });
     }
 }
 
