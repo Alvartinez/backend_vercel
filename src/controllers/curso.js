@@ -172,6 +172,10 @@ exports.updateCourse = async (req, res) => {
 
                 return res.status(200).json({ msg: "Curso actualizado exitosamente" });
 
+            }else{
+                return res.status(400).json({
+                    msg: "No existe el curso"
+                });
             }
 
         }
