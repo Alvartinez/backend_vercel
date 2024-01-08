@@ -155,7 +155,7 @@ exports.updateCourse = async (req, res) => {
             if (cursoExistente.nombre !== nombre ||
                 cursoExistente.descripcion !== descripcion ||
                 cursoExistente.id_persona !== id_persona ||
-                cursoExistente.objetivos !== objetivos ||
+                JSON.stringify(cursoExistente.objetivos) !== JSON.stringify(objetivos) ||
                 cursoExistente.video_presentacion !== video_presentacion ||
                 cursoExistente.portada !== portada ||
                 cursoExistente.publicado !== publicado) {
