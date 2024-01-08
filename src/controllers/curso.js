@@ -154,17 +154,19 @@ exports.updateCourse = async (req, res) => {
                 nombre,
                 descripcion,
                 id_persona,
-                objetivos,
                 video_presentacion,
                 portada,
                 publicado
             };
 
-            const sonIguales = Object.keys(cambios).every(
-                key => cursoExistente[key] === cambios[key]
-            );
+            // Comparación de campos de tipo array
+            if (
+                JSON.stringify(cursoExistente.objetivos) !== JSON.stringify(objetivos)
+            ) {
+                cambios.objetivos = objetivos;
+            }
 
-            if (!sonIguales) {
+            if (Object.values(cambios).some(value => value !== cursoExistente[value])) {
                 await Course.update(cambios, { where: { id_curso: cursoExistente.id_curso } });
                 return res.status(200).json({ msg: "Curso actualizado exitosamente" });
             } else {
