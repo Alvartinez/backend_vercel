@@ -136,7 +136,6 @@ exports.updateCourse = async (req, res) => {
     const { curso } = req.body;
 
     try {
-
         const {
             id_curso,
             nombre,
@@ -151,31 +150,26 @@ exports.updateCourse = async (req, res) => {
         const cursoExistente = await Course.findOne({ where: { id_curso: id_curso } });
 
         if (cursoExistente) {
+            const cambios = {
+                nombre,
+                descripcion,
+                id_persona,
+                objetivos,
+                video_presentacion,
+                portada,
+                publicado
+            };
 
-            if (cursoExistente.nombre !== nombre ||
-                cursoExistente.descripcion !== descripcion ||
-                cursoExistente.id_persona !== id_persona ||
-                JSON.stringify(cursoExistente.objetivos) !== JSON.stringify(objetivos) ||
-                cursoExistente.video_presentacion !== video_presentacion ||
-                cursoExistente.portada !== portada ||
-                cursoExistente.publicado !== publicado) {
+            const sonIguales = Object.keys(cambios).every(
+                key => cursoExistente[key] === cambios[key]
+            );
 
-                await Course.update({
-                    nombre,
-                    descripcion,
-                    id_persona,
-                    objetivos,
-                    video_presentacion,
-                    portada,
-                    publicado
-                }, { where: { id_curso: cursoExistente.id_curso } });
-
+            if (!sonIguales) {
+                await Course.update(cambios, { where: { id_curso: cursoExistente.id_curso } });
                 return res.status(200).json({ msg: "Curso actualizado exitosamente" });
-
             } else {
                 return res.status(400).json({ msg: "No hay cambios para realizar" });
             }
-
         } else {
             return res.status(400).json({
                 msg: "No existe el curso"
