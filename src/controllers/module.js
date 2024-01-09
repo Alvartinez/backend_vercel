@@ -147,15 +147,22 @@ const getModule = async (req, res) => {
             attributes: ['id_quiz_formativo', 'titulo']
         });
 
-        res.status(200).json({
-            cursoModuloInfo,
-            quizFormativo
-        });
+        // Crear la estructura deseada
+        const response = {
+            cursoModuloInfo: {
+                curso: cursoModuloInfo.curso,
+                modulo: cursoModuloInfo.modulo
+                // Puedes excluir id_curso e id_modulo si no los deseas en la respuesta
+            },
+            quizFormativo: quizFormativo
+        };
+
+        res.status(200).json(response);
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: 'Se ha producido un error' });
     }
-}
+};
 
 //Editar módulo
 const updateModule = async (req, res) => {
