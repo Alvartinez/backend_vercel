@@ -124,11 +124,6 @@ const getModule = async (req, res) => {
             where: { id_modulo: id },
             include: [
                 {
-                    model: Course,
-                    as: 'curso',
-                    attributes: ['id_curso', 'nombre']
-                },
-                {
                     model: Quiz,
                     as: 'quiz_formativo',
                     attributes: ['id_quiz_formativo', 'titulo']
@@ -142,7 +137,11 @@ const getModule = async (req, res) => {
             });
         }
 
-        res.json(infoModulo);
+        const curso = await CourseModule.findOne({ 
+            where: { id_modulo}
+         });
+
+        res.json(infoModulo, curso.id_curso);
     } catch (error) {
         console.error(error);
         res.status(400).json({ msg: 'Se ha ocurrido un error' });
