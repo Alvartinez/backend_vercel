@@ -120,9 +120,18 @@ const getModule = async (req, res) => {
     const id = req.params.id;
 
     try {
-        const infoModulo = await Modulo.findOne({
+        const infoModulo = await CourseModule.findOne({
             where: { id_modulo: id },
             include: [
+                {
+                    model: Course,
+                    as: 'curso',
+                    attributes: ['id_curso', 'nombre']
+                },
+                {
+                    model: Modulo,
+                    as: 'modulo'
+                },
                 {
                     model: Quiz,
                     as: 'quiz_formativo',
@@ -137,12 +146,8 @@ const getModule = async (req, res) => {
             });
         }
 
-        const curso = await CourseModule.findOne({ 
-            where: { id_modulo: infoModulo.id_modulo }
-        });
-
         res.status(200).json({
-            infoModulo, curso: curso.id_curso
+            infoModulo
         });
     } catch (error) {
         console.error(error);
