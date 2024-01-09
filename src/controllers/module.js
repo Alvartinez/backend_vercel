@@ -16,6 +16,7 @@ const newModule = async (req, res) =>{
             objetivo,
             conclusion,
             portada,
+            creadores,
             competencias,
             duracion,
             temas
@@ -47,6 +48,7 @@ const newModule = async (req, res) =>{
             objetivo: objetivo,
             conclusion: conclusion,
             portada: portada,
+            creadores: creadores,
             competencias: competencias,
             duracion: duracion,
             temas: temas
@@ -182,6 +184,7 @@ const updateModule = async (req, res) => {
             objetivo,
             conclusion,
             portada,
+            creadores,
             competencias,
             duracion,
             temas
@@ -191,8 +194,8 @@ const updateModule = async (req, res) => {
 
         if( moduloExiste.nombre != nombre || moduloExiste != descripcion || moduloExiste.objetivo != objetivo
             || moduloExiste.conclusion != conclusion || moduloExiste.portada != portada
-            || moduloExiste.competencias != competencias || moduloExiste.duracion != duracion
-            || moduloExiste.temas != temas 
+            || moduloExiste.creadores !== creadores || moduloExiste.competencias != competencias
+            || moduloExiste.duracion != duracion || moduloExiste.temas != temas 
             ){
 
             const editModule = await Modulo.update({
@@ -201,6 +204,7 @@ const updateModule = async (req, res) => {
                 objetivo: objetivo,
                 conclusion: conclusion,
                 portada: portada,
+                creadores: creadores,
                 competencias: competencias,
                 duracion: duracion,
                 temas: temas
