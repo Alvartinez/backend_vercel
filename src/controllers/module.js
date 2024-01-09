@@ -138,7 +138,7 @@ const getModule = async (req, res) => {
         }
 
         const curso = await CourseModule.findOne({ 
-            where: { id_modulo}
+            where: { id_modulo:infoModulo.id_modulo}
          });
 
         res.json(infoModulo, curso.id_curso);
