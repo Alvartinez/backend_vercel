@@ -223,7 +223,7 @@ exports.publishedCourse = async (req, res) => {
 
         const course = await Course.findOne({ where: { id_curso: id_curso } });
 
-        if(!cursoExistente){
+        if(!course){
             return res.status(400).json({
                 msg: "EL curso no existe"
             });
