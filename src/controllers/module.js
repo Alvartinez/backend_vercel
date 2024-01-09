@@ -141,10 +141,8 @@ const getModule = async (req, res) => {
             where: { id_modulo: infoModulo.id_modulo }
         });
 
-        infoModulo.id_curso = curso ? curso.id_curso : null;
-
         res.status(200).json({
-            infoModulo
+            infoModulo, curso: curso.id_curso
         });
     } catch (error) {
         console.error(error);
