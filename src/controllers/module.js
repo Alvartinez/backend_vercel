@@ -120,7 +120,7 @@ const getModule = async (req, res) => {
     const id = req.params.id;
 
     try {
-        const infoModulo = await CourseModule.findOne({
+        const cursoModuloInfo = await CourseModule.findOne({
             where: { id_modulo: id },
             include: [
                 {
@@ -131,27 +131,31 @@ const getModule = async (req, res) => {
                 {
                     model: Modulo,
                     as: 'modulo'
-                },
-                {
-                    model: Quiz,
-                    as: 'quiz_formativo',
-                    attributes: ['id_quiz_formativo', 'titulo']
                 }
             ]
         });
 
-        if (!infoModulo) {
+        if (!cursoModuloInfo) {
             return res.status(400).json({
                 msg: 'No se encuentra información, comuníquese con el Admin'
             });
         }
 
+        const idQuizFormativo = cursoModuloInfo.id_quiz_formativo;
+
+        // Buscar el quiz formativo por separado
+        const quizFormativo = await Quiz.findOne({
+            where: { id_quiz_formativo: idQuizFormativo },
+            attributes: ['id_quiz_formativo', 'titulo']
+        });
+
         res.status(200).json({
-            infoModulo
+            cursoModuloInfo,
+            quizFormativo
         });
     } catch (error) {
         console.error(error);
-        res.status(400).json({ msg: 'Se ha producido un error' });
+        res.status(500).json({ msg: 'Se ha producido un error' });
     }
 }
 
