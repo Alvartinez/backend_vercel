@@ -70,49 +70,48 @@ const newModule = async (req, res) =>{
 
 // Traer todos los módulos 
 const getModules = async (req, res) => {
+    const { id_curso } = req.params; // Cambié req.body a req.params para obtener el id_curso de los parámetros de la ruta
 
-    const { id_curso } = req.body;
+    try {
+        // Verificar si el curso existe
+        const cursoExiste = await Course.findOne({ where: { id_curso } });
 
-    try{
-
-        const cursoExiste = await Course.findOne({where:{id_curso:id_curso}});
-
-        if(!cursoExiste){
+        if (!cursoExiste) {
             return res.status(400).json({
                 msg: "No existe el curso"
             });
         }
 
-        
+        // Obtener todos los módulos del curso específico
+        const modulosEspecificos = await CourseModule.findAll({
+            where: { id_curso },
+            include: [
+                {
+                    model: Modulo,
+                    as: "modulo",
+                    attributes: ["nombre", "descripcion", "objetivo", "conclusion", "portada", "competencias", "duracion", "temas"]
+                }
+            ]
+        });
 
-        const availableModules = await Modulo.findAll({
-            include: {
-                model: Course,
-                as: "curso",
-                attributes: ["nombre", "descripcion"]
-            }
-        });
-    
-        const modulosInfo = availableModules.map( (modulos) => {
-            return {
-                nombre: modulos.nombre,
-                descripcion: modulos.descripcion,
-                objetivo: modulos.objetivo,
-                conclusion: modulos.conclusion,
-                portada: modulos.portada,
-                competencias: modulos.competencias,
-                duracion: modulos.duracion,
-                temas: modulos.temas
-            };
-        });
-    
+        // Mapear la información de los módulos
+        const modulosInfo = modulosEspecificos.map(({ modulo }) => ({
+            nombre: modulo.nombre,
+            descripcion: modulo.descripcion,
+            objetivo: modulo.objetivo,
+            conclusion: modulo.conclusion,
+            portada: modulo.portada,
+            competencias: modulo.competencias,
+            duracion: modulo.duracion,
+            temas: modulo.temas
+        }));
+
         res.json(modulosInfo);
 
     } catch (error) {
         console.error(error);
-        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+        res.status(400).json({ msg: 'Se ha producido un error' });
     }
-
 }
 
 // Obtener un módulo en específico
@@ -152,7 +151,6 @@ const getModule = async (req, res) => {
             cursoModuloInfo: {
                 curso: cursoModuloInfo.curso,
                 modulo: cursoModuloInfo.modulo
-                // Puedes excluir id_curso e id_modulo si no los deseas en la respuesta
             },
             quizFormativo: quizFormativo
         };
@@ -160,7 +158,7 @@ const getModule = async (req, res) => {
         res.status(200).json(response);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Se ha producido un error' });
+        res.status(400).json({ msg: 'Se ha producido un error' });
     }
 };
 
