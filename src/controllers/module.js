@@ -142,8 +142,7 @@ const getModule = async (req, res) => {
         });
 
         res.status(200).json({
-            infoModulo: infoModulo,
-            id_curso: curso.id_curso
+            infoModulo
         });
     } catch (error) {
         console.error(error);
