@@ -70,7 +70,7 @@ const newModule = async (req, res) =>{
 
 // Traer todos los módulos 
 const getModules = async (req, res) => {
-    const { id_curso } = req.params; // Cambié req.body a req.params para obtener el id_curso de los parámetros de la ruta
+    const { id_curso } = req.params; 
 
     try {
         // Verificar si el curso existe
