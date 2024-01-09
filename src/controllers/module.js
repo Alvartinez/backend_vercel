@@ -107,6 +107,12 @@ const getModules = async (req, res) => {
             temas: modulo.temas
         }));
 
+        if(!modulosInfo){
+            return res.status(200).json({
+                msg: "No existen módulos actualmente"
+            });
+        }
+
         res.json(modulosInfo);
 
     } catch (error) {
