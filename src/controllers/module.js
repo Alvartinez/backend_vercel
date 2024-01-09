@@ -1,4 +1,5 @@
 const Course = require('../models/curso');
+const CourseModule = require('../models/curso_modulo');
 const Modulo = require('../models/modulo');
 const Quiz = require('../models/quiz_formativo');
 
@@ -27,9 +28,20 @@ const newModule = async (req, res) =>{
                 msg: 'No existe el curso'
             });
         }
+
+        const moduloExistente = await Modulo.findOne({
+            where: {
+                nombre: nombre
+            }
+        });
+
+        if (moduloExistente) {
+            return res.status(400).json({
+                msg: 'Ya existe un módulo con el mismo nombre en este curso'
+            });
+        }
         
-        await Modulo.create({
-            id_curso: cursoExiste.id_curso,
+        const moduloNuevo = await Modulo.create({
             nombre: nombre,
             descripcion: descripcion,
             objetivo: objetivo,
@@ -39,6 +51,11 @@ const newModule = async (req, res) =>{
             duracion: duracion,
             temas: temas
         });
+
+        await CourseModule.create({
+            id_curso,
+            id_modulo: moduloNuevo.id_modulo
+        }); 
 
         res.status(200).json({
             msg: "Módulo creado exitosamente"
