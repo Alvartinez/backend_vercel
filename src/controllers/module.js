@@ -142,7 +142,7 @@ const getModule = async (req, res) => {
         });
 
         res.status(200).json({
-            infoModulo
+            curso
         });
     } catch (error) {
         console.error(error);
