@@ -89,13 +89,14 @@ const getModules = async (req, res) => {
                 {
                     model: Modulo,
                     as: "modulo",
-                    attributes: ["nombre", "descripcion", "objetivo", "conclusion", "portada", "competencias", "duracion", "temas"]
+                    attributes: ["id_modulo", "nombre", "descripcion", "objetivo", "conclusion", "portada", "competencias", "duracion", "temas"]
                 }
             ]
         });
 
         // Mapear la información de los módulos
         const modulosInfo = modulosEspecificos.map(({ modulo }) => ({
+            id_modulo: modulo.id_modulo,
             nombre: modulo.nombre,
             descripcion: modulo.descripcion,
             objetivo: modulo.objetivo,
