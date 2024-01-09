@@ -141,11 +141,9 @@ const getModule = async (req, res) => {
             });
         }
 
-        const idQuizFormativo = cursoModuloInfo.id_quiz_formativo;
-
-        // Buscar el quiz formativo por separado
+        // Obtener el QuizFormativo asociado al Modulo
         const quizFormativo = await Quiz.findOne({
-            where: { id_quiz_formativo: idQuizFormativo },
+            where: { id_modulo: cursoModuloInfo.modulo.id_modulo },
             attributes: ['id_quiz_formativo', 'titulo']
         });
 
