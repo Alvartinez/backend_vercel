@@ -94,6 +94,12 @@ const getModules = async (req, res) => {
             ]
         });
 
+        if(!modulosEspecificos){
+            return res.status(200).json({
+                msg: "No existen módulos actualmente"
+            });
+        }
+
         // Mapear la información de los módulos
         const modulosInfo = modulosEspecificos.map(({ modulo }) => ({
             id_modulo: modulo.id_modulo,
@@ -106,12 +112,6 @@ const getModules = async (req, res) => {
             duracion: modulo.duracion,
             temas: modulo.temas
         }));
-
-        if(!modulosInfo){
-            return res.status(200).json({
-                msg: "No existen módulos actualmente"
-            });
-        }
 
         res.json(modulosInfo);
 
