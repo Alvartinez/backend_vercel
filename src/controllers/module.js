@@ -94,7 +94,7 @@ const getModules = async (req, res) => {
             ]
         });
 
-        if(!modulosEspecificos){
+        if (!modulosEspecificos || modulosEspecificos.length === 0) {
             return res.status(200).json({
                 msg: "No existen módulos actualmente"
             });
