@@ -28,8 +28,7 @@ const Modulo = sequelize.define("modulo", {
         allowNull:false
     },
     creadores:{
-        type: DataTypes.JSON,
-        allowNull:false
+        type: DataTypes.JSON
     }, 
     competencias:{
         type: DataTypes.JSON,
