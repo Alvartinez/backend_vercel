@@ -138,13 +138,16 @@ const getModule = async (req, res) => {
         }
 
         const curso = await CourseModule.findOne({ 
-            where: { id_modulo:infoModulo.id_modulo}
-         });
+            where: { id_modulo: infoModulo.id_modulo }
+        });
 
-        res.json(infoModulo, curso.id_curso);
+        res.status(200).json({
+            infoModulo: infoModulo,
+            id_curso: curso.id_curso
+        });
     } catch (error) {
         console.error(error);
-        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+        res.status(400).json({ msg: 'Se ha producido un error' });
     }
 }
 
