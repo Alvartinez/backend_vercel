@@ -177,7 +177,7 @@ const getName = async (req, res) => {
     const { nombre } = req.body;
 
     try {
-        const modulo = await module.findOne({ where: { nombre: { [Op.iLike]: nombre } } });
+        const modulo = await Modulo.findOne({ where: { nombre: { [Op.iLike]: nombre } } });
 
         if (!modulo) {
             return res.status(400).json({
