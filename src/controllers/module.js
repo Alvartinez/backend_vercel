@@ -172,13 +172,17 @@ const getModule = async (req, res) => {
     }
 };
 
-//Obtener un módulo a través de su nombre
+// Obtener un módulo a través de su nombre
 const getName = async (req, res) => {
     const { nombre } = req.body;
 
     try {
         const modulo = await Modulo.findOne({
-            where: { nombre: { $iLike: `%${nombre}%` } }
+            where: {
+                [Op.or]: [
+                    { nombre: { [Op.iLike]: `%${nombre}%` } }
+                ]
+            }
         });
 
         if (!modulo) {
