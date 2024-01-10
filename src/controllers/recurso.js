@@ -69,16 +69,28 @@ exports.getResource = async (req, res) =>{
 }
 
 exports.getAllResources = async (req, res) => {
-    const id = req.params.id;
+    const {id} = req.body;
 
     try {
-        const availableResources = await Recurso.findAll(
+        const moduloExiste = await Modulo.findOne(
             {
-                where: { id_recurso: id }  
+                where: { id_modulo: id }  
             }
         );
 
-        res.json(availableResources);
+        if(!moduloExiste){
+            return res.status(400).json({
+                msg: "No se ha encontrado el módulo"
+            });
+        }
+
+        const recursosExisten = await moduloRecurso.findAll({
+             where: {
+                id_modulo: moduloExiste.id_modulo
+             }
+            });
+
+        res.json(recursosExisten);
 
     } catch (error) {
         console.error(error);
