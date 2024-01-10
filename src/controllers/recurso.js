@@ -74,18 +74,6 @@ exports.getAllResources = async (req, res) => {
     try {
         const availableResources = await Recurso.findAll(
             {
-                include: [
-                    {
-                        model: textoPlano,
-                        as: 'texto_plano',
-                        attributes: ["titulo"]
-                    },
-                    {
-                        model: lineaTiempo,
-                        as: 'linea_tiempo',
-                        attributes: ["titulo"]
-                    }
-                ],
                 where: { id_recurso: id }  
             }
         );
