@@ -187,7 +187,7 @@ const getModuleName = async (req, res) => {
             });
         }
     
-        res.status(200).json(modulo);
+        res.status(200).json({modulo});
 
     } catch (error) {
         console.error(error);
