@@ -262,7 +262,7 @@ const updateModule = async (req, res) => {
 
 //Eliminar módulo
 const deleteModule = async (req, res) => {
-    const { id } = req.params.id;
+    const id = req.params.id;
 
     try {
         const moduloExiste = await Modulo.findOne({ where: { id_modulo: id } });
