@@ -180,7 +180,7 @@ const getName = async (req, res) => {
         const modulo = await module.findOne({ where: { nombre: { [Op.iLike]: nombre } } });
 
         if (!modulo) {
-            res.status(400).json({
+            return res.status(400).json({
                 msg: "No existe el módulo"
             });
         }
