@@ -3,6 +3,6 @@ const {newResource} = require("../controllers/recurso");
 
 const router = Router();
 
-router.post("/", newResource);
+router.post("/newResource", newResource);
 
 module.exports = router;
