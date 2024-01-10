@@ -6,6 +6,6 @@ const router = Router();
 router.get('/:id', getModule);
 router.post("/newModule", newModule);
 router.get("/getModules/:id_curso", getModules);
-router.get("/", getName);
+router.get("/getNameModule", getName);
 
 module.exports = router;
