@@ -174,26 +174,23 @@ const getModule = async (req, res) => {
 
 //Obtener un módulo a través de su nombre
 const getModuleName = async (req, res) => {
-
-    const {nombre} = req.body;
+    const { nombre } = req.body;
 
     try {
-
         const modulo = await module.findOne({ where: { nombre: { [Op.iLike]: nombre } } });
 
-        if(!modulo){
-            return res.status(400).json({
+        if (!modulo) {
+            res.status(400).json({
                 msg: "No existe el módulo"
             });
         }
-    
-        res.status(200).json({modulo});
+
+        res.status(200).json(modulo);
 
     } catch (error) {
         console.error(error);
         res.status(400).json({ msg: 'Se ha producido un error' });
     }
-
 }
 
 //Editar módulo
