@@ -218,7 +218,7 @@ const updateModule = async (req, res) => {
             temas
         } = modulo;
 
-        const moduloExiste = await Modulo.findOne({ where: { id_modulo:id_modulo } });
+        const moduloExiste = await Modulo.findOne({ where: { id_modulo: id_modulo } });
 
         if( moduloExiste.nombre != nombre || moduloExiste != descripcion || moduloExiste.objetivo != objetivo
             || moduloExiste.conclusion != conclusion || moduloExiste.portada != portada
@@ -236,7 +236,6 @@ const updateModule = async (req, res) => {
                 competencias: competencias,
                 duracion: duracion,
                 temas: temas
-
             },
             {
               where: { id_modulo: moduloExiste.id_modulo }  
@@ -261,10 +260,70 @@ const updateModule = async (req, res) => {
 
 }
 
+//Eliminar módulo
+const deleteModule = async (req, res) => {
+    const { id } = req.params.id;
+
+    try {
+        const moduloExiste = await Modulo.findOne({ where: { id_modulo: id } });
+
+        if (!moduloExiste) {
+            return res.status(400).json({
+                msg: "No existe el módulo"
+            });
+        }
+
+        const courseModule = await CourseModule.findOne({ where: { id_modulo: id } });
+
+        if (!courseModule) {
+            return res.status(400).json({
+                msg: "Error al eliminar el módulo"
+            });
+        }
+
+        const idCurso = courseModule.id_curso; 
+
+        const relacionEliminada = await CourseModule.destroy({ id_modulo: moduloExiste.id_modulo });
+
+        if (relacionEliminada > 0) {
+            
+            const moduloEliminado = await Modulo.destroy({ id_modulo: moduloExiste.id_modulo });
+
+            if (moduloEliminado > 0) {
+                
+                return res.status(200).json({
+                    msg: "Módulo eliminado exitosamente"
+                });
+
+            } else {
+
+                await CourseModule.create({
+                    id_curso: idCurso,
+                    id_modulo: id
+                });
+
+                return res.status(400).json({
+                    msg: "Error al eliminar el módulo"
+                });
+
+            }
+        }
+
+        res.status(400).json({
+            msg: "Error al eliminar la relación intermedia"
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+}
+
 module.exports = {
     getModule,
     getModules,
     getName,
     newModule,
-    updateModule
+    updateModule,
+    deleteModule
 };
