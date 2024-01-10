@@ -178,7 +178,7 @@ const getName = async (req, res) => {
 
     try {
         const modulo = await Modulo.findOne({
-            where: { nombre: { ilike: `%${nombre}%` } }
+            where: { nombre: nombre }
         });
 
         if (!modulo) {
