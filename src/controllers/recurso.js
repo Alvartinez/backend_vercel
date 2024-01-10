@@ -43,11 +43,11 @@ exports.newResource = async (req, res) => {
 
 exports.getResource = async (req, res) =>{
 
-    const { id_recurso } = req.body;
+    const id = req.params.id;
 
     try{
         
-        const recurso = await Recurso.findOne({where:{id_recurso: id_recurso}});
+        const recurso = await Recurso.findOne({where:{id_recurso: id}});
 
         if(!recurso){
             return res.status(400).json({
