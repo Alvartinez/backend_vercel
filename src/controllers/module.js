@@ -176,6 +176,8 @@ const getModule = async (req, res) => {
 const getName = async (req, res) => {
     const { nombre } = req.body;
 
+    console.log(nombre);
+
     try {
         const modulo = await Modulo.findOne({
             where: { nombre: nombre }
