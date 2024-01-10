@@ -2,6 +2,7 @@ const Course = require('../models/curso');
 const CourseModule = require('../models/curso_modulo');
 const Modulo = require('../models/modulo');
 const Quiz = require('../models/quiz_formativo');
+const { Op } = require('sequelize');
 
 //Nuevo módulo
 const newModule = async (req, res) =>{
@@ -171,6 +172,30 @@ const getModule = async (req, res) => {
     }
 };
 
+//Obtener un módulo a través de su nombre
+const getModuleName = async (req, res) => {
+
+    const {nombre} = req.body;
+
+    try {
+
+        const modulo = await module.findOne({ where: { nombre: { [Op.iLike]: nombre } } });
+
+        if(!modulo){
+            res.status(400).json({
+                msg: "No existe el módulo"
+            });
+        }
+    
+        res.status(200).json(modulo);
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha producido un error' });
+    }
+
+}
+
 //Editar módulo
 const updateModule = async (req, res) => {
     const {modulo} = req.body;
@@ -236,6 +261,7 @@ const updateModule = async (req, res) => {
 module.exports = {
     getModule,
     getModules,
+    getModuleName,
     newModule,
     updateModule
 };
