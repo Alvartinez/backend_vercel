@@ -173,7 +173,7 @@ const getModule = async (req, res) => {
 };
 
 //Obtener un módulo a través de su nombre
-const getModuleName = async (req, res) => {
+const getName = async (req, res) => {
     const { nombre } = req.body;
 
     try {
@@ -182,7 +182,7 @@ const getModuleName = async (req, res) => {
         });
 
         if (!modulo) {
-            res.status(400).json({
+            return res.status(400).json({
                 msg: "No existe el módulo"
             });
         }
