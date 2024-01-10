@@ -179,9 +179,9 @@ const getName = async (req, res) => {
     try {
         const modulo = await Modulo.findOne({
             where: {
-                [Op.or]: [
-                    { nombre: { [Op.iLike]: `%${nombre}%` } }
-                ]
+                nombre: {
+                    [Op.like]: `%${nombre}%`
+                }
             }
         });
 
