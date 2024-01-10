@@ -260,7 +260,7 @@ const updateModule = async (req, res) => {
 
 }
 
-//Eliminar módulo
+// Eliminar módulo
 const deleteModule = async (req, res) => {
     const id = req.params.id;
 
@@ -283,20 +283,17 @@ const deleteModule = async (req, res) => {
 
         const idCurso = courseModule.id_curso; 
 
-        const relacionEliminada = await CourseModule.destroy({ id_modulo: moduloExiste.id_modulo });
+        const relacionEliminada = await CourseModule.destroy({ where: { id_modulo: moduloExiste.id_modulo } });
 
         if (relacionEliminada > 0) {
-            
-            const moduloEliminado = await Modulo.destroy({ id_modulo: moduloExiste.id_modulo });
+            const moduloEliminado = await Modulo.destroy({ where: { id_modulo: moduloExiste.id_modulo } });
 
             if (moduloEliminado > 0) {
-                
                 return res.status(200).json({
                     msg: "Módulo eliminado exitosamente"
                 });
-
             } else {
-
+                // Se produjo un error al eliminar el módulo, recrea la relación intermedia
                 await CourseModule.create({
                     id_curso: idCurso,
                     id_modulo: id
@@ -305,7 +302,6 @@ const deleteModule = async (req, res) => {
                 return res.status(400).json({
                     msg: "Error al eliminar el módulo"
                 });
-
             }
         }
 
