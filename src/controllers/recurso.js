@@ -68,32 +68,34 @@ exports.getResource = async (req, res) =>{
 
 }
 
-exports.getAllResources = async (req, res) =>{
-    
-    try{
+exports.getAllResources = async (req, res) => {
+    const id = req.params.id;
 
-        const availableResources = await Recurso.findAll({
-            include:[
-                {
-                    model: textoPlano,
-                    as: 'texto_plano', 
-                    attributes: ["titulo"]
-                },
-                {
-                    model: lineaTiempo,
-                    as: 'linea_tiempo',
-                    attributes: ["titulo"]
-                }
-            ]
-        });
+    try {
+        const availableResources = await Recurso.findAll(
+            {
+                include: [
+                    {
+                        model: textoPlano,
+                        as: 'texto_plano',
+                        attributes: ["titulo"]
+                    },
+                    {
+                        model: lineaTiempo,
+                        as: 'linea_tiempo',
+                        attributes: ["titulo"]
+                    }
+                ],
+                where: { id_recurso: id }  
+            }
+        );
 
         res.json(availableResources);
-        
+
     } catch (error) {
         console.error(error);
         res.status(400).json({ msg: 'Se ha ocurrido un error' });
     }
-    
 }
 
 exports.deleteResource = async (req, res) => {

@@ -3,7 +3,7 @@ const {newResource, getResource, getAllResources} = require("../controllers/recu
 
 const router = Router();
 
-router.get("/", getAllResources);
+router.get("/resources/:id", getAllResources);
 router.get("/:id", getResource);
 router.post("/newResource", newResource);
 
