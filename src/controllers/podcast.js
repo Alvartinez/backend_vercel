@@ -1,3 +1,4 @@
+const moduloRecurso = require("../models/modulo_recurso");
 const Podcast = require("../models/podcast");
 const Recurso = require("../models/recurso");
 const recursoPodcast = require("../models/recurso_podcast");
@@ -9,25 +10,48 @@ exports.newPodcast = async (req, res) => {
 
     try {
 
-        const {id_recurso, nombre, podcast} = podcastNuevo;
+        const {id_modulo, recurso, nombre, podcast} = podcastNuevo;
 
-        const recurso = await Recurso.findOne({ where: {id_recurso: id_recurso} });
+        const recursoNuevo = await Recurso.create({
+            nombre: recurso
+        });
 
-        if(!recurso){
-            return res.status(400).json({
-                msg: "El recurso no existe"
+        await moduloRecurso.create({
+            id_modulo,
+            id_recurso: recursoNuevo.id_recurso
+        });
+
+        let podcastRecurso;
+
+        if (nombre !== undefined && nombre !== null) {
+            podcastRecurso = await Podcast.create({
+                nombre: nombre,
+                podcast: podcast
+            });
+        } else {
+            podcastRecurso = await Podcast.create({
+                podcast: podcast
             });
         }
 
-        const podcastRecurso = await Podcast.create({
-            nombre: nombre,
-            podcast: podcast
-        });
+        if (podcastRecurso) {
 
-        await recursoPodcast.create({
-            id_recurso: id_recurso,
-            id_podcast: podcastRecurso.id_podcast
-        });
+            await recursoPodcast.create({
+                id_recurso: recursoNuevo.id_recurso,
+                id_podcast: podcastRecurso.id_podcast
+            });
+
+            res.status(200).json({
+                msg: "Podcast creado exitosamente"
+            });
+
+        }else{
+            
+            res.status(400).json({
+                msg: "No se pudo crear el Podcast correctamente"
+            });
+
+        }
          
     } catch (error) {
         console.error(error);

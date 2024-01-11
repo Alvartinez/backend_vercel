@@ -121,11 +121,11 @@ exports.editVideo = async (req, res) => {
 
 exports.getVideo = async (req, res) =>{
 
-    const { id_video } = req.body;
+    const id = req.params.id;
 
     try{
         
-        const video = await Recurso.findOne({where:{id_video: id_video}});
+        const video = await Video.findOne({where:{id_video: id}});
 
         if(!video){
             return res.status(400).json({
@@ -134,7 +134,7 @@ exports.getVideo = async (req, res) =>{
         }
 
         res.status(200).json({
-            texto
+            video
         });
 
     } catch (error) {
