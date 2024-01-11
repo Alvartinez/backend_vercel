@@ -5,6 +5,6 @@ const { editText } = require("../controllers/texto_plano");
 const router = Router();
 
 router.post("/newVideo", newVideo);
-router.put("/updateVideo", editText);
+router.put("/updateVideo", editVideo);
 
 module.exports = router;
