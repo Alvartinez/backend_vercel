@@ -14,9 +14,9 @@ exports.newText = async (req, res) => {
 
         const recurso = await Recurso.findOne({ where: {id_recurso: id_recurso} });
 
-        if(!recurso){
+        if(!recurso && recurso.nombre !== "Texto plano"){
             return res.status(400).json({
-                msg: "El recurso no existe"
+                msg: "El recurso no existe o no es correcto"
             });
         }
 
