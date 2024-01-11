@@ -3,6 +3,6 @@ const { newText } = require("../controllers/texto_plano");
 
 const router = Router();
 
-router.post("/:id", newText);
+router.post("/newText", newText);
 
 module.exports = router;
