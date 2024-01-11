@@ -78,9 +78,9 @@ exports.editVideo = async (req, res) => {
 
         if(videoExiste.nombre !== nombre || videoExiste.video !== video ){
             
-            if (nombre !== undefined && nombre !== null) {
+            if (videoExiste.nombre !== nombre) {
 
-                if (videoExiste.video === video) {
+                if (videoExiste.video !== video) {
                     await textoPlano.update({
                         nombre: nombre,
                         video: video
@@ -92,9 +92,17 @@ exports.editVideo = async (req, res) => {
                 }
 
             }else{
+
+                if (videoExiste.video === video) {
+                    return res.status(200).json({
+                        msg: "No hay cambios por realizar"
+                    });
+                }
+
                 await textoPlano.update({
                     video: video
                 }, { where: {id_video: id_video} });
+
             }
             
 
