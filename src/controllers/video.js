@@ -22,7 +22,7 @@ exports.newVideo = async (req, res) => {
         });
 
         const videoRecurso = await Video.create({
-            nombre: nombre,
+            nombre,
             video: video
         });
 
