@@ -169,6 +169,4 @@ exports.getText = async (req, res) =>{
         res.status(400).json({ msg: 'Se ha ocurrido un error' });
     }
 
-
-
 }
