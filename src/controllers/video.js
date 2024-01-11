@@ -6,14 +6,13 @@ const Video = require("../models/video");
 
 exports.newVideo = async (req, res) => {
     
-    const {videoNuevo} = req.body;
+    const { videoNuevo } = req.body;
 
     try {
-
-        const {id_modulo, recurso, nombre, video} = videoNuevo;
+        const { id_modulo, recurso, nombre, video } = videoNuevo;
 
         const recursoNuevo = await Recurso.create({
-            nombre:recurso
+            nombre: recurso
         });
 
         await moduloRecurso.create({
@@ -22,27 +21,38 @@ exports.newVideo = async (req, res) => {
         });
 
         let videoRecurso;
+
         if (nombre !== undefined && nombre !== null) {
             videoRecurso = await Video.create({
                 nombre: nombre,
                 video: video
             });
         } else {
+            // Si nombre es null o undefined, crear un video sin nombre
             videoRecurso = await Video.create({
                 video: video
             });
         }
 
-        await recursoVideo.create({
-            id_recurso: recursoNuevo.id_recurso,
-            id_texto_plano: videoRecurso.id_video
-        });
-         
+        // Verificar que se haya creado el videoRecurso antes de intentar acceder a su id_video
+        if (videoRecurso) {
+            await recursoVideo.create({
+                id_recurso: recursoNuevo.id_recurso,
+                id_video: videoRecurso.id_video
+            });
+
+            res.status(200).json({
+                msg: "Video creado exitosamente"
+            });
+        } else {
+            res.status(400).json({
+                msg: "No se pudo crear el video correctamente"
+            });
+        }
     } catch (error) {
         console.error(error);
         res.status(400).json({ msg: 'Se ha ocurrido un error' });
     }
-
 }
 
 exports.editVideo = async (req, res) => {
