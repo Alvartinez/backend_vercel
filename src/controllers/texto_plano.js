@@ -1,3 +1,4 @@
+const moduloRecurso = require("../models/modulo_recurso");
 const Recurso = require("../models/recurso");
 const recursoTexto = require("../models/recurso_texto");
 const textoPlano = require("../models/texto_plano");
@@ -9,7 +10,7 @@ exports.newText = async (req, res) => {
 
     try {
 
-        const {id_recurso, nombre} = texto;
+        const {id_modulo, id_recurso, nombre} = texto;
 
         const recurso = await Recurso.findOne({ where: {id_recurso: id_recurso} });
 
@@ -18,6 +19,11 @@ exports.newText = async (req, res) => {
                 msg: "El recurso no existe"
             });
         }
+
+        await moduloRecurso.create({
+            id_modulo,
+            id_recurso: recurso.id_recurso
+        });
 
         const plano = await textoPlano.create({
             titulo: nombre

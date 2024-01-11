@@ -32,8 +32,7 @@ class Server {
         this.app.use("/api/auth", routesAuth),
         this.app.use("/api/module", routesModule),
         this.app.use("/api/quiz", routesQuiz),
-        this.app.use("/api/evaluacion", routesEvaluacion),
-        this.app.use("/api/recurso", routeRecurso)
+        this.app.use("/api/evaluacion", routesEvaluacion)
     }
 
     middlewares() {
