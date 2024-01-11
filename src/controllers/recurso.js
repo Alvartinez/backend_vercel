@@ -69,7 +69,7 @@ exports.getResource = async (req, res) =>{
 }
 
 exports.getAllResources = async (req, res) => {
-    const {id} = req.body;
+    const id = req.params.id;
 
     try {
         const moduloExiste = await Modulo.findOne(
