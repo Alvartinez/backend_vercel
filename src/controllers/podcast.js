@@ -26,11 +26,11 @@ exports.newPodcast = async (req, res) => {
         if (nombre !== undefined && nombre !== null) {
             podcastRecurso = await Podcast.create({
                 nombre: nombre,
-                podcast: podcast
+                link_podcast: podcast
             });
         } else {
             podcastRecurso = await Podcast.create({
-                podcast: podcast
+                link_podcast: podcast
             });
         }
 
