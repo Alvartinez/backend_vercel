@@ -77,10 +77,38 @@ exports.editPodcast = async (req, res) => {
 
         if(podcastExiste.nombre !== nombre || podcastExiste.podcast !== podcast ){
             
-            await Podcast.update({
-                nombre: nombre,
-                podcast: podcast
-            }, { where: {id_podcast: id_podcast} });
+            if (podcastExiste.nombre !== nombre) {
+
+                if (podcastExiste.link_podcast !== podcast) {
+
+                    await Podcast.update({
+                        nombre: nombre,
+                        link_podcast: podcast
+                    }, { where: {id_podcast: id_podcast} });
+
+                }else{
+
+                    await Podcast.update({
+                        nombre: nombre
+                    }, { where: {id_podcast: id_podcast} });
+
+                }
+
+            }else{
+
+                if (podcastExiste.link_podcast === podcast) {
+
+                    return res.status(200).json({
+                        msg: "No hay cambios por realizar"
+                    });
+
+                }
+
+                await Podcast.update({
+                    link_podcast: podcast
+                }, { where: {id_podcast: id_podcast} });
+
+            }
 
             return res.status(200).json({ msg: "Podcast actualizado exitosamente" });
 
