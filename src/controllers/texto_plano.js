@@ -105,21 +105,34 @@ exports.deleteText = async (req, res) => {
             });
         }
 
+
+        // Eliminar la relación entre recurso y texto_plano
         await recursoTexto.destroy({
-            id_recurso: id_recurso,
-            id_texto_plano: id_texto_plano
+            where: {
+                id_recurso: id_recurso,
+                id_texto_plano: id_texto_plano
+            }
         });
 
+        // Eliminar el texto_plano
         await textoPlano.destroy({
-            id_texto_plano: id_texto_plano
+            where: {
+                id_texto_plano: id_texto_plano
+            }
         });
 
+        // Eliminar la relación entre modulo y recurso
         await moduloRecurso.destroy({
-            id_recurso
+            where: {
+                id_recurso: id_recurso
+            }
         });
 
+        // Eliminar el recurso
         await Recurso.destroy({
-            id_recurso
+            where: {
+                id_recurso: id_recurso
+            }
         });
 
         res.status(200).json({
