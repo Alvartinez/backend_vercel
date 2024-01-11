@@ -1,3 +1,4 @@
+const moduloRecurso = require("../models/modulo_recurso");
 const Recurso = require("../models/recurso");
 const recursoVideo = require("../models/recurso_video");
 const Video = require("../models/video");
@@ -9,15 +10,16 @@ exports.newVideo = async (req, res) => {
 
     try {
 
-        const {id_recurso, nombre, video} = videoNuevo;
+        const {id_modulo, recurso, nombre, video} = videoNuevo;
 
-        const recurso = await Recurso.findOne({ where: {id_recurso: id_recurso} });
+        const recursoNuevo = await Recurso.create({
+            nombre:recurso
+        });
 
-        if(!recurso){
-            return res.status(400).json({
-                msg: "El recurso no existe"
-            });
-        }
+        await moduloRecurso.create({
+            id_modulo,
+            id_recurso: recursoNuevo.id_recurso
+        });
 
         const videoRecurso = await Video.create({
             nombre: nombre,
@@ -25,7 +27,7 @@ exports.newVideo = async (req, res) => {
         });
 
         await recursoVideo.create({
-            id_recurso: id_recurso,
+            id_recurso: recursoNuevo.id_recurso,
             id_texto_plano: videoRecurso.id_video
         });
          
@@ -52,7 +54,7 @@ exports.editVideo = async (req, res) => {
 
         if(!videoExiste){
             return res.status(400).json({
-                msg: "El texto plano no existe"
+                msg: "El Video no existe"
             });
         }
 
@@ -87,7 +89,7 @@ exports.getVideo = async (req, res) =>{
 
         if(!video){
             return res.status(400).json({
-                msg: "No se ha encontrado el texto plano"
+                msg: "No se ha encontrado el video"
             });
         }
 
@@ -128,6 +130,18 @@ exports.deleteVideo = async (req, res) => {
 
         await Video.destroy({
             id_video: id_video
+        });
+
+        await moduloRecurso.destroy({
+            where: {
+                id_recurso: id_recurso
+            }
+        });
+
+        await Recurso.destroy({
+            where: {
+                id_recurso: id_recurso
+            }
         });
 
         res.status(200).json({

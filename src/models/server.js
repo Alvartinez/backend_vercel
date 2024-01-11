@@ -8,6 +8,7 @@ const routesQuiz = require('../routers/quiz');
 const sequelize = require("../db/connection");
 const routesEvaluacion = require("../routers/evaluacion");
 const routesText = require("../routers/texto_plano");
+const routesVideo = require("../routers/video");
 
 class Server {
 
@@ -33,7 +34,8 @@ class Server {
         this.app.use("/api/module", routesModule),
         this.app.use("/api/quiz", routesQuiz),
         this.app.use("/api/evaluacion", routesEvaluacion),
-        this.app.use("/api/texto", routesText)
+        this.app.use("/api/texto", routesText),
+        this.app.use("/api/video", routesVideo)
     }
 
     middlewares() {
