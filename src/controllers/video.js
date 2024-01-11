@@ -164,12 +164,16 @@ exports.deleteVideo = async (req, res) => {
         }
 
         await recursoVideo.destroy({
-            id_recurso: id_recurso,
-            id_video: id_video
+            where: {
+                id_recurso: id_recurso,
+                id_video: id_video
+            }
         });
 
         await Video.destroy({
-            id_video: id_video
+            where: {
+                id_video: id_video
+            }
         });
 
         await moduloRecurso.destroy({
