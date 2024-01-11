@@ -3,26 +3,21 @@ const Recurso = require("../models/recurso");
 const recursoTexto = require("../models/recurso_texto");
 const textoPlano = require("../models/texto_plano");
 
-
+//Crear texto plano
 exports.newText = async (req, res) => {
     
-    const {texto} = req.body;
+    const { texto } = req.body;
 
     try {
+        const { id_modulo, nombre,  recurso } = texto;
 
-        const {id_modulo, id_recurso, nombre} = texto;
-
-        const recurso = await Recurso.findOne({ where: {id_recurso: id_recurso} });
-
-        if(!recurso && recurso.nombre !== "Texto plano"){
-            return res.status(400).json({
-                msg: "El recurso no existe o no es correcto"
-            });
-        }
+        const recursoNuevo = await Recurso.create({
+            nombre:recurso
+        });
 
         await moduloRecurso.create({
             id_modulo,
-            id_recurso: recurso.id_recurso
+            id_recurso: recursoNuevo.id_recurso
         });
 
         const plano = await textoPlano.create({
@@ -30,15 +25,18 @@ exports.newText = async (req, res) => {
         });
 
         await recursoTexto.create({
-            id_recurso: id_recurso,
+            id_recurso: recursoNuevo.id_recurso,
             id_texto_plano: plano.id_texto_plano
         });
-         
+
+        res.status(200).json({
+            msg: "Entrada creada exitosamente"
+        });
+
     } catch (error) {
         console.error(error);
         res.status(400).json({ msg: 'Se ha ocurrido un error' });
     }
-
 }
 
 exports.editText = async (req, res) => {
