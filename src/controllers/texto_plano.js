@@ -148,11 +148,11 @@ exports.deleteText = async (req, res) => {
 
 exports.getText = async (req, res) =>{
 
-    const { id_texto_plano } = req.body;
+    const id = req.params.id;
 
     try{
         
-        const texto = await textoPlano.findOne({where:{id_texto_plano: id_texto_plano}});
+        const texto = await textoPlano.findOne({where:{id_texto_plano: id}});
 
         if(!texto){
             return res.status(400).json({
