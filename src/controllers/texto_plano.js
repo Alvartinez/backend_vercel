@@ -114,6 +114,14 @@ exports.deleteText = async (req, res) => {
             id_texto_plano: id_texto_plano
         });
 
+        await moduloRecurso.destroy({
+            id_recurso
+        });
+
+        await Recurso.destroy({
+            id_recurso
+        });
+
         res.status(200).json({
             msg: "Texto plano eliminado exitosamente"
         });
