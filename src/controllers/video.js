@@ -56,67 +56,41 @@ exports.newVideo = async (req, res) => {
 }
 
 exports.editVideo = async (req, res) => {
-    
-    const {videoRecurso} = req.body;
+    const { videoRecurso } = req.body;
 
     try {
+        const { id_video, nombre, video } = videoRecurso;
 
-        const {
-            id_video,
-            nombre, 
-            video
-        } = videoRecurso
+        const videoExiste = await Video.findOne({ where: { id_video: id_video } });
 
-        const videoExiste = await Video.findOne({ where: {id_video: id_video} });
-
-        if(!videoExiste){
+        if (!videoExiste) {
             return res.status(400).json({
                 msg: "El Video no existe"
             });
         }
 
-
-        if(videoExiste.nombre !== nombre || videoExiste.video !== video ){
-            
-            if (videoExiste.nombre !== nombre) {
-
-                if (videoExiste.video !== video) {
-                    await Video.update({
-                        nombre: nombre,
-                        video: video
-                    }, { where: {id_video: id_video} });
-                }else{
-                    await Video.update({
-                        nombre: nombre
-                    }, { where: {id_video: id_video} });
-                }
-
-            }else{
-
-                if (videoExiste.video === video) {
-                    return res.status(200).json({
-                        msg: "No hay cambios por realizar"
-                    });
-                }
-
-                await Video.update({
-                    video: video
-                }, { where: {id_video: id_video} });
-
-            }
-            
-
-            return res.status(200).json({ msg: "Video actualizado exitosamente" });
-
+        // Verifica si las propiedades son diferentes de null antes de actualizar
+        const updateData = {};
+        if (nombre !== null && nombre !== undefined && videoExiste.nombre !== nombre) {
+            updateData.nombre = nombre;
         }
 
-        return res.status(400).json({ msg: "No hay cambios para realizar" });
+        if (video !== null && video !== undefined && videoExiste.video !== video) {
+            updateData.video = video;
+        }
+
+        if (Object.keys(updateData).length > 0) {
+            // Solo realiza la actualización si hay cambios
+            await Video.update(updateData, { where: { id_video: id_video } });
+            return res.status(200).json({ msg: "Video actualizado exitosamente" });
+        } else {
+            return res.status(200).json({ msg: "No hay cambios por realizar" });
+        }
 
     } catch (error) {
         console.error(error);
         res.status(400).json({ msg: 'Se ha ocurrido un error' });
     }
-
 }
 
 exports.getVideo = async (req, res) =>{
