@@ -6,11 +6,10 @@ const recursoPodcast = require("../models/recurso_podcast");
 
 exports.newPodcast = async (req, res) => {
     
-    const {podcastNuevo} = req.body;
+    const { podcastNuevo } = req.body;
 
     try {
-
-        const {id_modulo, recurso, nombre, podcast} = podcastNuevo;
+        const { id_modulo, recurso, nombre, podcast } = podcastNuevo;
 
         const recursoNuevo = await Recurso.create({
             nombre: recurso
@@ -23,18 +22,17 @@ exports.newPodcast = async (req, res) => {
 
         let podcastRecurso;
 
-        if (nombre !== undefined && nombre !== null) {
-            podcastRecurso = await Podcast.create({
-                nombre: nombre,
-                link_podcast: podcast
-            });
-        } else {
-            podcastRecurso = await Podcast.create({
-                link_podcast: podcast
-            });
-        }
-
-        if (podcastRecurso) {
+        if (podcast !== null) {
+            if (nombre !== undefined && nombre !== null) {
+                podcastRecurso = await Podcast.create({
+                    nombre: nombre,
+                    link_podcast: podcast
+                });
+            } else {
+                podcastRecurso = await Podcast.create({
+                    link_podcast: podcast
+                });
+            }
 
             await recursoPodcast.create({
                 id_recurso: recursoNuevo.id_recurso,
@@ -44,20 +42,16 @@ exports.newPodcast = async (req, res) => {
             res.status(200).json({
                 msg: "Podcast creado exitosamente"
             });
-
-        }else{
-            
+        } else {
             res.status(400).json({
-                msg: "No se pudo crear el Podcast correctamente"
+                msg: "El campo 'podcast' no puede ser nulo"
             });
-
         }
-         
+
     } catch (error) {
         console.error(error);
         res.status(400).json({ msg: 'Se ha ocurrido un error' });
     }
-
 }
 
 exports.editPodcast = async (req, res) => {
