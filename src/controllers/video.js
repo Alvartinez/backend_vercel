@@ -81,12 +81,12 @@ exports.editVideo = async (req, res) => {
             if (videoExiste.nombre !== nombre) {
 
                 if (videoExiste.video !== video) {
-                    await textoPlano.update({
+                    await Video.update({
                         nombre: nombre,
                         video: video
                     }, { where: {id_video: id_video} });
                 }else{
-                    await textoPlano.update({
+                    await Video.update({
                         nombre: nombre
                     }, { where: {id_video: id_video} });
                 }
@@ -99,7 +99,7 @@ exports.editVideo = async (req, res) => {
                     });
                 }
 
-                await textoPlano.update({
+                await Video.update({
                     video: video
                 }, { where: {id_video: id_video} });
 
