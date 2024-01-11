@@ -30,7 +30,7 @@ exports.newText = async (req, res) => {
         });
 
         res.status(200).json({
-            msg: "Entrada creada exitosamente"
+            msg: "Texto Plano creado exitosamente"
         });
 
     } catch (error) {
