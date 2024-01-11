@@ -80,7 +80,7 @@ exports.editVideo = async (req, res) => {
             
             if (nombre !== undefined && nombre !== null) {
 
-                if (video !== undefined && video !== null) {
+                if (videoExiste.video !== video) {
                     await textoPlano.update({
                         nombre: nombre,
                         video: video
