@@ -21,10 +21,17 @@ exports.newVideo = async (req, res) => {
             id_recurso: recursoNuevo.id_recurso
         });
 
-        const videoRecurso = await Video.create({
-            nombre,
-            video: video
-        });
+        let videoRecurso;
+        if (nombre !== undefined && nombre !== null) {
+            videoRecurso = await Video.create({
+                nombre: nombre,
+                video: video
+            });
+        } else {
+            videoRecurso = await Video.create({
+                video: video
+            });
+        }
 
         await recursoVideo.create({
             id_recurso: recursoNuevo.id_recurso,
