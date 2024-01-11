@@ -1,6 +1,5 @@
 const { Router } = require("express");
-const { newVideo } = require("../controllers/video");
-const { editText } = require("../controllers/texto_plano");
+const { newVideo, editVideo } = require("../controllers/video");
 
 const router = Router();
 
