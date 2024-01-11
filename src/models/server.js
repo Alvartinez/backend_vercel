@@ -37,7 +37,7 @@ class Server {
         this.app.use("/api/evaluacion", routesEvaluacion),
         this.app.use("/api/texto", routesText),
         this.app.use("/api/video", routesVideo),
-        this.app.ude("/api/podcast", routesPodcast)
+        this.app.use("/api/podcast", routesPodcast)
     }
 
     middlewares() {
