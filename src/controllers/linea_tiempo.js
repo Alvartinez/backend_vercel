@@ -123,12 +123,16 @@ exports.deleteLine = async (req, res) => {
         }
 
         await recursoLinea.destroy({
-            id_recurso: id_recurso,
-            id_linea_tiempo: id_linea_tiempo
+            where: {
+                id_recurso: id_recurso,
+                id_linea_tiempo: id_linea_tiempo
+            }
         });
 
         await lineaTiempo.destroy({
-            id_linea_tiempo: id_linea_tiempo
+            where: {
+                id_linea_tiempo: id_linea_tiempo
+            }
         });
 
         await moduloRecurso.destroy({
