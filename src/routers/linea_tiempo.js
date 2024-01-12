@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const { newLine, getLine, editLine, deleteLine } = require("../controllers/linea_tiempo");
-const { newHito, editHito, deleteHito } = require("../controllers/hito");
+const { newHito, editHito, deleteHito, getHito } = require("../controllers/hito");
 
 const router = Router();
 
@@ -11,7 +11,7 @@ router.put("/updateLine", editLine);
 router.delete("/deleteLine", deleteLine); 
 
 //Hito
-
+router.get("/hito/:id", getHito);
 router.post("/newHito", newHito);
 router.put("/updateHito", editHito);
 router.delete("/deleteHito/:id", deleteHito);
