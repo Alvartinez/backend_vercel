@@ -188,6 +188,8 @@ exports.getHito = async (req, res) => {
 
 exports.getHitos = async (req, res) => {
 
+    const id = req.params.id;
+
     try{
 
         const hitos = await Hito.findAll({
