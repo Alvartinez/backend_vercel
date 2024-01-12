@@ -43,6 +43,10 @@ exports.newLine = async (req, res) => {
             id_recurso: recursoNuevo.id_recurso,
             id_linea_tiempo: linea.id_linea_tiempo
         });
+
+        res.status(200).json({
+            msg: "Línea del tiempo creada satisfactoriamente"
+        });
          
     } catch (error) {
         console.error(error);
