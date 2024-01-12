@@ -152,13 +152,13 @@ exports.deleteLine = async (req, res) => {
 
 exports.getLine = async (req, res) =>{
 
-    const { id_linea_tiempo } = req.body;
+    const id = req.params.id;
 
     try{
         
         const linea = await Recurso.findOne({
             where:{
-                id_linea_tiempo: id_linea_tiempo
+                id_linea_tiempo: id
             },
             include: [
                 {
