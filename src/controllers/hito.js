@@ -130,11 +130,11 @@ exports.editHito = async (req, res) =>{
 
 exports.deleteHito = async (req, res) => {
 
-    const {id_hito} = req.body;
+    const id = req.params.id;
 
     try{
 
-        const hitoExiste = await Hito.findOne({ where: {id_hito: id_hito} });
+        const hitoExiste = await Hito.findOne({ where: {id_hito: id} });
 
         if(!hitoExiste){
             return res.status(400).json({
