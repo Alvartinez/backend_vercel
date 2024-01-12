@@ -1,8 +1,9 @@
 const { Router } = require("express");
-const { newPodcast, editPodcast } = require("../controllers/podcast");
+const { newPodcast, editPodcast, getPodcast } = require("../controllers/podcast");
 
 const router = Router();
 
+router.get("/:id", getPodcast);
 router.post("/newPodcast", newPodcast);
 router.put("/updatePodcast", editPodcast);
 
