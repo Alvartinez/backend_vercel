@@ -125,11 +125,11 @@ exports.editPodcast = async (req, res) => {
 
 exports.getPodcast = async (req, res) =>{
 
-    const { id_podcast } = req.body;
+    const id = req.bparams.id;
 
     try{
         
-        const podcast = await Podcast.findOne({where:{id_podcast: id_podcast}});
+        const podcast = await Podcast.findOne({where:{id_podcast: id}});
 
         if(!podcast){
             return res.status(400).json({
