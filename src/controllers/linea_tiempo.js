@@ -167,14 +167,7 @@ exports.getLine = async (req, res) =>{
         const linea = await Recurso.findOne({
             where:{
                 id_linea_tiempo: id
-            },
-            include: [
-                {
-                    model: Hito, 
-                    as: 'hito',
-                    attributes: ["fecha","titulo"] 
-                }
-            ]
+            }
         });
 
         if(!linea){
@@ -183,8 +176,20 @@ exports.getLine = async (req, res) =>{
             });
         }
 
+        const hitos = await Hito.findAll({
+            where: {
+              id_linea_tiempo: id
+            },
+            attributes: ["fecha", "titulo"]
+        });
+
+        const response = {
+            linea: linea,
+            hitos: hitos
+          };
+
         res.status(200).json({
-            linea
+            response
         });
 
     } catch (error) {
