@@ -125,7 +125,7 @@ exports.editPodcast = async (req, res) => {
 
 exports.getPodcast = async (req, res) =>{
 
-    const id = req.bparams.id;
+    const id = req.params.id;
 
     try{
         
