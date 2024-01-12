@@ -3,7 +3,7 @@ const { DataTypes } = require("sequelize");
 const lineaTiempo = require("./linea_tiempo");
 
 const Hito = sequelize.define("hito", {
-    hito:{
+    id_hito:{
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
