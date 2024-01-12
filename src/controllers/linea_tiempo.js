@@ -198,3 +198,37 @@ exports.getLine = async (req, res) =>{
     }
 
 }
+
+exports.getLines = async (req, res) => {
+
+    const id = req.params.id;
+
+    try{
+
+        const recursos = await moduloRecurso.findAll({
+            where: {
+                id_modulo: id
+            },
+            include: [
+                {
+                    model: Recurso,
+                    attributes: ["id_recurso", "nombre"],
+                    where: {
+                        nombre: "Linea del tiempo"
+                    }
+                }
+            ]
+        });
+
+        // Ahora, "recursos" contendrá solo los recursos asociados con la etiqueta "Linea del tiempo"
+
+        res.status(200).json({
+            recursos
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}
