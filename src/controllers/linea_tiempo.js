@@ -20,7 +20,7 @@ exports.newLine = async (req, res) => {
                 }
         } });
 
-        if(!nuevaLinea){
+        if(nuevaLinea){
             return res.status(400).json({
                 msg: "El nombre de la línea del tiempo ya existe, prueba con otro"
             });
