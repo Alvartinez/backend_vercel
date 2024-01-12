@@ -160,3 +160,28 @@ exports.deleteHito = async (req, res) => {
     }
 
 }
+
+exports.getHito = async (req, res) => {
+
+    const id = req.params.id;
+
+    try{
+
+        const hitoExiste = await Hito.findOne({
+            where: { id_hito: id }
+        });
+
+        if(!hitoExiste){
+            res.status(400).json({
+                msg: "No exite el hito"
+            });
+        }
+
+        res.json({hitoExiste});
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}
