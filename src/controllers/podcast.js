@@ -168,12 +168,16 @@ exports.deletePodcast = async (req, res) => {
         }
 
         await recursoPodcast.destroy({
-            id_recurso: id_recurso,
-            id_podcast: id_podcast
+            where:{
+                id_recurso: id_recurso,
+                id_podcast: id_podcast
+            }
         });
 
         await Podcast.destroy({
-            id_podcast: id_podcast
+            where:{
+                id_podcast: id_podcast
+            }
         });
 
         await moduloRecurso.destroy({
