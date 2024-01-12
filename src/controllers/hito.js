@@ -185,3 +185,26 @@ exports.getHito = async (req, res) => {
     }
 
 }
+
+exports.getHitos = async (req, res) => {
+
+    try{
+
+        const hitos = await Hito.findAll({
+            where: { id_hito: id }
+        });
+
+        if(!hitos){
+            res.status(400).json({
+                msg: "No exite algún hito"
+            });
+        }
+
+        res.json({hitos}); 
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}
