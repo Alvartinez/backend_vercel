@@ -177,7 +177,7 @@ exports.getHito = async (req, res) => {
             });
         }
 
-        res.json({hitoExiste});
+        res.json({hitoExiste}); 
 
     } catch (error) {
         console.error(error);
