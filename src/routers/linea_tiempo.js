@@ -14,6 +14,6 @@ router.delete("/deleteLine", deleteLine);
 
 router.post("/newHito", newHito);
 router.put("/updateHito", editHito);
-router.delete("/deleteHito", deleteHito);
+router.delete("/deleteHito/:id", deleteHito);
 
 module.exports = router;
