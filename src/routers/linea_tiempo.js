@@ -12,7 +12,7 @@ router.delete("/deleteLine", deleteLine);
 
 //Hito
 router.get("/hito/:id", getHito);
-router.get("/hitos", getHitos);
+router.get("/hitos/:id", getHitos);
 router.post("/newHito", newHito);
 router.put("/updateHito", editHito);
 router.delete("/deleteHito/:id", deleteHito);
