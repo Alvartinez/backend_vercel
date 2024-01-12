@@ -133,7 +133,7 @@ exports.getPodcast = async (req, res) =>{
 
         if(!podcast){
             return res.status(400).json({
-                msg: "No se ha encontrado el texto plano"
+                msg: "No se ha encontrado el Podcast"
             });
         }
 
