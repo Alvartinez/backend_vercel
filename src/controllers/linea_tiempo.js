@@ -164,7 +164,7 @@ exports.getLine = async (req, res) =>{
 
     try{
         
-        const linea = await Recurso.findOne({
+        const linea = await lineaTiempo.findOne({
             where:{
                 id_linea_tiempo: id
             }
