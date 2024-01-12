@@ -176,6 +176,18 @@ exports.deletePodcast = async (req, res) => {
             id_podcast: id_podcast
         });
 
+        await moduloRecurso.destroy({
+            where: {
+                id_recurso: id_recurso
+            }
+        });
+
+        await Recurso.destroy({
+            where: {
+                id_recurso: id_recurso
+            }
+        });
+
         res.status(200).json({
             msg: "Podcast eliminado exitosamente"
         });
