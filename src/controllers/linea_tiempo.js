@@ -68,7 +68,7 @@ exports.editLine = async (req, res) => {
 
         const lineaExiste = await lineaTiempo.findOne({
             where: {
-                [Op.and]:[
+                [Op.or]:[
                     {id_linea_tiempo: id_linea_tiempo},
                     {titulo: {[Op.iLike]: `%${titulo}%`}}
                 ]
