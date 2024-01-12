@@ -193,7 +193,7 @@ exports.getHitos = async (req, res) => {
     try{
 
         const hitos = await Hito.findAll({
-            where: { id_hito: id }
+            where: { id_linea_tiempo: id }
         });
 
         if(!hitos){
