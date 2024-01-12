@@ -10,6 +10,7 @@ const routesEvaluacion = require("../routers/evaluacion");
 const routesText = require("../routers/texto_plano");
 const routesVideo = require("../routers/video");
 const routesPodcast = require("../routers/podcast");
+const routesLine = require("../routers/linea_tiempo");
 
 class Server {
 
@@ -37,7 +38,8 @@ class Server {
         this.app.use("/api/evaluacion", routesEvaluacion),
         this.app.use("/api/texto", routesText),
         this.app.use("/api/video", routesVideo),
-        this.app.use("/api/podcast", routesPodcast)
+        this.app.use("/api/podcast", routesPodcast),
+        this.app.use("/api/linea", routesLine)
     }
 
     middlewares() {
