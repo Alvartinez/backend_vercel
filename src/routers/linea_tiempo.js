@@ -6,7 +6,7 @@ const router = Router();
 
 //Línea del tiempo
 router.get("/:id", getLine);
-router.get("/getLines", getLines);
+router.get("/getLines/:id", getLines);
 router.post("/newLine", newLine);
 router.put("/updateLine", editLine);
 router.delete("/deleteLine", deleteLine); 
