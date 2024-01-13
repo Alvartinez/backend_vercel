@@ -198,7 +198,7 @@ exports.getTexts = async (req, res) => {
 
         if(!texto){
             return res.status(400).json({
-                msg: "No se ha encontrado el Sabías qué"
+                msg: "No se ha encontrado textos planos"
             });
         }
 
