@@ -205,13 +205,13 @@ exports.getLines = async (req, res) => {
 
     try{
 
-        const moduloRecursos = await moduloRecurso.findAll({
+        const Recursos = await moduloRecurso.findAll({
             where: {
                 id_modulo: id
             }
         });
 
-        const recursosLineaTiempo = moduloRecursos.filter(moduloRecurso =>
+        const recursosLineaTiempo = Recursos.filter(moduloRecurso =>
             moduloRecurso.nombre === "Linea del tiempo"
         );
 
