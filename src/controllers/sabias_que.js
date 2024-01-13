@@ -221,7 +221,7 @@ exports.getSabiasAll = async (req, res) => {
 
         const sabia = await sabiasQue.findAll({
             where: {
-                id_sabias_que: idsabias.id_sabias_que
+                id_sabias_que: idsabias
             }
         });
 
