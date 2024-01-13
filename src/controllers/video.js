@@ -142,6 +142,50 @@ exports.getVideo = async (req, res) =>{
         res.status(400).json({ msg: 'Se ha ocurrido un error' });
     }
 
+}
+
+exports.getVideos = async (req, res) => {
+
+    const id = req.params.id;
+
+    try{
+
+        const moduloRecursos = await moduloRecurso.findAll({
+            where: {
+                id_modulo: id
+            }
+        });
+
+        const idRecursos = moduloRecursos.map(moduloRecurso => moduloRecurso.id_recurso);
+
+        const videoRecursos = await recursoVideo.findAll({
+            where: {
+                id_recurso: idRecursos
+            }
+        });
+
+        const idVideo = videoRecursos.map(vidRecurso => vidRecurso.id_video);
+
+        const videos = await Video.findAll({
+            where: {
+                id_video: idVideo
+            }
+        });
+
+        if(!videos){
+            return res.status(400).json({
+                msg: "No se ha encontrado Videos"
+            });
+        }
+
+        res.status(200).json({
+            Videos: videos
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
 
 
 }
