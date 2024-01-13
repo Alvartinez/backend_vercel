@@ -167,3 +167,32 @@ exports.deleteSabias = async (req, res) => {
     }
 
 }
+
+exports.getSabias = async (req, res) => {
+
+    const id = req.params.id;
+
+    try{
+
+        const sabiaExiste = await sabiasQue.findOne({
+            where: {
+                d_sabias_que: id
+            }
+        });
+
+        if(!sabiaExiste){
+            return res.status(400).json({
+                msg: "No se ha encontrado el Sabías qué"
+            });
+        }
+
+        res.status(200).json({
+            Sabia: sabiaExiste
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}
