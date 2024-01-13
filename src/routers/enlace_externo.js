@@ -1,9 +1,10 @@
 const { Router } = require("express");
-const { newEnlace, editEnlace } = require("../controllers/enlace_externo");
+const { newEnlace, editEnlace, deleteEnlace } = require("../controllers/enlace_externo");
 
 const router = Router();
 
 router.post("/newEnlace", newEnlace);
 router.put("/updateEnlace", editEnlace);
+router.delete("/deleteEnlace", deleteEnlace);
 
 module.exports = router;
