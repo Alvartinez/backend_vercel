@@ -196,3 +196,48 @@ exports.getSabias = async (req, res) => {
     }
 
 }
+
+exports.getSabiasAll = async (req, res) => {
+
+    const id = req.params.id;
+
+    try{
+
+        const moduloRecursos = await moduloRecurso.findAll({
+            where: {
+                id_modulo: id
+            }
+        });
+
+        const idRecursos = moduloRecursos.map(moduloRecurso => moduloRecurso.id_recurso);
+
+        const sabiasRecursos = await recursoSabias.findAll({
+            where: {
+                id_recurso: idRecursos
+            }
+        });
+
+        const idsabias = sabiasRecursos.map(sabiRecurso => sabiRecurso.id_sabias_que);
+
+        const sabia = await sabiasQue.findAll({
+            where: {
+                id_sabias_que: idsabias.id_sabias_que
+            }
+        });
+
+        if(!sabia){
+            return res.status(400).json({
+                msg: "No se ha encontrado el Sabías qué"
+            });
+        }
+
+        res.status(200).json({
+            Sabia: sabia
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}
