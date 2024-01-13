@@ -216,7 +216,7 @@ exports.getLines = async (req, res) => {
         );
 
         res.status(200).json({
-            recursosLineaTiempo
+            recursos: recursosLineaTiempo
         });
 
     } catch (error) {
