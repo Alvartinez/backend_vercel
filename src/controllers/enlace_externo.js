@@ -112,3 +112,65 @@ exports.editEnlace = async (req, res) => {
     }
     
 }
+
+exports.deleteEnlace = async (req, res) => {
+
+    const { enlace } = req.body;
+
+    try {
+
+        const { id_actividad, id_enlace_externo } = enlace;
+
+        const enlaceExiste = await Enlace.findOne({
+            where: {
+                id_enlace_externo
+            }
+        });
+
+        const actividad = await Activity.findOne({
+            where: {
+                id_actividad
+            }
+        });
+
+        if(!actividad || !enlaceExiste){
+            return res.status(400).json({
+                msg: "Enlace externo no existe"
+            });
+        }
+
+        await actividadEnlace.destroy({
+            where:{
+                id_actividad,
+                id_enlace_externo
+            }
+        });
+
+        await Enlace.destroy({
+            where: {
+                id_enlace_externo
+            }
+        });
+
+        await moduloActividad.destroy({
+            where: {
+                id_actividad
+            }
+        });
+
+        await Activity.destroy({
+            where: {
+                id_actividad
+            }
+        });
+
+        res.status(200).json({
+            msg: "Actividad eliminada exitosamente"
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}
