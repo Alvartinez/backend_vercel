@@ -205,7 +205,7 @@ exports.getLines = async (req, res) => {
 
     try{
 
-        const recursos = await moduloRecurso.findAll({
+        const moduloRecursos = await moduloRecurso.findAll({
             where: {
                 id_modulo: id
             }
@@ -217,7 +217,7 @@ exports.getLines = async (req, res) => {
 
         res.status(200).json({
             recursos: recursosLineaTiempo
-        });
+        }); 
 
     } catch (error) {
         console.error(error);
