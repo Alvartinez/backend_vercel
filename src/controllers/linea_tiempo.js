@@ -211,7 +211,7 @@ exports.getLines = async (req, res) => {
             }
         });
 
-        const idRecursos = moduloRecursos.map(moduloRecurso => moduloRecurso.id_recurso);
+        const idRecursos = Recursos.map(moduloRecurso => moduloRecurso.id_recurso);
 
         const lineasRecursos = await recursoLinea.findAll({
             where: {
