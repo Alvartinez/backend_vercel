@@ -208,22 +208,15 @@ exports.getLines = async (req, res) => {
         const recursos = await moduloRecurso.findAll({
             where: {
                 id_modulo: id
-            },
-            include: [
-                {
-                    model: Recurso,
-                    as: "recurso",
-                    attributes: ["id_recurso", "nombre"],
-                    where: {
-                        nombre: "Linea del tiempo"
-                    }
-                }
-            ]
+            }
         });
 
+        const recursosLineaTiempo = moduloRecursos.filter(moduloRecurso =>
+            moduloRecurso.nombre === "Linea del tiempo"
+        );
 
         res.status(200).json({
-            recursos
+            recursos: recursosLineaTiempo
         });
 
     } catch (error) {
