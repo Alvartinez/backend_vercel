@@ -8,8 +8,7 @@ const Enlace = sequelize.define("enlace_externo", {
         autoIncrement: true
     }, 
     titulo:{
-        type: DataTypes.STRING,
-        allowNull:false
+        type: DataTypes.STRING
     }, 
     enlace:{
         type: DataTypes.STRING,
