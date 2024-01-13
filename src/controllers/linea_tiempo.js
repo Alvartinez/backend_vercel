@@ -201,7 +201,7 @@ exports.getLine = async (req, res) =>{
 
 exports.getLines = async (req, res) => {
 
-    const id = req.params.id;
+    const id = req.params.id; // Este es id_modulo
 
     try{
 
@@ -212,6 +212,7 @@ exports.getLines = async (req, res) => {
             include: [
                 {
                     model: Recurso,
+                    as: "recurso",
                     attributes: ["id_recurso", "nombre"],
                     where: {
                         nombre: "Linea del tiempo"
@@ -220,7 +221,6 @@ exports.getLines = async (req, res) => {
             ]
         });
 
-        // Ahora, "recursos" contendrá solo los recursos asociados con la etiqueta "Linea del tiempo"
 
         res.status(200).json({
             recursos
