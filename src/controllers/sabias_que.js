@@ -176,7 +176,7 @@ exports.getSabias = async (req, res) => {
 
         const sabiaExiste = await sabiasQue.findOne({
             where: {
-                d_sabias_que: id
+                id_sabias_que: id
             }
         });
 
