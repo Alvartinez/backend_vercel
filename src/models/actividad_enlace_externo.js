@@ -22,7 +22,7 @@ const actividadEnlace = sequelize.define("actividad_enlace_externo", {
     }
 },
 {
-    tableName: 'actividad_enlace',
+    tableName: 'actividad_enlace_externo',
     timestamps: false
 });
 
