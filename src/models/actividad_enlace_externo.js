@@ -26,10 +26,10 @@ const actividadEnlace = sequelize.define("actividad_enlace_externo", {
     timestamps: false
 });
 
-Activity.hasMany(actividadEnlace, { foreignKey: "id_actividad", as: "actividad_enlace" });
+Activity.hasMany(actividadEnlace, { foreignKey: "id_actividad", as: "actividad_enlace_externo" });
 actividadEnlace.belongsTo(Activity, { foreignKey: "id_actividad", as: "actividad" });
 
-Enlace.hasMany(actividadEnlace, { foreignKey: "id_enlace_externo", as: "actividad_enlace" });
+Enlace.hasMany(actividadEnlace, { foreignKey: "id_enlace_externo", as: "actividad_enlace_externo" });
 actividadEnlace.belongsTo(Enlace, { foreignKey: "id_enlace_externo", as: "enlace_externo" });
 
 module.exports = actividadEnlace;
