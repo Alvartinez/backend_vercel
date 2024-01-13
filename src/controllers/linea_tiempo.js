@@ -211,12 +211,16 @@ exports.getLines = async (req, res) => {
             }
         });
 
-        const recursosLineaTiempo = Recursos.filter(Recurso =>
-            Recurso.nombre === "Linea del tiempo"
-        );
+        const idRecursos = moduloRecursos.map(moduloRecurso => moduloRecurso.id_recurso);
+
+        const lineasRecursos = await recursoLinea.findAll({
+            where: {
+                id_recurso: idRecursos
+            }
+        });
 
         res.status(200).json({
-            Recursos
+            lineasRecursos
         });
 
     } catch (error) {
