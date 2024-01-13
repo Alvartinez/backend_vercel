@@ -211,8 +211,8 @@ exports.getLines = async (req, res) => {
             }
         });
 
-        const recursosLineaTiempo = Recursos.filter(moduloRecurso =>
-            moduloRecurso.nombre === "Linea del tiempo"
+        const recursosLineaTiempo = Recursos.filter(Recurso =>
+            Recurso.nombre === "Linea del tiempo"
         );
 
         res.status(200).json({
