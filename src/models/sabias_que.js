@@ -12,16 +12,13 @@ const sabiasQue = sequelize.define("sabias_que", {
         allowNull:false
     },
     enunciado:{
-        type: DataTypes.STRING,
-        allowNull:false
+        type: DataTypes.STRING
     },
     imagen:{
-        type: DataTypes.STRING,
-        allowNull:false
+        type: DataTypes.STRING
     },
     archivo:{
-        type: DataTypes.STRING,
-        allowNull:false
+        type: DataTypes.STRING
     }
 },
 {
