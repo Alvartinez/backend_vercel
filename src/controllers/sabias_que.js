@@ -105,3 +105,65 @@ exports.editSabias = async (req, res) => {
     }
 
 }
+
+exports.deleteSabias = async (req, res) => {
+
+    const { sabia } = req.body;
+
+    try{
+
+        const { id_recurso, id_sabias_que } = sabia;
+
+        const sabias = await sabiasQue.findOne({
+            where: {
+                id_sabias_que
+            }
+        });
+
+        const recurso = await Recurso.findOne({
+            where: {
+                id_recurso
+            }
+        });
+
+        if(!recurso || !sabias){
+            return res.status(400).json({
+                msg: "Sabías qué no existe"
+            });
+        }
+
+        await recursoSabias.destroy({
+            where: {
+                id_recurso,
+                id_sabias_que
+            }
+        });
+
+        await sabiasQue.destroy({
+            where: {
+                id_sabias_que
+            }
+        });
+
+        await moduloRecurso.destroy({
+            where: {
+                id_recurso
+            }
+        });
+
+        await Recurso.destroy({
+            where: {
+                id_recurso
+            }
+        });
+
+        res.status(200).json({
+            msg: "Sabías qué eliminado exitosamente"
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}
