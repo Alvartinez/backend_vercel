@@ -200,11 +200,9 @@ exports.getLine = async (req, res) =>{
 }
 
 exports.getLines = async (req, res) => {
-
     const id = req.params.id; // Este es id_modulo
 
-    try{
-
+    try {
         const moduloRecursos = await moduloRecurso.findAll({
             where: {
                 id_modulo: id
@@ -219,9 +217,11 @@ exports.getLines = async (req, res) => {
             }
         });
 
-        const lineas =await lineaTiempo.findAll({
+        const idLineasTiempo = lineasRecursos.map(lineaRecurso => lineaRecurso.id_linea_tiempo);
+
+        const lineas = await lineaTiempo.findAll({
             where: {
-                id_linea_tiempo: lineasRecursos.id_linea_tiempo
+                id_linea_tiempo: idLineasTiempo
             }
         });
 
@@ -229,10 +229,8 @@ exports.getLines = async (req, res) => {
             lineas
         });
 
-
     } catch (error) {
         console.error(error);
         res.status(400).json({ msg: 'Se ha ocurrido un error' });
     }
-
 }
