@@ -3,7 +3,7 @@ const { DataTypes } = require("sequelize");
 const Activity = require("./actividad");
 const Enlace = require("./enlace_externo");
 
-const actividadEnlace = sequelize.define("actividad_enlace", {
+const actividadEnlace = sequelize.define("actividad_enlace_externo", {
     id_actividad:{
         type: DataTypes.INTEGER,
         primaryKey: true,
