@@ -170,7 +170,7 @@ exports.getPodcasts = async (req, res) => {
             }
         });
 
-        const idPodcast = podcastRecursos.map(podRecurso => podRecurso.id_sabias_que);
+        const idPodcast = podcastRecursos.map(podRecurso => podRecurso.id_podcast);
 
         const pod = await Podcast.findAll({
             where: {
