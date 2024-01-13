@@ -170,3 +170,45 @@ exports.getText = async (req, res) =>{
     }
 
 }
+
+exports.getTexts = async (req, res) => {
+
+    const id = req.params.id;
+
+    try{
+
+        const moduloRecursos = await moduloRecurso.findAll({
+            where: {
+                id_modulo: id
+            }
+        });
+
+        const idRecursos = moduloRecursos.map(moduloRecurso => moduloRecurso.id_recurso);
+
+        const textosRecursos = await recursoTexto.findAll({
+            where: {
+                id_recurso: idRecursos
+            }
+        });
+
+        const idtexto = textosRecursos.map(textRecurso => textRecurso.id_texto_plano);
+
+        
+        const texto = await textoPlano.findAll({where:{id_texto_plano: idtexto}});
+
+        if(!texto){
+            return res.status(400).json({
+                msg: "No se ha encontrado el Sabías qué"
+            });
+        }
+
+        res.status(200).json({
+            Textos_Planos: texto
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}
