@@ -205,14 +205,16 @@ exports.getLines = async (req, res) => {
 
     try{
 
-        const Recursos = await moduloRecurso.findAll({
+        const moduloRecursos = await moduloRecurso.findAll({
             where: {
                 id_modulo: id
             }
         });
 
-        const idRecursos = Recursos.map(moduloRecurso => moduloRecurso.id_recurso);
+        // Extrae los id_recurso de los recursos obtenidos
+        const idRecursos = moduloRecursos.map(moduloRecurso => moduloRecurso.id_recurso);
 
+        // Consulta en recursoLinea utilizando los id_recurso
         const lineasRecursos = await recursoLinea.findAll({
             where: {
                 id_recurso: idRecursos
@@ -222,6 +224,7 @@ exports.getLines = async (req, res) => {
         res.status(200).json({
             lineasRecursos
         });
+
 
     } catch (error) {
         console.error(error);
