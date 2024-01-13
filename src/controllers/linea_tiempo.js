@@ -211,18 +211,22 @@ exports.getLines = async (req, res) => {
             }
         });
 
-        // Extrae los id_recurso de los recursos obtenidos
         const idRecursos = moduloRecursos.map(moduloRecurso => moduloRecurso.id_recurso);
 
-        // Consulta en recursoLinea utilizando los id_recurso
         const lineasRecursos = await recursoLinea.findAll({
             where: {
                 id_recurso: idRecursos
             }
         });
 
+        const lineas =await lineaTiempo.findAll({
+            where: {
+                id_linea_tiempo: lineasRecursos.id_linea_tiempo
+            }
+        });
+
         res.status(200).json({
-            lineasRecursos
+            lineas
         });
 
 
