@@ -16,16 +16,13 @@ const Notes = sequelize.define("notas", {
         allowNull:false
     }, 
     imagen:{
-        type: DataTypes.STRING,
-        allowNull:false
+        type: DataTypes.STRING
     }, 
     video:{
-        type: DataTypes.STRING,
-        allowNull:false
+        type: DataTypes.STRING
     }, 
     archivo:{
-        type: DataTypes.STRING,
-        allowNull:false
+        type: DataTypes.STRING
     }
 },
 {
