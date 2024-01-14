@@ -1,5 +1,7 @@
 const Activity = require("../models/actividad");
+const actividadNotas = require("../models/actividad_notas");
 const moduloActividad = require("../models/modulo_actividad");
+const Notes = require("../models/notas");
 
 
 exports.newNotas = async (req, res) => {
@@ -11,8 +13,12 @@ exports.newNotas = async (req, res) => {
         const {
             id_modulo, 
             actividad, 
-            titulo, 
-            link
+            nombre, 
+            instruccion, 
+            imagen, 
+            video, 
+            archivo, 
+            texto
         } = notas;
 
         const NuevaActividad = await Activity.create({
@@ -24,30 +30,22 @@ exports.newNotas = async (req, res) => {
             id_actividad: NuevaActividad.id_actividad
         });
 
-        let enlaceExterno;
+        const nuevaNotas = await Notes.create({
+            nombre, 
+            instruccion, 
+            imagen, 
+            video, 
+            archivo, 
+            texto
+        });
 
-        if(titulo !== null || titulo !== undefined){
-
-            enlaceExterno = await Enlace.create({
-                titulo,
-                enlace: link
-            });
-
-        }else{
-
-            enlaceExterno = await Enlace.create({
-                enlace: link
-            });
-
-        }
-
-        await actividadEnlace.create({
+        await actividadNotas.create({
             id_actividad: NuevaActividad.id_actividad,
-            id_enlace_externo: enlaceExterno.id_enlace_externo
+            id_notas: nuevaNotas.id_notas
         });
 
         res.status(200).json({
-            msg: "Enlace Externo creado exitosamente"
+            msg: "Nota creada exitosamente"
         });
 
     } catch (error) {
@@ -57,50 +55,74 @@ exports.newNotas = async (req, res) => {
 
 }
 
-exports.editEnlace = async (req, res) => {
+exports.editNotas = async (req, res) => {
 
-    const {enlace} = req.body;
+    const {notas} = req.body;
 
     try{
 
         const {
-            id_enlace_externo, 
-            titulo, 
-            link
-        } = enlace;
+            id_notas, 
+            nombre, 
+            instruccion, 
+            imagen, 
+            video, 
+            archivo, 
+            texto
+        } = notas;
 
-        const enlaceExiste = await Enlace.findOne({
+        const notaExiste = await Notes.findOne({
             where: {
-                id_enlace_externo
+                id_notas
             }
         });
 
-        if(!enlaceExiste){
+        if(!notaExiste){
             return res.status(400).json({
-                msg: "No se ha encontrado el enlace externo"
+                msg: "No se ha encontrado la nota"
             });
         }
 
         let cambiosRealizados = false;
 
-        if(enlaceExiste.titulo !== titulo) {
-            enlaceExiste.titulo = titulo;
+        if(notaExiste.nombre !== nombre) {
+            notaExiste.nombre = nombre;
             cambiosRealizados = true;
         }
 
-        if(enlaceExiste.enlace !== link) {
-            enlaceExiste.enlace = link;
+        if(notaExiste.instruccion !== instruccion) {
+            notaExiste.instruccion = instruccion;
+            cambiosRealizados = true;
+        }
+
+        if(notaExiste.imagen !== imagen) {
+            notaExiste.imagen = imagen;
+            cambiosRealizados = true;
+        }
+
+        if(notaExiste.video !== video) {
+            notaExiste.video = video;
+            cambiosRealizados = true;
+        }
+
+        if(notaExiste.archivo !== archivo) {
+            notaExiste.archivo = archivo;
+            cambiosRealizados = true;
+        }
+
+        if(notaExiste.texto !== texto) {
+            notaExiste.texto = texto;
             cambiosRealizados = true;
         }
 
         if (cambiosRealizados) {
-            await enlaceExiste.save();
+            await notaExiste.save();
             res.status(200).json({
-                msg: "Enlace externo actualizado exitosamente"
+                msg: "Nota actualizada exitosamente"
             });
         } else {
             res.status(200).json({
-                msg: "No se realizaron cambios en el Enlace externo"
+                msg: "No se realizaron cambios en la Nota"
             });
         }
 
@@ -111,17 +133,17 @@ exports.editEnlace = async (req, res) => {
     
 }
 
-exports.deleteEnlace = async (req, res) => {
+exports.deleteNota = async (req, res) => {
 
-    const { enlace } = req.body;
+    const { notas } = req.body;
 
     try {
 
-        const { id_actividad, id_enlace_externo } = enlace;
+        const { id_actividad, id_notas } = notas;
 
-        const enlaceExiste = await Enlace.findOne({
+        const notaExiste = await Notes.findOne({
             where: {
-                id_enlace_externo
+                id_notas
             }
         });
 
@@ -131,22 +153,22 @@ exports.deleteEnlace = async (req, res) => {
             }
         });
 
-        if(!actividad || !enlaceExiste){
+        if(!actividad || !notaExiste){
             return res.status(400).json({
-                msg: "Enlace externo no existe"
+                msg: "Nota no existe"
             });
         }
 
-        await actividadEnlace.destroy({
+        await actividadNotas.destroy({
             where:{
                 id_actividad,
-                id_enlace_externo
+                id_notas
             }
         });
 
-        await Enlace.destroy({
+        await Notes.destroy({
             where: {
-                id_enlace_externo
+                id_notas
             }
         });
 
@@ -173,26 +195,26 @@ exports.deleteEnlace = async (req, res) => {
 
 }
 
-exports.getEnlace = async (req, res) => {
+exports.getNota = async (req, res) => {
 
     const id = req.params.id;
 
     try{
 
-        const enlaceExiste = await Enlace.findOne({
+        const notaExiste = await Notes.findOne({
             where: {
-                id_enlace_externo: id
+                id_notas: id
             }
         });
 
-        if(!enlaceExiste){
+        if(!notaExiste){
             return res.status(400).json({
-                msg: "No se ha encontrado el enlace"
+                msg: "No se ha encontrado la nota"
             });
         }
 
         res.status(200).json({
-            enlaces_Externos: enlaceExiste
+            Nota: notaExiste
         });
 
     } catch (error) {
@@ -216,28 +238,28 @@ exports.getEnlaceAll = async (req, res) => {
 
         const idActividades = modulo_actividad.map(modulo_actividades => modulo_actividades.id_actividad);
 
-        const enlaceActividades = await actividadEnlace.findAll({
+        const notaActividades = await actividadNotas.findAll({
             where: {
                 id_actividad: idActividades
             }
         });
 
-        const idsEnlace = enlaceActividades.map(enlaceActivity => enlaceActivity.id_enlace_externo);
+        const idNotas = notaActividades.map(notaActivity => notaActivity.id_notas);
 
-        const enlace = await Enlace.findAll({
+        const nota = await Notes.findAll({
             where: {
-                id_enlace_externo: idsEnlace
+                id_notas: idNotas
             }
         });
 
-        if(!enlace){
+        if(!nota){
             return res.status(400).json({
-                msg: "No se ha encontrado los enlaces"
+                msg: "No se ha encontrado las notas"
             });
         }
 
         res.status(200).json({
-            Enlace_Externos: enlace
+            Notas: nota
         });
 
     } catch (error) {
