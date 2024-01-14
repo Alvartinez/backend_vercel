@@ -4,9 +4,9 @@ const { getNota, newNotas, editNotas, deleteNota, getNotasAll } = require("../co
 const router = Router();
 
 router.get("/:id", getNota);
-router.get("/enlaces/:id", getNotasAll);
-router.post("/newEnlace", newNotas);
-router.put("/updateEnlace", editNotas);
-router.delete("/deleteEnlace", deleteNota);
+router.get("/notas/:id", getNotasAll);
+router.post("/newNota", newNotas);
+router.put("/updateNota", editNotas);
+router.delete("/deleteNota", deleteNota);
 
 module.exports = router;
