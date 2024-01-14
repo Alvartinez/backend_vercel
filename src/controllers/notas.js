@@ -224,7 +224,7 @@ exports.getNota = async (req, res) => {
     
 }
 
-exports.getEnlaceAll = async (req, res) => {
+exports.getNotasAll = async (req, res) => {
 
     const id = req.params.id;
 
