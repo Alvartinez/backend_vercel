@@ -29,7 +29,7 @@ const actividadNotas = sequelize.define("actividad_notas", {
 Activity.hasMany(actividadNotas, { foreignKey: "id_actividad", as: "actividad_notas" });
 actividadNotas.belongsTo(Activity, { foreignKey: "id_actividad", as: "actividad" });
 
-Notes.hasMany(actividadEnlace, { foreignKey: "id_notas", as: "actividad_notas" });
+Notes.hasMany(actividadNotas, { foreignKey: "id_notas", as: "actividad_notas" });
 actividadNotas.belongsTo(Notes, { foreignKey: "id_notas", as: "notas" });
 
 module.exports = actividadNotas;
