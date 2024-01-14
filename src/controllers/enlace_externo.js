@@ -194,7 +194,7 @@ exports.getEnlace = async (req, res) => {
         }
 
         res.status(200).json({
-            enlaces_Externos: enlaceExiste
+            enlace_Externo: enlaceExiste
         });
 
     } catch (error) {
