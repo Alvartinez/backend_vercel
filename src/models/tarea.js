@@ -11,13 +11,15 @@ const Tarea = sequelize.define("tarea", {
         type: DataTypes.STRING,
         allowNull:false
     }, 
-    texto:{
+    indicacion:{
         type: DataTypes.STRING,
         allowNull:false
     }, 
     archivo:{
-        type: DataTypes.STRING,
-        allowNull:false
+        type: DataTypes.STRING
+    }, 
+    texto:{
+        type: DataTypes.STRING
     }
 },
 {
