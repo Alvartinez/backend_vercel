@@ -33,19 +33,19 @@ class Server {
     }
 
     routers() {
-        this.app.use("/api/cursos", routesCourse),
-        this.app.use("/api/personas", routesPersona),
-        this.app.use("/api/auth", routesAuth),
-        this.app.use("/api/module", routesModule),
-        this.app.use("/api/quiz", routesQuiz),
-        this.app.use("/api/evaluacion", routesEvaluacion),
-        this.app.use("/api/texto", routesText),
-        this.app.use("/api/video", routesVideo),
-        this.app.use("/api/podcast", routesPodcast),
-        this.app.use("/api/linea", routesLine),
-        this.app.use("/api/sabias", routesSabias),
-        this.app.use("/api/enlace", routesLink),
-        this.app.use("/api/nota", routesNote)
+        this.app.use("/api/cursos", routesCourse);
+        this.app.use("/api/personas", routesPersona);
+        this.app.use("/api/auth", routesAuth);
+        this.app.use("/api/module", routesModule);
+        this.app.use("/api/quiz", routesQuiz);
+        this.app.use("/api/evaluacion", routesEvaluacion);
+        this.app.use("/api/texto", routesText);
+        this.app.use("/api/video", routesVideo);
+        this.app.use("/api/podcast", routesPodcast);
+        this.app.use("/api/linea", routesLine);
+        this.app.use("/api/sabias", routesSabias);
+        this.app.use("/api/enlace", routesLink);
+        this.app.use("/api/nota", routesNote);
     }
 
     middlewares() {
