@@ -174,3 +174,77 @@ exports.deleteEnlace = async (req, res) => {
     }
 
 }
+
+exports.getEnlace = async (req, res) => {
+
+    const id = req.params.id;
+
+    try{
+
+        const enlaceExiste = await Enlace.findOne({
+            where: {
+                id_enlace_externo: id
+            }
+        });
+
+        if(!enlaceExiste){
+            return res.status(400).json({
+                msg: "No se ha encontrado el Sabías qué"
+            });
+        }
+
+        res.status(200).json({
+            enlaces_Externos: enlaceExiste
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+    
+}
+
+exports.getEnlaceAll = async (req, res) => {
+
+    const id = req.params.id;
+
+    try{
+
+        const modulo_actividad = await moduloActividad.findAll({
+            where: {
+                id_modulo: id
+            }
+        });
+
+        const idActividades = modulo_actividad.map(modulo_actividades => modulo_actividades.id_actividad);
+
+        const enlaceActividades = await actividadEnlace.findAll({
+            where: {
+                id_actividad: idActividades
+            }
+        });
+
+        const idsEnlace = enlaceActividades.map(enlaceActivity => enlaceActivity.id_enlace_externo);
+
+        const enlace = await Enlace.findAll({
+            where: {
+                id_enlace_externo: idsEnlace
+            }
+        });
+
+        if(!enlace){
+            return res.status(400).json({
+                msg: "No se ha encontrado los enlaces"
+            });
+        }
+
+        res.status(200).json({
+            Enlace_Externos: enlace
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}
