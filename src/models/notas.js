@@ -11,7 +11,7 @@ const Notes = sequelize.define("notas", {
         type: DataTypes.STRING,
         allowNull:false
     }, 
-    texto:{
+    instruccion:{
         type: DataTypes.STRING,
         allowNull:false
     }, 
@@ -22,6 +22,9 @@ const Notes = sequelize.define("notas", {
         type: DataTypes.STRING
     }, 
     archivo:{
+        type: DataTypes.STRING
+    }, 
+    texto:{
         type: DataTypes.STRING
     }
 },
