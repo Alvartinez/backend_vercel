@@ -14,6 +14,7 @@ const routesLine = require("../routers/linea_tiempo");
 const routesSabias = require("../routers/sabias_que");
 const routesLink = require("../routers/enlace_externo");
 const routesNote = require("../routers/notas");
+const routesTask = require("../routers/tarea");
 
 class Server {
 
@@ -46,6 +47,7 @@ class Server {
         this.app.use("/api/sabias", routesSabias);
         this.app.use("/api/enlace", routesLink);
         this.app.use("/api/nota", routesNote);
+        this.app.use("/api/tarea", routesTask);
     }
 
     middlewares() {
