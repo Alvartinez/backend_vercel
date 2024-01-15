@@ -37,7 +37,7 @@ exports.newTarea = async (req, res) => {
 
         await actividadTarea.create({
             id_actividad: NuevaActividad.id_actividad,
-            id_notas: nuevaTarea.id_tarea
+            id_tarea: nuevaTarea.id_tarea
         });
 
         res.status(200).json({
