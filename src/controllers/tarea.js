@@ -228,7 +228,7 @@ exports.getTareasAll = async (req, res) => {
             }
         });
 
-        const idTarea = tareaActividades.map(tareaActivity => tareaActivity.id_notas);
+        const idTarea = tareaActividades.map(tareaActivity => tareaActivity.id_tarea);
 
         const tarea = await Tarea.findAll({
             where: {
