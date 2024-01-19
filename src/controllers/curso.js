@@ -92,7 +92,6 @@ exports.getCurso = async (req, res) => {
 };
 
 exports.newCourse = async (req, res) => {
-    const { curso } = req.body;
 
     try {
         const {
@@ -103,9 +102,10 @@ exports.newCourse = async (req, res) => {
             video_presentacion,
             portada,
             publicado
-        } = curso;
+        } = req.body.curso;
 
-        const cursoExistente = await Course.findOne({ where: { nombre: nombre } });
+        const cursoExistente = await Course.findOne({ where: { nombre: { [sequelize.Op.iLike]: nombre } } });
+
 
         if (cursoExistente) {
             return res.status(400).json({
