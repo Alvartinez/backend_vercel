@@ -94,6 +94,9 @@ exports.getCurso = async (req, res) => {
 exports.newCourse = async (req, res) => {
 
     try {
+
+        console.log(req.body);
+
         const {
             nombre,
             descripcion,
