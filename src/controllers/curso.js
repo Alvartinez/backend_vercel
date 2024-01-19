@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const Course = require("../models/curso");
 const Person = require("../models/persona");
 const CourseModule = require("../models/curso_modulo");
@@ -107,7 +108,10 @@ exports.newCourse = async (req, res) => {
             publicado
         } = req.body;
 
-        const cursoExistente = await Course.findOne({ where: { nombre: { [sequelize.Op.iLike]: nombre } } });
+        const cursoExistente = await Course.findOne({ where: {      nombre: {
+            [Op.iLike]: `%${nombre}%` 
+           }
+        }});
 
 
         if (cursoExistente) {
