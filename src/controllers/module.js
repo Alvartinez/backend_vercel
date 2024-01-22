@@ -170,18 +170,15 @@ const getModule = async (req, res) => {
 
         const relacionRecurso = await moduloRecurso.findAll({
             where: { id_modulo: cursoModuloInfo.modulo.id_modulo },
-            include: [
-                {
-                    model: Recurso,
-                    as: "recurso",
-                    attributes: ['id_recurso', 'nombre'] 
-                }
-            ]
+        });
+
+        const Recursos = await Recurso.findAll({
+            where: { id_recurso: relacionRecurso.id_recurso }
         });
 
         const recursosDetalles = [];
 
-        const tipoRecurso = relacionRecurso[0].Recurso.nombre;
+        const tipoRecurso = Recursos.nombre;
 
         switch (tipoRecurso) {
 
@@ -189,7 +186,7 @@ const getModule = async (req, res) => {
             case "Linea del tiempo":
 
                 const linea = await recursoLinea.findOne({
-                    where: { id_recurso: relacionRecurso.id_recurso }
+                    where: { id_recurso: Recursos.id_recurso }
                 });
 
                 if (linea) {
@@ -207,7 +204,7 @@ const getModule = async (req, res) => {
             case "Texto plano":
 
                 const texto = await recursoTexto.findOne({
-                    where: { id_recurso: relacionRecurso.id_recurso }
+                    where: { id_recurso: Recursos.id_recurso }
                 }); 
 
                 if (texto) {
@@ -227,7 +224,7 @@ const getModule = async (req, res) => {
             case "Podcast":
 
                 const podcast = await recursoPodcast.findOne({
-                    where: { id_recurso: relacionRecurso.id_recurso }
+                    where: { id_recurso: Recursos.id_recurso }
                 });
 
                 if(podcast){
@@ -247,7 +244,7 @@ const getModule = async (req, res) => {
             case "Video":
 
             const video = await recursoVideo.findOne({
-                where: { id_recurso: relacionRecurso.id_recurso }
+                where: { id_recurso: Recursos.id_recurso }
             });
 
             if(video){
@@ -267,7 +264,7 @@ const getModule = async (req, res) => {
             case "Sabias que":
 
                 const sabias = await recursoSabias.findOne({
-                    where: { id_sabias_que: relacionRecurso.id_sabias_que }
+                    where: { id_sabias_que: Recursos.id_sabias_que }
                 });
 
                 if(sabias){
