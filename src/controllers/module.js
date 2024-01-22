@@ -173,7 +173,7 @@ const getModule = async (req, res) => {
         });
 
         const Recursos = await Recurso.findAll({
-            where: { id_recurso: relacionRecurso.id_recurso }
+            where: { id_recurso: relacionRecurso[0].id_recurso }
         });
 
         const recursosDetalles = [];
