@@ -4,7 +4,6 @@ const Modulo = require('../models/modulo');
 const moduloRecurso = require('../models/modulo_recurso');
 const Quiz = require('../models/quiz_formativo');
 const { Op } = require('sequelize');
-const recursoLinea = require('../models/recurso_linea');
 const recursoPodcast = require('../models/recurso_podcast');
 const recursoSabias = require('../models/recurso_sabias');
 const recursoTexto = require('../models/recurso_texto');
