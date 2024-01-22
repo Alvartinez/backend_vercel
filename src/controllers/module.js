@@ -14,6 +14,8 @@ const Podcast = require('../models/podcast');
 const sabiasQue = require('../models/sabias_que');
 const textoPlano = require('../models/texto_plano');
 const Video = require('../models/video');
+const Recurso = require('../models/recurso');
+const recursoLinea = require('../models/recurso_linea');
 
 //Nuevo módulo
 const newModule = async (req, res) =>{
@@ -168,64 +170,122 @@ const getModule = async (req, res) => {
         });
 
         const relacionRecurso = await moduloRecurso.findAll({
-            where: { id_modulo: cursoModuloInfo.modulo.id_modulo}
+            where: { id_modulo: cursoModuloInfo.modulo.id_modulo },
+            include: [
+                {
+                    model: Recurso,
+                    attributes: ['id_recurso', 'nombre'] 
+                }
+            ]
         });
 
-        const linea = await recursoLinea.findAll({
-            where: { id_recurso: relacionRecurso[0].id_recurso }
-        }); 
+        const recursosDetalles = [];
 
-        const podcast = await recursoPodcast.findAll({
-            where: { id_recurso: relacionRecurso[0].id_recurso }
-        });
+        const tipoRecurso = relacionRecurso.Recurso.nombre;
 
-        const sabias = await recursoSabias.findAll({
-            where: { id_recurso: relacionRecurso[0].id_recurso }
-        });
+        switch (tipoRecurso) {
 
-        const texto = await recursoTexto.findAll({
-            where: { id_recurso: relacionRecurso[0].id_recurso }
-        });
 
-        const video = await recursoVideo.findAll({
-            where: { id_recurso: relacionRecurso[0].id_recurso }
-        });
+            case "Linea del tiempo":
 
-        let lineas, podcasts, sabiass, textos, videos;
-        if(linea){
+                const linea = await recursoLinea.findOne({
+                    where: { id_recurso: relacionRecurso.id_recurso }
+                });
 
-            lineas = await lineaTiempo.findAll({
-                where: { id_linea_tiempo: linea.id_linea_tiempo }
+                if (linea) {
+                    const lineas = await lineaTiempo.findOne({
+                        where: { id_linea_tiempo: linea.id_detalle }
+                    });
+
+                    if (lineas) {
+                        recursosDetalles.push(lineas);
+                    }
+                }
+
+            break;
+
+            case "Texto plano":
+
+                const texto = await recursoTexto.findOne({
+                    where: { id_recurso: relacionRecurso.id_recurso }
+                }); 
+
+                if (texto) {
+
+                    const textos = await textoPlano.findOne({
+                        where: { id_texto_plano: texto.id_texto_plano }
+                    });
+
+                    if(textos){
+                        recursosDetalles.push(textos);
+                    }
+
+                }
+
+            break;
+
+            case "Podcast":
+
+                const podcast = await recursoPodcast.findOne({
+                    where: { id_recurso: relacionRecurso.id_recurso }
+                });
+
+                if(podcast){
+
+                    const podcasts = await Podcast.findOne({
+                        where: { id_podcast: podcast.id_podcast } 
+                    });
+
+                    if(podcasts){
+                        recursosDetalles.push(podcasts);
+                    }
+
+                }
+
+            break;
+
+            case "Video":
+
+            const video = await recursoVideo.findOne({
+                where: { id_recurso: relacionRecurso.id_recurso }
             });
 
-        }
+            if(video){
 
-        if(podcast){
+                const videos = await Video.findOne({
+                    where: { id_video: video.id_video }
+                });
 
-            podcasts = await Podcast.findAll({
-                where: { id_podcast: podcast.id_podcast } 
-            });
+                if(videos){
+                    recursosDetalles.push(videos);
+                }
 
-        }
+            }
 
-        if(sabias){
+            break;
 
-            sabiass = await sabiasQue.findAll({
-                where: { id_sabias_que: sabias.id_sabias_que }
-            });
+            case "Sabias que":
 
-        }
+                const sabias = await recursoSabias.findOne({
+                    where: { id_sabias_que: relacionRecurso.id_sabias_que }
+                });
 
-        if(texto){
-            textos = await textoPlano.findAll({
-                where: { id_texto_plano: texto.id_texto_plano }
-            });
-        }
+                if(sabias){
 
-        if(video){
-            videos = await Video.findAll({
-                where: { id_video: video.id_video }
-            });
+                    const sabiass = await sabiasQue.findOne({
+                        where: { id_sabias_que: sabias.id_sabias_que }
+                    });
+
+                    if(sabiass){
+
+                        recursosDetalles.push(sabiass);
+
+                    }
+
+                }
+
+            break;
+
         }
 
         // Crear la estructura deseada
