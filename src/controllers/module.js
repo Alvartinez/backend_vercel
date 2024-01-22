@@ -168,153 +168,67 @@ const getModule = async (req, res) => {
             attributes: ['id_quiz_formativo', 'titulo']
         });
 
-        const relacionRecurso = await moduloRecurso.findAll({
+        const relacionRecursos = await moduloRecurso.findAll({
             where: { id_modulo: cursoModuloInfo.modulo.id_modulo },
+            include: [
+                {
+                    model: Recurso,
+                    attributes: ['id_recurso', 'nombre', 'id_sabias_que']
+                }
+            ]
         });
 
-        if(!relacionRecurso){
-
-            if(!quizFormativo){
-
-                response = {
-                    cursoModuloInfo: {
-                        curso: cursoModuloInfo.curso,
-                        modulo: cursoModuloInfo.modulo
-                    }
-                };
-        
-                return res.status(200).json(response);
-
-            }
-
-            response = {
+        if (!relacionRecursos || relacionRecursos.length === 0) {
+            // No hay recursos asociados
+            const response = {
                 cursoModuloInfo: {
                     curso: cursoModuloInfo.curso,
                     modulo: cursoModuloInfo.modulo
                 },
-                quizFormativo: quizFormativo
+                quizFormativo: quizFormativo,
+                Recursos: []
             };
-    
             return res.status(200).json(response);
         }
 
         const recursosDetalles = [];
 
+        // Iterar sobre cada recurso relacionado
+        for (const recurso of relacionRecursos) {
+            let recursoDetalle = null;
 
-        const Recursos = await Recurso.findAll({
-            where: { id_recurso: relacionRecurso.id_recurso }
-        });
+            switch (recurso.Recurso.nombre) {
+                case "Linea del tiempo":
+                    recursoDetalle = await obtenerLineaDelTiempo(recurso);
+                    break;
 
-        let response;
+                case "Texto plano":
+                    recursoDetalle = await obtenerTextoPlano(recurso);
+                    break;
 
-        const tipoRecurso = Recursos.nombre;
+                case "Podcast":
+                    recursoDetalle = await obtenerPodcast(recurso);
+                    break;
 
-        switch (tipoRecurso) {
+                case "Video":
+                    recursoDetalle = await obtenerVideo(recurso);
+                    break;
 
+                case "Sabias que":
+                    recursoDetalle = await obtenerSabiasQue(recurso);
+                    break;
 
-            case "Linea del tiempo":
-
-                const linea = await recursoLinea.findOne({
-                    where: { id_recurso: Recursos.id_recurso }
-                });
-
-                if (linea) {
-                    const lineas = await lineaTiempo.findOne({
-                        where: { id_linea_tiempo: linea.id_detalle }
-                    });
-
-                    if (lineas) {
-                        recursosDetalles.push(lineas);
-                    }
-                }
-
-            break;
-
-            case "Texto plano":
-
-                const texto = await recursoTexto.findOne({
-                    where: { id_recurso: Recursos.id_recurso }
-                }); 
-
-                if (texto) {
-
-                    const textos = await textoPlano.findOne({
-                        where: { id_texto_plano: texto.id_texto_plano }
-                    });
-
-                    if(textos){
-                        recursosDetalles.push(textos);
-                    }
-
-                }
-
-            break;
-
-            case "Podcast":
-
-                const podcast = await recursoPodcast.findOne({
-                    where: { id_recurso: Recursos.id_recurso }
-                });
-
-                if(podcast){
-
-                    const podcasts = await Podcast.findOne({
-                        where: { id_podcast: podcast.id_podcast } 
-                    });
-
-                    if(podcasts){
-                        recursosDetalles.push(podcasts);
-                    }
-
-                }
-
-            break;
-
-            case "Video":
-
-            const video = await recursoVideo.findOne({
-                where: { id_recurso: Recursos.id_recurso }
-            });
-
-            if(video){
-
-                const videos = await Video.findOne({
-                    where: { id_video: video.id_video }
-                });
-
-                if(videos){
-                    recursosDetalles.push(videos);
-                }
-
+                default:
+                    console.error(`Tipo de recurso no manejado: ${recurso.Recurso.nombre}`);
+                    break;
             }
 
-            break;
-
-            case "Sabias que":
-
-                const sabias = await recursoSabias.findOne({
-                    where: { id_sabias_que: Recursos.id_sabias_que }
-                });
-
-                if(sabias){
-
-                    const sabiass = await sabiasQue.findOne({
-                        where: { id_sabias_que: sabias.id_sabias_que }
-                    });
-
-                    if(sabiass){
-
-                        recursosDetalles.push(sabiass);
-
-                    }
-
-                }
-
-            break;
-
+            if (recursoDetalle) {
+                recursosDetalles.push(recursoDetalle);
+            }
         }
-        
-        response = {
+
+        const response = {
             cursoModuloInfo: {
                 curso: cursoModuloInfo.curso,
                 modulo: cursoModuloInfo.modulo
@@ -329,6 +243,72 @@ const getModule = async (req, res) => {
         res.status(400).json({ msg: 'Se ha producido un error' });
     }
 };
+
+// Funciones auxiliares para obtener detalles de recursos
+async function obtenerLineaDelTiempo(recurso) {
+    const linea = await recursoLinea.findOne({
+        where: { id_recurso: recurso.id_recurso }
+    });
+
+    if (linea) {
+        return await lineaTiempo.findOne({
+            where: { id_linea_tiempo: linea.id_detalle }
+        });
+    }
+    return null;
+}
+
+async function obtenerTextoPlano(recurso) {
+    const texto = await recursoTexto.findOne({
+        where: { id_recurso: recurso.id_recurso }
+    });
+
+    if (texto) {
+        return await textoPlano.findOne({
+            where: { id_texto_plano: texto.id_texto_plano }
+        });
+    }
+    return null;
+}
+
+async function obtenerPodcast(recurso) {
+    const podcast = await recursoPodcast.findOne({
+        where: { id_recurso: recurso.id_recurso }
+    });
+
+    if (podcast) {
+        return await Podcast.findOne({
+            where: { id_podcast: podcast.id_podcast }
+        });
+    }
+    return null;
+}
+
+async function obtenerVideo(recurso) {
+    const video = await recursoVideo.findOne({
+        where: { id_recurso: recurso.id_recurso }
+    });
+
+    if (video) {
+        return await Video.findOne({
+            where: { id_video: video.id_video }
+        });
+    }
+    return null;
+}
+
+async function obtenerSabiasQue(recurso) {
+    const sabias = await recursoSabias.findOne({
+        where: { id_recurso: recurso.id_recurso }
+    });
+
+    if (sabias) {
+        return await sabiasQue.findOne({
+            where: { id_sabias_que: sabias.id_sabias_que }
+        });
+    }
+    return null;
+}
 
 // Obtener un módulo a través de su nombre
 const getName = async (req, res) => {
