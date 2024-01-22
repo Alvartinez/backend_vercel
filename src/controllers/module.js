@@ -173,7 +173,7 @@ const getModule = async (req, res) => {
             include: [
                 {
                     model: Recurso,
-                    as: "Recurso",
+                    as: "recurso",
                     attributes: ['id_recurso', 'nombre'] 
                 }
             ]
