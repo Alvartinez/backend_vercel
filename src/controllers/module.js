@@ -295,11 +295,7 @@ const getModule = async (req, res) => {
                 modulo: cursoModuloInfo.modulo
             },
             quizFormativo: quizFormativo,
-            linea_Tiempo: lineas,
-            Podcast: podcasts,
-            sabias_Que: sabiass,
-            texto_Plano: textos,
-            Videos: videos
+            Recursos: recursosDetalles
         };
 
         res.status(200).json(response);
