@@ -295,7 +295,7 @@ async function obtenerVideo(recurso) {
         });
     }
     return null;
-}
+} 
 
 async function obtenerSabiasQue(recurso) {
     const sabias = await recursoSabias.findOne({
