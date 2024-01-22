@@ -1,8 +1,19 @@
 const Course = require('../models/curso');
 const CourseModule = require('../models/curso_modulo');
 const Modulo = require('../models/modulo');
+const moduloRecurso = require('../models/modulo_recurso');
 const Quiz = require('../models/quiz_formativo');
 const { Op } = require('sequelize');
+const recursoLinea = require('../models/recurso_linea');
+const recursoPodcast = require('../models/recurso_podcast');
+const recursoSabias = require('../models/recurso_sabias');
+const recursoTexto = require('../models/recurso_texto');
+const recursoVideo = require('../models/recurso_video');
+const lineaTiempo = require('../models/linea_tiempo');
+const Podcast = require('../models/podcast');
+const sabiasQue = require('../models/sabias_que');
+const textoPlano = require('../models/texto_plano');
+const Video = require('../models/video');
 
 //Nuevo módulo
 const newModule = async (req, res) =>{
@@ -156,13 +167,79 @@ const getModule = async (req, res) => {
             attributes: ['id_quiz_formativo', 'titulo']
         });
 
+        const relacionRecurso = await moduloRecurso.findAll({
+            where: { id_modulo: cursoModuloInfo.modulo.id_modulo}
+        });
+
+        const linea = await recursoLinea.findAll({
+            where: { id_recurso: relacionRecurso.id_recurso }
+        }); 
+
+        const podcast = await recursoPodcast.findAll({
+            where: { id_recurso: relacionRecurso.id_recurso }
+        });
+
+        const sabias = await recursoSabias.findAll({
+            where: { id_recurso: relacionRecurso.id_recurso }
+        });
+
+        const texto = await recursoTexto.findAll({
+            where: { id_recurso: relacionRecurso.id_recurso }
+        });
+
+        const video = await recursoVideo.findAll({
+            where: { id_recurso: relacionRecurso.id_recurso }
+        });
+
+        let lineas, podcasts, sabiass, textos, videos;
+        if(linea){
+
+            lineas = await lineaTiempo.findAll({
+                where: { id_linea_tiempo: linea.id_linea_tiempo }
+            });
+
+        }
+
+        if(podcast){
+
+            podcasts = await Podcast.findAll({
+                where: { id_podcast: podcast.id_podcast } 
+            });
+
+        }
+
+        if(sabias){
+
+            sabiass = await sabiasQue.findAll({
+                where: { id_sabias_que: sabias.id_sabias_que }
+            });
+
+        }
+
+        if(texto){
+            textos = await textoPlano.findAll({
+                where: { id_texto_plano: texto.id_texto_plano }
+            });
+        }
+
+        if(video){
+            videos = await Video.findAll({
+                where: { id_video: video.id_video }
+            });
+        }
+
         // Crear la estructura deseada
         const response = {
             cursoModuloInfo: {
                 curso: cursoModuloInfo.curso,
                 modulo: cursoModuloInfo.modulo
             },
-            quizFormativo: quizFormativo
+            quizFormativo: quizFormativo,
+            linea_Tiempo: lineas,
+            Podcast: podcasts,
+            sabias_Que: sabiass,
+            texto_Plano: textos,
+            Videos: videos
         };
 
         res.status(200).json(response);
