@@ -172,8 +172,14 @@ const getModule = async (req, res) => {
             where: { id_modulo: cursoModuloInfo.modulo.id_modulo },
         });
 
+        if(!relacionRecurso){
+            return res.status(400).json({
+                msg: "No tiene recursos"
+            });
+        }
+
         const Recursos = await Recurso.findAll({
-            where: { id_recurso: relacionRecurso[0].id_recurso }
+            where: { id_recurso: relacionRecurso.id_recurso }
         });
 
         const recursosDetalles = [];
