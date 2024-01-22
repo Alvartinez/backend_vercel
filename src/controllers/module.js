@@ -168,9 +168,17 @@ const getModule = async (req, res) => {
             attributes: ['id_quiz_formativo', 'titulo']
         });
 
+        if(!quizFormativo){
+            return res.status(400).json({
+                msg: "No tiene quizzes"
+            });
+        }
+
         const relacionRecurso = await moduloRecurso.findAll({
             where: { id_modulo: cursoModuloInfo.modulo.id_modulo },
         });
+
+        console.log(relacionRecurso);
 
         if(!relacionRecurso){
             return res.status(400).json({
