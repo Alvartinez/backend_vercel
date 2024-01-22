@@ -168,29 +168,44 @@ const getModule = async (req, res) => {
             attributes: ['id_quiz_formativo', 'titulo']
         });
 
-        if(!quizFormativo){
-            return res.status(400).json({
-                msg: "No tiene quizzes"
-            });
-        }
-
         const relacionRecurso = await moduloRecurso.findAll({
             where: { id_modulo: cursoModuloInfo.modulo.id_modulo },
         });
 
-        console.log(relacionRecurso);
-
         if(!relacionRecurso){
-            return res.status(400).json({
-                msg: "No tiene recursos"
-            });
+
+            if(!quizFormativo){
+
+                response = {
+                    cursoModuloInfo: {
+                        curso: cursoModuloInfo.curso,
+                        modulo: cursoModuloInfo.modulo
+                    }
+                };
+        
+                return res.status(200).json(response);
+
+            }
+
+            response = {
+                cursoModuloInfo: {
+                    curso: cursoModuloInfo.curso,
+                    modulo: cursoModuloInfo.modulo
+                },
+                quizFormativo: quizFormativo
+            };
+    
+            return res.status(200).json(response);
         }
+
+        const recursosDetalles = [];
+
 
         const Recursos = await Recurso.findAll({
             where: { id_recurso: relacionRecurso.id_recurso }
         });
 
-        const recursosDetalles = [];
+        let response;
 
         const tipoRecurso = Recursos.nombre;
 
@@ -298,9 +313,8 @@ const getModule = async (req, res) => {
             break;
 
         }
-
-        // Crear la estructura deseada
-        const response = {
+        
+        response = {
             cursoModuloInfo: {
                 curso: cursoModuloInfo.curso,
                 modulo: cursoModuloInfo.modulo
