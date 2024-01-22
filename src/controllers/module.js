@@ -172,23 +172,23 @@ const getModule = async (req, res) => {
         });
 
         const linea = await recursoLinea.findAll({
-            where: { id_recurso: relacionRecurso.id_recurso }
+            where: { id_recurso: relacionRecurso[0].id_recurso }
         }); 
 
         const podcast = await recursoPodcast.findAll({
-            where: { id_recurso: relacionRecurso.id_recurso }
+            where: { id_recurso: relacionRecurso[0].id_recurso }
         });
 
         const sabias = await recursoSabias.findAll({
-            where: { id_recurso: relacionRecurso.id_recurso }
+            where: { id_recurso: relacionRecurso[0].id_recurso }
         });
 
         const texto = await recursoTexto.findAll({
-            where: { id_recurso: relacionRecurso.id_recurso }
+            where: { id_recurso: relacionRecurso[0].id_recurso }
         });
 
         const video = await recursoVideo.findAll({
-            where: { id_recurso: relacionRecurso.id_recurso }
+            where: { id_recurso: relacionRecurso[0].id_recurso }
         });
 
         let lineas, podcasts, sabiass, textos, videos;
