@@ -181,7 +181,7 @@ const getModule = async (req, res) => {
 
         const recursosDetalles = [];
 
-        const tipoRecurso = relacionRecurso.Recurso.nombre;
+        const tipoRecurso = relacionRecurso[0].Recurso.nombre;
 
         switch (tipoRecurso) {
 
