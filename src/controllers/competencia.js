@@ -5,13 +5,13 @@ const comptCourse = require("../models/curso_competencia");
 
 exports.newCompetence = async (req, res) => {
     const id = req.params.id;
-    const { competencia } = req.body;
+    const competencias = req.body;
 
     try {
 
         const curso = await Course.findByPk(id);
 
-        const nuevaCompetencia = await Competence.create({ competencia });
+        const nuevaCompetencia = await Competence.create({ competencias });
 
         await comptCourse.create({
             id_curso: curso.id_curso,
