@@ -15,6 +15,7 @@ const routesSabias = require("../routers/sabias_que");
 const routesLink = require("../routers/enlace_externo");
 const routesNote = require("../routers/notas");
 const routesTask = require("../routers/tarea");
+const routesCompetence = require("../routers/competencia");
 
 class Server {
 
@@ -48,6 +49,7 @@ class Server {
         this.app.use("/api/enlace", routesLink);
         this.app.use("/api/nota", routesNote);
         this.app.use("/api/tarea", routesTask);
+        this.app.use("/api/competence", routesCompetence);
     }
 
     middlewares() {
