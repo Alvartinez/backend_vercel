@@ -5,7 +5,7 @@ const { getCompetences, editCompetence, deleteCompetence, newCompetence } = requ
 const router = Router();
 
 router.get("/competences/:id", getCompetences);
-router.post("/newCompetence", newCompetence);
+router.post("/newCompetence/:id", newCompetence);
 router.put("/updateCompetence/:id", editCompetence);
 router.delete("/deleteCompetence/:id", deleteCompetence);
 
