@@ -11,7 +11,7 @@ exports.newCompetence = async (req, res) => {
 
         const curso = await Course.findByPk(id);
 
-        const nuevaCompetencia = await Competence.create({ competencias });
+        const nuevaCompetencia = await Competence.create({ competencia: competencias });
 
         await comptCourse.create({
             id_curso: curso.id_curso,
