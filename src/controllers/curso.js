@@ -50,6 +50,9 @@ exports.getCurso = async (req, res) => {
 
         if (selectedCourse) {
             const courseInfo = {
+                //Temporal
+                id_curso: selectedCourse.id_curso,
+                //Temporal
                 nombre: selectedCourse.nombre,
                 descripcion: selectedCourse.descripcion,
                 objetivos: selectedCourse.objetivos,
