@@ -4,8 +4,8 @@ const comptCourse = require("../models/curso_competencia");
 
 
 exports.newCompetence = async (req, res) => {
-    const { competencia } = req.body;
     const id = req.params.id;
+    const { competencia } = req.body;
 
     try {
 
