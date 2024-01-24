@@ -51,7 +51,7 @@ exports.getCurso = async (req, res) => {
         if (selectedCourse) {
             const courseInfo = {
                 //Temporal
-                id_curso: selectedCourse.id_curso,
+                id_curso: id,
                 //Temporal
                 nombre: selectedCourse.nombre,
                 descripcion: selectedCourse.descripcion,
