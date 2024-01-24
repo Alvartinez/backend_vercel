@@ -14,7 +14,7 @@ const comptCourse = sequelize.define("curso_competencia", {
         }
     }, 
     id_competencia:{
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull:false,
         primaryKey: true,
         references: {
