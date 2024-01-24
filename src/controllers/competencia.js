@@ -74,7 +74,7 @@ exports.editCompetence = async (req, res) => {
 
         await competenciaExistente.update({ competencia });
 
-        res.json(competenciaExistente);
+        res.status(200).json({msg: "Competencias modificadas"});
     } catch (error) {
         console.error(error);
         res.status(400).json({ msg: "Se ha producido un error al actualizar la competencia" });
