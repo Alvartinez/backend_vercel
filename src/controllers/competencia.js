@@ -30,34 +30,36 @@ exports.getCompetences = async (req, res) => {
     const id = req.params.id;
 
     try {
-
         const curso = await Course.findOne({
             where: {id_curso: id}
         });
 
-        if(!curso){
-            res.status(400).json("No exste el curso");
+        if (!curso) {
+            return res.status(400).json("No existe el curso");
         }
 
         const curso_competencia = await comptCourse.findOne({
             where: { id_curso: curso.id_curso },
         });
 
+        if (!curso_competencia) {
+            return res.status(400).json({ msg: "No hay competencias para este curso" });
+        }
+
         const competencias = await Competence.findOne({
             where: { id_competencia: curso_competencia.id_competencia },
         });
 
         if (!competencias) {
-            return res.status(400).json({msg:"No existen competencias para este curso"});
+            return res.status(400).json({ msg: "No existen competencias para este curso" });
         }
 
         res.json(competencias);
     
-    }catch (error) {
+    } catch (error) {
         console.error(error);
         res.status(400).json({ msg: "Se ha producido un error" });
     }
-
 }
 
 exports.editCompetence = async (req, res) => {
