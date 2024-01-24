@@ -5,11 +5,20 @@ const comptCourse = require("../models/curso_competencia");
 
 exports.newCompetence = async (req, res) => {
     const { competencia } = req.body;
+    const id = req.params.id;
 
     try {
+
+        const curso = await Course.findByPk(id);
+
         const nuevaCompetencia = await Competence.create({ competencia });
 
-        res.status(200).json(nuevaCompetencia);
+        await comptCourse.create({
+            id_curso: curso.id_curso,
+            id_competencia: nuevaCompetencia.id_competencia
+        });
+
+        res.status(200).json({msg: "Competencias creadas exitosamente"});
     } catch (error) {
         console.error(error);
         res.status(400).json({ msg: "Se ha producido un error" });
