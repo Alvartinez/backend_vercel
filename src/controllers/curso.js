@@ -123,7 +123,7 @@ exports.newCourse = async (req, res) => {
             });
         }
 
-        await Course.create({
+        const cursoNuevo = await Course.create({
             nombre,
             descripcion,
             id_persona,
@@ -134,7 +134,7 @@ exports.newCourse = async (req, res) => {
         });
         
 
-        return res.status(200).json({ msg: "Curso creado exitosamente" });
+        return res.status(200).json({ msg: "Curso creado exitosamente", cursoNuevo });
 
     } catch (error) {
         console.error(error);
