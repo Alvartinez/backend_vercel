@@ -134,7 +134,7 @@ exports.newCourse = async (req, res) => {
         });
         
 
-        return res.status(200).json({ msg: "Curso creado exitosamente", cursoNuevo });
+        return res.status(200).json({ msg: "Curso creado exitosamente", cursoNuevo});
 
     } catch (error) {
         console.error(error);
