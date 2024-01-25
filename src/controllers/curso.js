@@ -265,7 +265,7 @@ exports.getEnrolledCourses = async (req, res) => {
     try{
 
         const enrolledCourses = await Inscrito.findAll({
-            where: { id_persona: studentId },
+            where: { id_inscrito: apprenticeId },
             include: {
                 model: Course,
                 as: 'curso'
