@@ -3,6 +3,7 @@ const Course = require("../models/curso");
 const Person = require("../models/persona");
 const CourseModule = require("../models/curso_modulo");
 const Modulo = require("../models/modulo");
+const Inscrito = require("../models/inscrito");
 
 exports.getAllCourses = async (req, res) => {
     try {
@@ -249,6 +250,39 @@ exports.publishedCourse = async (req, res) => {
             msg: "Estado de publicación actualizado exitosamente",
             nuevoEstado: !course.publicado,
         });
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Se ha ocurrido un error' });
+    }
+
+}
+
+exports.getEnrolledCourses = async (req, res) => {
+
+    const apprenticeId = req.params.id;
+
+    try{
+
+        const enrolledCourses = await Inscrito.findAll({
+            where: { id_persona: studentId },
+            include: {
+                model: Course,
+                as: 'curso'
+            }            
+        });
+
+        const cursosInfo = enrolledCourses.map(inscripcion => {
+            const curso = inscripcion.curso;
+            return {
+                id_curso: curso.id_curso,
+                nombre: curso.nombre,
+                descripcion: curso.descripcion,
+                portada: curso.portada
+            };
+        });
+
+        res.json(cursosInfo);
 
     } catch (error) {
         console.error(error);
