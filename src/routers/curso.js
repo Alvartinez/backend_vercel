@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/", getAllCourses);
 router.get("/Course/:id", getCurso);
-router.get("/courseEnrolled", getEnrolledCourses);
+router.get("/courseEnrolled/:id", getEnrolledCourses);
 router.post("/newCourse", newCourse);
 router.put("/updateCourse", updateCourse);
 router.delete("/deleteCourse/:id", deleteCourse);
