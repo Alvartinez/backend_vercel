@@ -18,7 +18,6 @@ const recursoLinea = require('../models/recurso_linea');
 
 //Nuevo módulo
 const newModule = async (req, res) =>{
-    const {modulo} = req.body;
 
     try{
 
@@ -33,7 +32,7 @@ const newModule = async (req, res) =>{
             competencias,
             duracion,
             temas
-        } = modulo;
+        } = req.body;
 
         const cursoExiste = await Course.findOne({ where: {id_curso:id_curso} });
         
