@@ -73,7 +73,8 @@ const newModule = async (req, res) =>{
         }); 
 
         res.status(200).json({
-            msg: "Módulo creado exitosamente"
+            msg: "Módulo creado exitosamente",
+            moduloNuevo
         });
 
     } catch (error) {
