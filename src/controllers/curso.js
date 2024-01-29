@@ -100,8 +100,6 @@ exports.newCourse = async (req, res) => {
 
     try {
 
-        console.log(req.body);
-
         const {
             nombre,
             descripcion,
@@ -144,8 +142,6 @@ exports.newCourse = async (req, res) => {
 };
 
 exports.updateCourse = async (req, res) => {
-    const { curso } = req.body;
-
     try {
         const {
             id_curso,
@@ -156,7 +152,7 @@ exports.updateCourse = async (req, res) => {
             video_presentacion,
             portada,
             publicado
-        } = curso;
+        } = req.body;
 
         const cursoExistente = await Course.findOne({ where: { id_curso: id_curso } });
 
