@@ -154,9 +154,12 @@ exports.updateCourse = async (req, res) => {
             if (video_presentacion && cursoExistente.video_presentacion !== video_presentacion) camposParaActualizar.video_presentacion = video_presentacion;
             if (publicado !== undefined && cursoExistente.publicado !== publicado) camposParaActualizar.publicado = publicado;
             
-            // Manejar la imagen de portada si se envía una nueva
             if (req.file) {
-                const portada = req.file.buffer.toString('base64');
+                const nuevaPortada = req.file.buffer.toString('base64');
+                camposParaActualizar.portada = nuevaPortada;
+            }
+            // De lo contrario, si se envía portada en el cuerpo de la solicitud, y es diferente a la existente, usar esa.
+            else if (portada && cursoExistente.portada !== portada) {
                 camposParaActualizar.portada = portada;
             }
     
