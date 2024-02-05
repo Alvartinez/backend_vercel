@@ -110,18 +110,6 @@ exports.newCourse = async (req, res) => {
             publicado
         } = req.body;
 
-        const cursoExistente = await Course.findOne({ where: {      nombre: {
-            [Op.iLike]: `%${nombre}%` 
-           }
-        }});
-
-
-        if (cursoExistente) {
-            return res.status(400).json({
-                msg: "El nombre del curso existe"
-            });
-        }
-
         const cursoNuevo = await Course.create({
             nombre,
             descripcion,
