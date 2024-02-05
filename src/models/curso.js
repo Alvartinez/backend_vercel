@@ -35,7 +35,7 @@ const Course = sequelize.define("curso", {
         allowNull: false
     },
     portada: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
     },
     publicado: {
