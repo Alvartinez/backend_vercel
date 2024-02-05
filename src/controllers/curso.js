@@ -97,30 +97,18 @@ exports.getCurso = async (req, res) => {
 };
 
 exports.newCourse = async (req, res) => {
-
     try {
-
-        const {
-            nombre,
-            descripcion,
-            id_persona,
-            objetivos,
-            video_presentacion,
-            portada,
-            publicado
+        const { 
+            nombre, 
+            descripcion, 
+            id_persona, 
+            objetivos, 
+            video_presentacion, 
+            publicado 
         } = req.body;
 
-        const cursoExistente = await Course.findOne({ where: {      nombre: {
-            [Op.iLike]: `%${nombre}%` 
-           }
-        }});
-
-
-        if (cursoExistente) {
-            return res.status(400).json({
-                msg: "El nombre del curso existe"
-            });
-        }
+        // Convertir el archivo de imagen a base64
+        const portada = req.file ? `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}` : '';
 
         const cursoNuevo = await Course.create({
             nombre,
@@ -131,13 +119,11 @@ exports.newCourse = async (req, res) => {
             portada,
             publicado
         });
-        
 
-        return res.status(200).json({ msg: "Curso creado exitosamente", cursoNuevo});
-
+        res.status(200).json({ message: "Curso creado exitosamente", data: cursoNuevo });
     } catch (error) {
         console.error(error);
-        res.status(400).json({ msg: 'Se ha producido un error' });
+        res.status(400).json({ message: 'Se ha producido un error' });
     }
 };
 
@@ -158,23 +144,26 @@ exports.updateCourse = async (req, res) => {
 
         if (cursoExistente) {
             
-            if ((cursoExistente.nombre !== nombre) || (cursoExistente.descripcion !== descripcion) ||
-                (cursoExistente.id_persona !== id_persona) || (cursoExistente.objetivos !== objetivos) ||
-                (cursoExistente.video_presentacion !== video_presentacion) ||
-                (cursoExistente.portada !== portada) || cursoExistente.publicado !== publicado) {
+            let camposParaActualizar = {};
 
-                await Course.update({
-                    nombre,
-                    descripcion,
-                    id_persona,
-                    objetivos,
-                    video_presentacion,
-                    portada,
-                    publicado
-                }, { where: { id_curso: cursoExistente.id_curso } });
-
+            // Compara y agrega al objeto de actualización solo los campos que han cambiado.
+            if (nombre && cursoExistente.nombre !== nombre) camposParaActualizar.nombre = nombre;
+            if (descripcion && cursoExistente.descripcion !== descripcion) camposParaActualizar.descripcion = descripcion;
+            if (id_persona && cursoExistente.id_persona !== id_persona) camposParaActualizar.id_persona = id_persona;
+            if (objetivos && JSON.stringify(cursoExistente.objetivos) !== JSON.stringify(objetivos)) camposParaActualizar.objetivos = objetivos; // Asumiendo que objetivos es un objeto o array
+            if (video_presentacion && cursoExistente.video_presentacion !== video_presentacion) camposParaActualizar.video_presentacion = video_presentacion;
+            if (publicado !== undefined && cursoExistente.publicado !== publicado) camposParaActualizar.publicado = publicado;
+            
+            // Manejar la imagen de portada si se envía una nueva
+            if (req.file) {
+                const portada = req.file.buffer.toString('base64');
+                camposParaActualizar.portada = portada;
+            }
+    
+            // Verifica si hay campos para actualizar
+            if (Object.keys(camposParaActualizar).length > 0) {
+                await Course.update(camposParaActualizar, { where: { id_curso: id_curso } });
                 return res.status(200).json({ msg: "Curso actualizado exitosamente" });
-
             } else {
                 return res.status(400).json({ msg: "No hay cambios para realizar" });
             }
