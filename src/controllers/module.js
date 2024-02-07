@@ -340,7 +340,6 @@ const getName = async (req, res) => {
 
 //Editar módulo
 const updateModule = async (req, res) => {
-    const {modulo} = req.body;
 
     try{
 
@@ -355,7 +354,7 @@ const updateModule = async (req, res) => {
             competencias,
             duracion,
             temas
-        } = modulo;
+        } = req.body;
 
         const moduloExiste = await Modulo.findOne({ where: { id_modulo: id_modulo } });
 
