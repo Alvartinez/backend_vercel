@@ -24,7 +24,7 @@ const Modulo = sequelize.define("modulo", {
         allowNull:false
     },
     portada:{
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull:false
     },
     creadores:{
