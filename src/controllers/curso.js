@@ -18,6 +18,7 @@ exports.getAllCourses = async (req, res) => {
         const cursosInfo = availableCourses.map((curso) => {
             return {
                 id_curso: curso.id_curso,
+                id_persona: curso.id_persona,
                 nombre: curso.nombre,
                 descripcion: curso.descripcion,
                 objetivos: curso.objetivos,
