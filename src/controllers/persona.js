@@ -420,6 +420,7 @@ const getPerson = async (req, res) => {
         username: user.username,
         email: user.email,
         fecha_registro: user.fecha_registro,
+        portada: user.portada,
         rol: decodedToken.rol,
       };
 
