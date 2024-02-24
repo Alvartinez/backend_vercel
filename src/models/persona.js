@@ -24,6 +24,9 @@ const Person = sequelize.define("persona", {
     fecha_registro: {
         type: DataTypes.DATE,
         allowNull:false
+    },
+    portada: {
+        type: DataTypes.TEXT
     }
 },{
     tableName: 'persona',
