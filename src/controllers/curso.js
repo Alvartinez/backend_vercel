@@ -61,7 +61,8 @@ exports.getCurso = async (req, res) => {
                 presentacion: selectedCourse.video_presentacion,
                 creador: {
                     nombre: selectedCourse.persona.nombre,
-                    email: selectedCourse.persona.email
+                    email: selectedCourse.persona.email,
+                    portada: selectedCourse.persona.portada
                 },
                 portada: selectedCourse.portada,
                 modulos: {}
