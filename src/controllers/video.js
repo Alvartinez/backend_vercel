@@ -5,11 +5,9 @@ const Video = require("../models/video");
 
 
 exports.newVideo = async (req, res) => {
-    
-    const { videoNuevo } = req.body;
 
     try {
-        const { id_modulo, recurso, nombre, video } = videoNuevo;
+        const { id_modulo, recurso, nombre, video } = req.body;
 
         const recursoNuevo = await Recurso.create({
             nombre: recurso
