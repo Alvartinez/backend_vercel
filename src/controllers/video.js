@@ -45,6 +45,13 @@ exports.newVideo = async (req, res) => {
                 msg: "Video creado exitosamente"
             });
         } else {
+
+            await Recurso.destroy({
+                where: {
+                    id_recurso: recursoNuevo.id_recurso
+                }
+            });
+
             res.status(400).json({
                 msg: "No se pudo crear el video correctamente"
             });
