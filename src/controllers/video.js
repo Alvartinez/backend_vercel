@@ -61,8 +61,6 @@ exports.newVideo = async (req, res) => {
 }
 
 exports.editVideo = async (req, res) => {
-    
-    const {videoRecurso} = req.body;
 
     try {
 
@@ -70,7 +68,7 @@ exports.editVideo = async (req, res) => {
             id_video,
             nombre, 
             video
-        } = videoRecurso
+        } = req.body;
 
         const videoExiste = await Video.findOne({ where: {id_video: id_video} });
 
@@ -197,11 +195,9 @@ exports.getVideos = async (req, res) => {
 
 exports.deleteVideo = async (req, res) => {
 
-    const { video } = req.body;
-
     try {
 
-        const { id_recurso, id_video } = video;
+        const { id_recurso, id_video } = req.body;
 
         const recurso = await Recurso.findOne({ where:{id_recurso: id_recurso} });
         const videoRecurso = await Video.findOne({ where:{ id_video: id_video} });
