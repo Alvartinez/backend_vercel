@@ -290,14 +290,21 @@ async function obtenerPodcast(recurso) {
 }
 
 async function obtenerVideo(recurso) {
-    const video = await recursoVideo.findOne({
+    const videoRelacionado = await recursoVideo.findOne({
         where: { id_recurso: recurso.id_recurso }
     });
 
-    if (video) {
-        return await Video.findOne({
+    if (videoRelacionado) {
+        const video = await Video.findOne({
             where: { id_video: video.id_video }
         });
+
+        if (video) {
+            video.dataValues.recurso = "Video";
+
+            return video;
+        }
+
     }
     return null;
 } 
