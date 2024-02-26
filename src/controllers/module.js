@@ -284,7 +284,7 @@ async function obtenerPodcast(recurso) {
 
         if (podcastRelacionado) {
             const podcast = await Podcast.findOne({
-                where: { id_podcast: podcast.id_podcast }
+                where: { id_podcast: podcastRelacionado.id_podcast }
             });
 
             if (podcast) {
