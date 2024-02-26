@@ -7,12 +7,10 @@ const moduloRecurso = require("../models/modulo_recurso");
 
 
 exports.newLine = async (req, res) => {
-    
-    const {line} = req.body;
 
     try {
 
-        const {id_modulo, recurso, nombre} = line;
+        const {id_modulo, recurso, nombre} = req.body;
 
         const nuevaLinea = await lineaTiempo.findOne({ where: {
             titulo: {
@@ -45,7 +43,8 @@ exports.newLine = async (req, res) => {
         });
 
         res.status(200).json({
-            msg: "Línea del tiempo creada satisfactoriamente"
+            msg: "Línea del tiempo creada satisfactoriamente",
+            linea
         });
          
     } catch (error) {
@@ -56,15 +55,13 @@ exports.newLine = async (req, res) => {
 }
 
 exports.editLine = async (req, res) => {
-    
-    const {line} = req.body;
 
     try {
 
         const {
             id_linea_tiempo,
             titulo
-        } = line;
+        } = req.body;
 
         const lineaExiste = await lineaTiempo.findOne({
             where: {
@@ -102,11 +99,9 @@ exports.editLine = async (req, res) => {
 
 exports.deleteLine = async (req, res) => {
 
-    const { line } = req.body;
-
     try {
 
-        const { id_recurso, id_linea_tiempo } = line;
+        const { id_recurso, id_linea_tiempo } = req.body;
 
         const recurso = await Recurso.findOne({ where:{id_recurso: id_recurso} });
         const linea_tiempo = await lineaTiempo.findOne({ where:{ id_linea_tiempo: id_linea_tiempo} });
@@ -160,7 +155,7 @@ exports.deleteLine = async (req, res) => {
 
 exports.getLine = async (req, res) =>{
 
-    const id = req.params.id;
+    const id = req.params.id; //Id Línea del tiempo
 
     try{
         
@@ -183,10 +178,19 @@ exports.getLine = async (req, res) =>{
             attributes: ["fecha", "titulo"]
         });
 
-        const response = {
-            linea: linea,
-            hitos: hitos
-          };
+        let response; 
+
+        if(hitos){
+            response = {
+                linea: linea,
+                hitos: hitos
+            };
+        }else {
+            response = {
+                linea: linea
+            };
+        }
+
 
         res.status(200).json({
             response
