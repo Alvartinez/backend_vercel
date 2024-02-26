@@ -179,6 +179,8 @@ const getModule = async (req, res) => {
             ]
         });
 
+        console.log(relacionRecursos)
+
         if (!relacionRecursos || relacionRecursos.length === 0) {
             // No hay recursos asociados
             const response = {
@@ -197,8 +199,6 @@ const getModule = async (req, res) => {
         // Iterar sobre cada recurso relacionado
         for (const recurso of relacionRecursos) {
             let recursoDetalle = null;
-
-            console.log(recurso)
 
             switch (recurso.Recurso.nombre) {
                 case "Linea del tiempo":
