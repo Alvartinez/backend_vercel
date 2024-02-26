@@ -290,23 +290,34 @@ async function obtenerPodcast(recurso) {
 }
 
 async function obtenerVideo(recurso) {
-    const videoRelacionado = await recursoVideo.findOne({
-        where: { id_recurso: recurso.id_recurso }
-    });
-
-    if (videoRelacionado) {
-        const video = await Video.findOne({
-            where: { id_video: video.id_video }
+    try {
+        const videoRelacionado = await recursoVideo.findOne({
+            where: { id_recurso: recurso.id_recurso }
         });
 
-        if (video) {
-            video.dataValues.recurso = "Video";
+        if (videoRelacionado) {
+            const video = await Video.findOne({
+                where: { id_video: videoRelacionado.id_video }
+            });
 
-            return video;
+            if (video) {
+                // Añadir un nuevo campo al objeto video. Por ejemplo, 'tipo' con valor 'Video'
+                video.dataValues.recurso = "Video";
+
+                // Retorna el objeto video modificado
+                return video;
+            } else {
+                console.log('Video no encontrado');
+                return null; // O manejar según sea necesario
+            }
+        } else {
+            console.log('Relación Recurso-Video no encontrada');
+            return null; // O manejar según sea necesario
         }
-
+    } catch (error) {
+        console.error('Error al obtener el video:', error);
+        throw error; // O manejar el error según prefieras
     }
-    return null;
 } 
 
 async function obtenerSabiasQue(recurso) {
