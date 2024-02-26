@@ -277,16 +277,33 @@ async function obtenerTextoPlano(recurso) {
 }
 
 async function obtenerPodcast(recurso) {
-    const podcast = await recursoPodcast.findOne({
-        where: { id_recurso: recurso.id_recurso }
-    });
-
-    if (podcast) {
-        return await Podcast.findOne({
-            where: { id_podcast: podcast.id_podcast }
+    try {
+        const podcastRelacionado = await recursoPodcast.findOne({
+            where: { id_recurso: recurso.id_recurso }
         });
+
+        if (podcastRelacionado) {
+            const podcast = await Podcast.findOne({
+                where: { id_podcast: podcast.id_podcast }
+            });
+
+            if (podcast) {
+                podcast.dataValues.recurso = "Podcast";
+
+                return podcast;
+            } else {
+                console.log('Podcast no encontrado');
+                return null;
+            }
+        } else {
+            console.log('Relación Recurso-Podcast no encontrada');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener el podcast:', error);
+        throw error;
     }
-    return null;
+
 }
 
 async function obtenerVideo(recurso) {
