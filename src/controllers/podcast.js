@@ -5,11 +5,9 @@ const recursoPodcast = require("../models/recurso_podcast");
 
 
 exports.newPodcast = async (req, res) => {
-    
-    const { podcastNuevo } = req.body;
 
     try {
-        const { id_modulo, recurso, nombre, podcast } = podcastNuevo;
+        const { id_modulo, recurso, nombre, podcast } = req.body;
 
         const recursoNuevo = await Recurso.create({
             nombre: recurso
@@ -34,14 +32,28 @@ exports.newPodcast = async (req, res) => {
                 });
             }
 
-            await recursoPodcast.create({
-                id_recurso: recursoNuevo.id_recurso,
-                id_podcast: podcastRecurso.id_podcast
-            });
+            if(podcastRecurso){
+                await recursoPodcast.create({
+                    id_recurso: recursoNuevo.id_recurso,
+                    id_podcast: podcastRecurso.id_podcast
+                });
+    
+                res.status(200).json({
+                    msg: "Podcast creado exitosamente"
+                });
+            } else {
 
-            res.status(200).json({
-                msg: "Podcast creado exitosamente"
-            });
+                await Recurso.destroy({
+                    where: {
+                        id_recurso: recursoNuevo.id_recurso
+                    }
+                });
+    
+                res.status(400).json({
+                    msg: "No se pudo crear el podcast correctamente"
+                });
+            }
+
         } else {
             res.status(400).json({
                 msg: "El campo 'podcast' no puede ser nulo"
@@ -55,8 +67,6 @@ exports.newPodcast = async (req, res) => {
 }
 
 exports.editPodcast = async (req, res) => {
-    
-    const {podcastRecurso} = req.body;
 
     try {
 
@@ -64,7 +74,7 @@ exports.editPodcast = async (req, res) => {
             id_podcast,
             nombre, 
             podcast
-        } = podcastRecurso
+        } = req.body;
 
         const podcastExiste = await Podcast.findOne({ where: {id_podcast: id_podcast} });
 
@@ -197,11 +207,9 @@ exports.getPodcasts = async (req, res) => {
 
 exports.deletePodcast = async (req, res) => {
 
-    const { podcast } = req.body;
-
     try {
 
-        const { id_recurso, id_podcast } = podcast;
+        const { id_recurso, id_podcast } = req.body;
 
         const recurso = await Recurso.findOne({ where:{id_recurso: id_recurso} });
         const podcastRecurso = await Podcast.findOne({ where:{ id_podcast: id_podcast} });
