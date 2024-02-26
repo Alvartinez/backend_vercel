@@ -198,6 +198,8 @@ const getModule = async (req, res) => {
         for (const recurso of relacionRecursos) {
             let recursoDetalle = null;
 
+            console.log(recurso)
+
             switch (recurso.Recurso.nombre) {
                 case "Linea del tiempo":
                     recursoDetalle = await obtenerLineaDelTiempo(recurso);
