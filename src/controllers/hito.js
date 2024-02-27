@@ -4,8 +4,6 @@ const lineaTiempo = require("../models/linea_tiempo");
 
 exports.newHito = async (req, res) =>{
 
-    const {hito} = req.body;
-
     try{
 
         const {
@@ -16,7 +14,7 @@ exports.newHito = async (req, res) =>{
             imagen,
             archivo,
             enlace
-        } = hito;
+        } = req.body;
 
         const linea = await lineaTiempo.findOne({ where:{id_linea_tiempo: id_linea_tiempo} });
 
@@ -70,8 +68,6 @@ exports.newHito = async (req, res) =>{
 
 exports.editHito = async (req, res) =>{
 
-    const { hito } = req.body;
-
     try{
 
         const {
@@ -82,7 +78,7 @@ exports.editHito = async (req, res) =>{
             imagen,
             archivo,
             enlace
-        } = hito;
+        } = req.body;
 
         const hitoExiste = await Hito.findOne({ where: {id_hito} }); 
 

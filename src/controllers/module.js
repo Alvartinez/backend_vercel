@@ -251,16 +251,34 @@ const getModule = async (req, res) => {
 
 // Funciones auxiliares para obtener detalles de recursos
 async function obtenerLineaDelTiempo(recurso) {
-    const linea = await recursoLinea.findOne({
-        where: { id_recurso: recurso.id_recurso }
-    });
 
-    if (linea) {
-        return await lineaTiempo.findOne({
-            where: { id_linea_tiempo: linea.id_detalle }
+    try {
+        const lineaRelacionado = await recursoLinea.findOne({
+            where: { id_recurso: recurso.id_recurso }
         });
+
+        if (lineaRelacionado) {
+            const linea = await lineaTiempo.findOne({
+                where: { id_linea_tiempo: linea.id_detalle }
+            });
+
+            if (linea) {
+                linea.dataValues.recurso = "Linea del tiempo";
+
+                return podcast;
+            } else {
+                console.log('Línea del tiempo no encontrado');
+                return null;
+            }
+        } else {
+            console.log('Relación Recurso-Linea no encontrada');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener la Línea del tiempo:', error);
+        throw error;
     }
-    return null;
+
 }
 
 async function obtenerTextoPlano(recurso) {
