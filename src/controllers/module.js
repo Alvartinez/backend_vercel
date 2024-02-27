@@ -265,7 +265,7 @@ async function obtenerLineaDelTiempo(recurso) {
             if (linea) {
                 linea.dataValues.recurso = "Linea del tiempo";
 
-                return podcast;
+                return linea;
             } else {
                 console.log('Línea del tiempo no encontrado');
                 return null;
