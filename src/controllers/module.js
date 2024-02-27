@@ -259,7 +259,7 @@ async function obtenerLineaDelTiempo(recurso) {
 
         if (lineaRelacionado) {
             const linea = await lineaTiempo.findOne({
-                where: { id_linea_tiempo: linea.id_detalle }
+                where: { id_linea_tiempo: lineaRelacionado.id_detalle }
             });
 
             if (linea) {
