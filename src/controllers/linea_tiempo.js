@@ -101,11 +101,12 @@ exports.deleteLine = async (req, res) => {
 
     try {
 
-        const { id_recurso, id_linea_tiempo } = req.body;
+        const id = req.params.id;
 
-        const recurso = await Recurso.findOne({ where:{id_recurso: id_recurso} });
-        const linea_tiempo = await lineaTiempo.findOne({ where:{ id_linea_tiempo: id_linea_tiempo} });
-        const hitos = await Hito.findAll({ where: { id_linea_tiempo: id_linea_tiempo } });
+        const linea_tiempo = await lineaTiempo.findOne({ where:{ id_linea_tiempo: id} });
+        const hitos = await Hito.findAll({ where: { id_linea_tiempo: linea_tiempo.id_linea_tiempo } });
+        const recurso_tiempo = await recursoLinea.findOne({ id_linea_tiempo: linea_tiempo.id_linea_tiempo  });
+        const recurso = await Recurso.findOne({ where:{id_recurso: recurso_tiempo.id_recurso} });
 
         if(!recurso || !linea_tiempo){
             return res.status(400).json({
@@ -114,31 +115,31 @@ exports.deleteLine = async (req, res) => {
         }
 
         if (hitos.length > 0) {
-            await Hito.destroy({ where: { id_linea_tiempo: id_linea_tiempo } });
+            await Hito.destroy({ where: { id_linea_tiempo: id } });
         }
 
         await recursoLinea.destroy({
             where: {
-                id_recurso: id_recurso,
-                id_linea_tiempo: id_linea_tiempo
+                id_recurso: recurso.id_recurso,
+                id_linea_tiempo: id
             }
         });
 
         await lineaTiempo.destroy({
             where: {
-                id_linea_tiempo: id_linea_tiempo
+                id_linea_tiempo: id
             }
         });
 
         await moduloRecurso.destroy({
             where: {
-                id_recurso: id_recurso
+                id_recurso: recurso.id_recurso
             }
         });
 
         await Recurso.destroy({
             where: {
-                id_recurso: id_recurso
+                id_recurso: recurso.id_recurso
             }
         });
 
