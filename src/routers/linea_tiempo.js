@@ -9,7 +9,7 @@ router.get("/:id", getLine);
 router.get("/getLines/:id", getLines);
 router.post("/newLine", newLine);
 router.put("/updateLine", editLine);
-router.delete("/deleteLine", deleteLine); 
+router.delete("/deleteLine/:id", deleteLine); 
 
 //Hito
 router.get("/hito/:id", getHito);
