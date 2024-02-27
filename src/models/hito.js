@@ -23,10 +23,6 @@ const Hito = sequelize.define("hito", {
         type: DataTypes.STRING,
         allowNull:false
     },
-    fecha:{
-        type: DataTypes.DATE,
-        allowNull:false
-    },
     imagen:{
         type: DataTypes.STRING
     },
@@ -35,6 +31,10 @@ const Hito = sequelize.define("hito", {
     },
     enlace:{
         type: DataTypes.STRING
+    },
+    fecha:{
+        type: DataTypes.TEXT,
+        allowNull:false
     }
 },
 {
