@@ -174,8 +174,7 @@ exports.getLine = async (req, res) =>{
         const hitos = await Hito.findAll({
             where: {
               id_linea_tiempo: id
-            },
-            attributes: ["fecha", "titulo"]
+            }
         });
 
         let response; 
