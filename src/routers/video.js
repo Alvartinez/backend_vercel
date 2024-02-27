@@ -7,6 +7,6 @@ router.get("/:id", getVideo);
 router.get("/videos/:id", getVideos);
 router.post("/newVideo", newVideo);
 router.put("/updateVideo", editVideo);
-router.delete("/deleteVideo", deleteVideo);
+router.delete("/deleteVideo/:id", deleteVideo);
 
 module.exports = router;
