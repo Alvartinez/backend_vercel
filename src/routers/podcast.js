@@ -7,6 +7,6 @@ router.get("/:id", getPodcast);
 router.get("/podcasts/:id", getPodcasts);
 router.post("/newPodcast", newPodcast);
 router.put("/updatePodcast", editPodcast);
-router.delete("/deletePodcast", deletePodcast);
+router.delete("/deletePodcast/:id", deletePodcast);
 
 module.exports = router;
