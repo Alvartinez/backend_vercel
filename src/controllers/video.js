@@ -197,10 +197,11 @@ exports.deleteVideo = async (req, res) => {
 
     try {
 
-        const { id_recurso, id_video } = req.body;
+        const id = req.params.id;
 
-        const recurso = await Recurso.findOne({ where:{id_recurso: id_recurso} });
-        const videoRecurso = await Video.findOne({ where:{ id_video: id_video} });
+        const videoRecurso = await Video.findOne({ where:{ id_video: id} });
+        const recurso_Video = await recursoVideo.findOne({ where:{ id_video: videoRecurso.id_video} });
+        const recurso = await Recurso.findOne({ where:{id_recurso: recurso_Video.id_recurso} });
 
         if(!recurso || !videoRecurso){
             return res.status(400).json({
@@ -210,26 +211,26 @@ exports.deleteVideo = async (req, res) => {
 
         await recursoVideo.destroy({
             where: {
-                id_recurso: id_recurso,
-                id_video: id_video
+                id_recurso: recurso.id_recurso,
+                id_video: id
             }
         });
 
         await Video.destroy({
             where: {
-                id_video: id_video
+                id_video: id
             }
         });
 
         await moduloRecurso.destroy({
             where: {
-                id_recurso: id_recurso
+                id_recurso: recurso.id_recurso
             }
         });
 
         await Recurso.destroy({
             where: {
-                id_recurso: id_recurso
+                id_recurso: recurso.id_recurso
             }
         });
 
