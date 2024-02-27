@@ -209,10 +209,11 @@ exports.deletePodcast = async (req, res) => {
 
     try {
 
-        const { id_recurso, id_podcast } = req.body;
+        const id = req.params.id;
 
-        const recurso = await Recurso.findOne({ where:{id_recurso: id_recurso} });
-        const podcastRecurso = await Podcast.findOne({ where:{ id_podcast: id_podcast} });
+        const podcastRecurso = await Podcast.findOne({ where:{ id_podcast: id} });
+        const recurso_podcast = await recursoPodcast.findOne({ where:{ id_podcast: podcastRecurso.id_podcast} });
+        const recurso = await Recurso.findOne({ where:{id_recurso: recurso_podcast.id_recurso} });
 
         if(!recurso || !podcastRecurso){
             return res.status(400).json({
@@ -222,26 +223,26 @@ exports.deletePodcast = async (req, res) => {
 
         await recursoPodcast.destroy({
             where:{
-                id_recurso: id_recurso,
-                id_podcast: id_podcast
+                id_recurso: recurso.id_recurso,
+                id_podcast: id
             }
         });
 
         await Podcast.destroy({
             where:{
-                id_podcast: id_podcast
+                id_podcast: id
             }
         });
 
         await moduloRecurso.destroy({
             where: {
-                id_recurso: id_recurso
+                id_recurso: recurso.id_recurso
             }
         });
 
         await Recurso.destroy({
             where: {
-                id_recurso: id_recurso
+                id_recurso: recurso.id_recurso
             }
         });
 
