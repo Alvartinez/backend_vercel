@@ -436,10 +436,12 @@ const getPerson = async (req, res) => {
 
 // Crear un nuevo usuario
 const newPersona = async (req, res) => {
-  const { nombre, email, password } = req.body;
+  const { nombre, email, password, estado, rol } = req.body;
 
   // Validar si existe el usuario
   const user = await Person.findOne({ where: { email: email } });
+
+  estado = estado === undefined ? false : estado;
 
   if (user) {
     return res.status(400).json({
@@ -466,20 +468,28 @@ const newPersona = async (req, res) => {
 
   try {
     // Creación del usuario
-    const persona = await Person.create({
+    await Person.create({
       nombre: nombre,
       email: email,
-      estado: true,
+      estado: estado,
       fecha_registro: dateStr,
     });
 
     const id = await Person.findOne({ where: { email: email } });
 
-    const rolPerson = await User.create({
-      id_persona: id.id_persona,
-      id_rol: 1,
-      username: username,
-      password: hashedPassword,
+    let id_rol = 1; // Valor por defecto para "Visitante"
+    switch(rol) {
+      case "Docente":
+        id_rol = 3;
+        break;
+      case "Admin":
+        id_rol = 4;
+        break;
+    }
+
+    await User.create({
+      id_persona: id.id_persona, 
+      id_rol, username, password: hashedPassword 
     });
 
     // Información para usar en el email
@@ -493,7 +503,7 @@ const newPersona = async (req, res) => {
     await enviarMensajeInsideServer(infoEmail, "Usuario registrado");
 
     res.json({
-      msg: "Usuario " + nombre + " creado exitosamente",
+      msg: "Usuario " + nombre + " creado exitosamente"
     });
   } catch (error) {
     res.status(400).json({
