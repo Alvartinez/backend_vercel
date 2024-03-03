@@ -5,6 +5,7 @@ const Rol = require("../models/rol");
 const jwt = require("jsonwebtoken");
 const generateRandomUsername = require("../helper/randomUsername");
 const enviarMensajeInsideServer = require("../helper/sendEmail");
+const { Op } = require('sequelize');
 
 //Trae a un usuario en específico según los tres párametros
 const getUserComplete = async (req, res) => {
