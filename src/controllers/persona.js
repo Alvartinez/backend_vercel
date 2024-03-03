@@ -436,7 +436,7 @@ const getPerson = async (req, res) => {
 
 // Crear un nuevo usuario
 const newPersona = async (req, res) => {
-  const { nombre, email, password, estado, rol } = req.body;
+  let { nombre, email, password, estado, rol } = req.body;
 
   // Validar si existe el usuario
   const user = await Person.findOne({ where: { email: email } });
