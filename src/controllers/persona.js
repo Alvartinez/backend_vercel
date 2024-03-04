@@ -412,7 +412,7 @@ const getPerson = async (req, res) => {
 
   try {
     const decodedToken = jwt.verify(token, secretKey) || {};
-    const userId = decodedToken.id;
+    const userId = decodedToken.id_persona;
 
     const user = await Person.findOne({ where: { id_persona: userId } });
 
