@@ -4,8 +4,7 @@ const {
   getPeople,
   newPersona,
   deletePersona,
-  disabledPersona,
-  enabledPersona,
+  changeStatusPersona,
   getPeopleStatus,
   getPeopleRole,
   getUserName,
@@ -22,8 +21,7 @@ router.get("/status/:status", getPeopleStatus);
 router.get("/role/:role", getPeopleRole);
 router.get("/User", getPerson);
 router.post("/newUser", newPersona);
-router.put("/disabledUser", disabledPersona);
-router.put("/enabledUser", enabledPersona);
+router.put("/changeStatusUser", changeStatusPersona);
 router.delete("/deleteUser", deletePersona);
 router.get("/name/:name", getUserName);
 router.get("/name/role", getUserNameRol);
