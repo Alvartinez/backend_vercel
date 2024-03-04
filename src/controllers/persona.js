@@ -583,10 +583,9 @@ const updatePersona = async (req, res) => {
     }
 
     const usuario = await User.findOne({ where: { id_persona: user.id_persona } });
-    const rolUsuario = await Rol.findAll({ where: { id_persona: usuario.id_persona } });
 
     let rolesInfo = [];
-    for (let rol of rolUsuario) {
+    for (let rol of usuario.id_rol) {
       switch (rol.id_rol) {
         case 1: rolesInfo.push('Visitante'); break;
         case 2: rolesInfo.push('Aprendiz'); break;
