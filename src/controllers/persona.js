@@ -625,6 +625,16 @@ const updatePersona = async (req, res) => {
           username,
           password: hashedPassword 
         });
+
+        const infoEmail = {
+          nombre,
+          username,
+          email,
+          password,
+        };
+    
+        await enviarMensajeInsideServer(infoEmail, "Usuario registrado");
+
       } else {
         await User.update({ password: hashedPassword }, { where: { id_persona: usuario.id_persona } });
       }
