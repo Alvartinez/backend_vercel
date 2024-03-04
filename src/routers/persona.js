@@ -11,7 +11,8 @@ const {
   getUserNameRol,
   getUserNameStatus,
   getUserRoleStatus,
-  getUserComplete 
+  getUserComplete,
+  updatePersona 
 } = require("../controllers/persona");
 
 const router = express.Router();
@@ -28,5 +29,6 @@ router.get("/name/role", getUserNameRol);
 router.get("/name/status", getUserNameStatus);
 router.get("/role/status", getUserRoleStatus);
 router.get("/userComplete", getUserComplete);
+router.put("/updateUser", updatePersona);
 
 module.exports = router;
