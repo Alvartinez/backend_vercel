@@ -514,8 +514,8 @@ const newPersona = async (req, res) => {
 };
 
 // Deshabilita a un usuario
-const disabledPersona = async (req, res) => {
-  const { nombre } = req.body;
+const changeStatusPersona = async (req, res) => {
+  const { nombre, estado } = req.body;
 
   // Encuentra al usuario
   const user = await Person.findOne({ where: { nombre: nombre } });
@@ -528,22 +528,10 @@ const disabledPersona = async (req, res) => {
       });
     }
 
-    if (!user.estado) {
-      return res.status(401).json({
-        msg: "Ya se encuentra deshabilitado",
-      });
-    }
-
-    const status_User = await Person.update(
-      { estado: false },
+    await Person.update(
+      { estado: !estado },
       { where: { id_persona: user.id_persona } }
     );
-
-    if (!status_User) {
-      return res.status(401).json({
-        msg: "Se ha ocurrido un error con el proceso",
-      });
-    }
 
     res.status(200).json({
       msg: "Se ha deshabilitado el usuario " + nombre,
@@ -591,55 +579,12 @@ const deletePersona = async (req, res) => {
   }
 };
 
-// Habilita a un usuario
-const enabledPersona = async (req, res) => {
-  const { nombre } = req.body;
-
-  // Encuentra al usuario
-  const user = await Person.findOne({ where: { nombre: nombre } });
-
-  try {
-    // Si se encuentra registrado
-    if (!user) {
-      return res.status(400).json({
-        msg: "No existe usuario " + nombre,
-      });
-    }
-
-    if (user.estado) {
-      return res.status(401).json({
-        msg: "Ya se encuentra habilitado",
-      });
-    }
-
-    const status_User = await Person.update(
-      { estado: true },
-      { where: { id_persona: user.id_persona } }
-    );
-
-    if (!status_User) {
-      return res.status(401).json({
-        msg: "Se ha ocurrido un error con el proceso",
-      });
-    }
-
-    res.status(200).json({
-      msg: "Se ha habilitado el usuario " + nombre,
-    });
-  } catch (error) {
-    res.status(400).json({
-      msg: "¡Ha ocurrido un error!",
-    });
-  }
-};
-
 module.exports = {
   getPeople,
   getPerson,
   newPersona,
-  disabledPersona,
+  changeStatusPersona,
   deletePersona,
-  enabledPersona,
   getUserComplete,
   getUserRoleStatus,
   getUserNameStatus,
