@@ -576,9 +576,9 @@ const updatePersona = async (req, res) => {
   try {
     const { nombre, email, password, rol } = req.body;
 
-    const user = await Person.findOne({ where: { nombre } });
+    const user = await Person.findOne({ where: { nombre:nombre } });
 
-    console.log(nombre)
+    console.log("Nombre es: "+nombre)
 
     if (!user) {
       return res.status(400).json({ msg: "No existe usuario " + nombre });
@@ -614,11 +614,11 @@ const updatePersona = async (req, res) => {
 
       if (numero !== null) {
         username = generateRandomUsername(nombre);
-        let isUsernameTaken = await User.findOne({ where: { username } });
+        let isUsernameTaken = await User.findOne({ where: { username:username } });
 
         while (isUsernameTaken) {
           username = generateRandomUsername(nombre);
-          isUsernameTaken = await User.findOne({ where: { username } });
+          isUsernameTaken = await User.findOne({ where: { username:username } });
         }
 
         await User.create({
