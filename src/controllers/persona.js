@@ -528,14 +528,21 @@ const changeStatusPersona = async (req, res) => {
       });
     }
 
-    await Person.update(
+    const newStatus = await Person.update(
       { estado: !estado },
       { where: { id_persona: user.id_persona } }
     );
 
-    res.status(200).json({
-      msg: "Se ha deshabilitado el usuario " + nombre,
-    });
+    if(newStatus.estado){
+      res.status(200).json({
+        msg: "Se ha habilitado el usuario " + nombre,
+      });
+    }else{
+      res.status(200).json({
+        msg: "Se ha deshabilitado el usuario " + nombre,
+      });
+    }
+
   } catch (error) {
     res.status(400).json({
       msg: "¡Ha ocurrido un error!",
