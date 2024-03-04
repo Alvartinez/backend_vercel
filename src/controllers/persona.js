@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const generateRandomUsername = require("../helper/randomUsername");
 const enviarMensajeInsideServer = require("../helper/sendEmail");
 const { Op } = require('sequelize');
+const { use } = require("../routers/persona");
 
 //Trae a un usuario en específico según los tres párametros
 const getUserComplete = async (req, res) => {
@@ -553,6 +554,90 @@ const changeStatusPersona = async (req, res) => {
   }
 };
 
+function verificarTodosRolesDiferentes(roles, rol) {
+  if (!roles.includes(rol)) {
+    switch (rol) {
+      case 'Visitante': return 1;
+      case 'Aprendiz': return 2;
+      case 'Docente': return 3;
+      case 'Admin': return 4;
+      default:
+        console.log('Rol no reconocido');
+        return null;
+    }
+  } else {
+    console.log('El rol especificado ya existe en el array de roles.');
+    return null;
+  }
+}
+
+// Actualizar a un usuario
+const updatePersona = async (req, res) => {
+  try {
+    const { nombre, email, password, rol } = req.body;
+
+    const user = await Person.findOne({ where: { nombre } });
+
+    if (!user) {
+      return res.status(400).json({ msg: "No existe usuario " + nombre });
+    }
+
+    const usuario = await User.findOne({ where: { id_persona: user.id_persona } });
+    const rolUsuario = await Rol.findAll({ where: { id_persona: usuario.id_persona } });
+
+    let rolesInfo = [];
+    for (let rol of rolUsuario) {
+      switch (rol.id_rol) {
+        case 1: rolesInfo.push('Visitante'); break;
+        case 2: rolesInfo.push('Aprendiz'); break;
+        case 3: rolesInfo.push('Docente'); break;
+        case 4: rolesInfo.push('Admin'); break;
+        default: console.log('Rol no reconocido');
+      }
+    }
+
+    let fieldsToUpdate = {};
+    if (nombre && nombre !== user.nombre) fieldsToUpdate.nombre = nombre;
+    if (email && email !== user.email) fieldsToUpdate.email = email;
+
+    if (Object.keys(fieldsToUpdate).length > 0) {
+      await Person.update(fieldsToUpdate, { where: { id_persona: user.id_persona } });
+    }
+
+    const numero = verificarTodosRolesDiferentes(rolesInfo, rol);
+
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      let username;
+
+      if (numero !== null) {
+        username = generateRandomUsername(nombre);
+        let isUsernameTaken = await User.findOne({ where: { username } });
+
+        while (isUsernameTaken) {
+          username = generateRandomUsername(nombre);
+          isUsernameTaken = await User.findOne({ where: { username } });
+        }
+
+        await User.create({
+          id_persona: usuario.id_persona,
+          id_rol: numero,
+          username,
+          password: hashedPassword 
+        });
+      } else {
+        await User.update({ password: hashedPassword }, { where: { id_persona: usuario.id_persona } });
+      }
+    }
+
+    return res.status(200).json({ msg: "Usuario actualizado correctamente" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ msg: "¡Ha ocurrido un error!" });
+  }
+};
+
 // Elimina a un usuario
 const deletePersona = async (req, res) => {
   const { nombre } = req.body;
@@ -583,7 +668,7 @@ const deletePersona = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       msg: "¡Ha ocurrido un error!",
     });
   }
@@ -601,5 +686,6 @@ module.exports = {
   getUserNameRol,
   getPeopleStatus,
   getPeopleRole,
-  getUserName
+  getUserName,
+  updatePersona
 };
