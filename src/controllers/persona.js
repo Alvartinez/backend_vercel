@@ -578,6 +578,8 @@ const updatePersona = async (req, res) => {
 
     const user = await Person.findOne({ where: { nombre } });
 
+    console.log(nombre)
+
     if (!user) {
       return res.status(400).json({ msg: "No existe usuario " + nombre });
     }
