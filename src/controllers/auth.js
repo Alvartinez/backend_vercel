@@ -46,11 +46,13 @@ const LoginPersona = async (req, res) => {
             });
         }
         const id = user.persona.id_persona;
+
+        const usuario = user.id_usuario;
   
         const rol = user.rol.cargo;
   
         // Se genera el token
-        const token = await generateJWT(id, username, rol); 
+        const token = await generateJWT(id, usuario, username, rol); 
 
         // Redirigir según los roles
         if (rol === "Aprendiz") {
@@ -135,7 +137,7 @@ const changeRole = async (req, res) => {
   
     try {
   
-      const user = await User.findOne({ where: { id_persona: id } });
+      const user = await User.findOne({ where: { id_usuario: id } });
   
       if (!user) {
           return res.status(400).json({
@@ -151,10 +153,10 @@ const changeRole = async (req, res) => {
   
       await User.update(
         { id_rol: 2 },
-        { where: { id_persona: user.id_persona } }
+        { where: { id_usuario: user.id_usuario } }
       );
   
-      const newToken = await generateJWT(id, user.username, rol);
+      const newToken = await generateJWT(user.id_persona, id, user.username, rol);
   
       console.log(newToken);
   

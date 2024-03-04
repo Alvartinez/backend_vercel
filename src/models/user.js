@@ -6,7 +6,7 @@ const Rol = require("./rol");
 const User = sequelize.define("user", {
     id_persona: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
+        allowNull : false,
         references: {
             model: "persona",
             key: "id_persona"
@@ -28,6 +28,11 @@ const User = sequelize.define("user", {
     password: {
         type: DataTypes.STRING,
         allowNull:false
+    },
+    id_usuario: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     }
 },{
     tableName: 'user',
