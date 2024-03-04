@@ -537,7 +537,9 @@ const changeStatusPersona = async (req, res) => {
       res.status(200).json({
         msg: "Se ha habilitado el usuario " + nombre,
       });
-    }else{
+    }
+    
+    if(!newStatus.estado){
       res.status(200).json({
         msg: "Se ha deshabilitado el usuario " + nombre,
       });
