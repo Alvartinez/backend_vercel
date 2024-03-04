@@ -582,18 +582,29 @@ const updatePersona = async (req, res) => {
       return res.status(400).json({ msg: "No existe usuario " + nombre });
     }
 
-    const usuario = await User.findOne({ where: { id_persona: user.id_persona } });
+    const usuario = await User.findAll({ where: { id_persona: user.id_persona } });
 
     let rolesInfo = [];
-    for (let rol of usuario.id_rol) {
-      switch (rol.id_rol) {
-        case 1: rolesInfo.push('Visitante'); break;
-        case 2: rolesInfo.push('Aprendiz'); break;
-        case 3: rolesInfo.push('Docente'); break;
-        case 4: rolesInfo.push('Admin'); break;
-        default: console.log('Rol no reconocido');
+
+    usuario.forEach(usuarios => {
+      switch (usuarios.id_rol) {
+        case 1:
+          rolesInfo.push('Visitante');
+          break;
+        case 2:
+          rolesInfo.push('Aprendiz');
+          break;
+        case 3:
+          rolesInfo.push('Docente');
+          break;
+        case 4:
+          rolesInfo.push('Admin');
+          break;
+        default:
+          console.log('Rol no reconocido');
       }
-    }
+    });
+    
 
     let fieldsToUpdate = {};
     if (nombre && nombre !== user.nombre) fieldsToUpdate.nombre = nombre;
@@ -635,7 +646,7 @@ const updatePersona = async (req, res) => {
         await enviarMensajeInsideServer(infoEmail, "Usuario registrado");
 
       } else {
-        await User.update({ password: hashedPassword }, { where: { id_persona: usuario.id_persona } });
+        await User.update({ password: hashedPassword }, { where: { id_persona: user.id_persona } });
       }
     }
 
