@@ -513,7 +513,7 @@ const newPersona = async (req, res) => {
   }
 };
 
-// Deshabilita a un usuario
+// Habilita o deshabilita a un usuario
 const changeStatusPersona = async (req, res) => {
   const { nombre, estado } = req.body;
 
@@ -528,18 +528,19 @@ const changeStatusPersona = async (req, res) => {
       });
     }
 
-    const newStatus = await Person.update(
+    await Person.update(
       { estado: !estado },
       { where: { id_persona: user.id_persona } }
     );
 
-    if(newStatus.estado){
+    const updatedUser = await Person.findOne({ where: { id_persona: user.id_persona } });
+
+    // Verifica el nuevo estado para enviar el mensaje correspondiente
+    if (updatedUser.estado) {
       res.status(200).json({
         msg: "Se ha habilitado el usuario " + nombre,
       });
-    }
-    
-    if(!newStatus.estado){
+    } else {
       res.status(200).json({
         msg: "Se ha deshabilitado el usuario " + nombre,
       });
