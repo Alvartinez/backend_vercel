@@ -630,7 +630,7 @@ const updatePersona = async (req, res) => {
         }
 
         await User.create({
-          id_persona: usuario.id_persona,
+          id_persona: user.id_persona,
           id_rol: numero,
           username,
           password: hashedPassword 
