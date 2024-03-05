@@ -3,13 +3,11 @@ const Recurso = require("../models/recurso");
 const recursoSabias = require("../models/recurso_sabias");
 const sabiasQue = require("../models/sabias_que");
 
-exports.newSabias = async (req, res) => {
-
-    const {sabia} = req.body;
+exports.newSabias = async (req, res) => { 
 
     try{
 
-        const {id_modulo, recurso, titulo} = sabia;
+        const {id_modulo, recurso, titulo} = req.body;
 
         const recursoNuevo = await Recurso.create({
             nombre:recurso
@@ -42,8 +40,6 @@ exports.newSabias = async (req, res) => {
 
 exports.editSabias = async (req, res) => {
 
-    const { sabia } = req.body;
-
     try{
 
         const {
@@ -52,7 +48,7 @@ exports.editSabias = async (req, res) => {
             enunciado, 
             imagen, 
             archivo
-        } = sabia;
+        } = req.body;
 
         const sabiaExiste = await sabiasQue.findOne({
             where: {
@@ -108,11 +104,9 @@ exports.editSabias = async (req, res) => {
 
 exports.deleteSabias = async (req, res) => {
 
-    const { sabia } = req.body;
-
     try{
 
-        const { id_recurso, id_sabias_que } = sabia;
+        const { id_recurso, id_sabias_que } = req.body;
 
         const sabias = await sabiasQue.findOne({
             where: {
