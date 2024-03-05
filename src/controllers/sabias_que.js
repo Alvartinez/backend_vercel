@@ -109,19 +109,21 @@ exports.deleteSabias = async (req, res) => {
 
     try{
 
-        const { id_recurso, id_sabias_que } = req.body;
+        const id = req.params.id;
 
         const sabias = await sabiasQue.findOne({
             where: {
-                id_sabias_que
+                id_sabias_que: id
             }
         });
 
-        const recurso = await Recurso.findOne({
-            where: {
-                id_recurso
-            }
+        const recurso_Sabias = await recursoSabias.findOne({
+            where:{
+              id_sabias_que: sabias. id_sabias_que
+            } 
         });
+
+        const recurso = await Recurso.findOne({ where:{id_recurso: recurso_Sabias.id_recurso} });
 
         if(!recurso || !sabias){
             return res.status(400).json({
@@ -131,26 +133,26 @@ exports.deleteSabias = async (req, res) => {
 
         await recursoSabias.destroy({
             where: {
-                id_recurso,
-                id_sabias_que
+                id_recurso: recurso.id_recurso,
+                id_sabias_que: id
             }
         });
 
         await sabiasQue.destroy({
             where: {
-                id_sabias_que
+                id_sabias_que: id
             }
         });
 
         await moduloRecurso.destroy({
             where: {
-                id_recurso
+                id_recurso: recurso.id_recurso
             }
         });
 
         await Recurso.destroy({
             where: {
-                id_recurso
+                id_recurso: recurso.id_recurso
             }
         });
 
