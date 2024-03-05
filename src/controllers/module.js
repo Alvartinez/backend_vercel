@@ -356,16 +356,38 @@ async function obtenerVideo(recurso) {
 } 
 
 async function obtenerSabiasQue(recurso) {
-    const sabias = await recursoSabias.findOne({
-        where: { id_recurso: recurso.id_recurso }
-    });
 
-    if (sabias) {
-        return await sabiasQue.findOne({
-            where: { id_sabias_que: sabias.id_sabias_que }
+    try {
+
+        const sabiasRelacionado = await recursoSabias.findOne({
+            where: { id_recurso: recurso.id_recurso }
         });
+
+        if (sabiasRelacionado) {
+
+            const sabia = await sabiasQue.findOne({
+                where: { id_sabias_que: sabiasRelacionado.id_sabias_que }
+            });
+
+            if (sabia) {
+                // Añadir un nuevo campo al objeto video. Por ejemplo, 'tipo' con valor 'Video'
+                sabia.dataValues.recurso = "Sabias que";
+
+                // Retorna el objeto video modificado
+                return sabia;
+            } else {
+                console.log('Sabías qué no encontrado');
+                return null; // O manejar según sea necesario
+            }
+        } else {
+            console.log('Relación Recurso-Sabias no encontrada');
+            return null; // O manejar según sea necesario
+        }
+    } catch (error) {
+        console.error('Error al obtener el sabías qué:', error);
+        throw error; // O manejar el error según prefieras
     }
-    return null;
+
 }
 
 // Obtener un módulo a través de su nombre
