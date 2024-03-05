@@ -8,17 +8,17 @@ const sabiasQue = sequelize.define("sabias_que", {
         primaryKey: true
     },
     titulo:{
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull:false
     },
     enunciado:{
-        type: DataTypes.STRING
+        type: DataTypes.TEXT
     },
     imagen:{
-        type: DataTypes.STRING
+        type: DataTypes.TEXT
     },
     archivo:{
-        type: DataTypes.STRING
+        type: DataTypes.TEXT
     }
 },
 {
