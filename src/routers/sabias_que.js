@@ -7,6 +7,6 @@ router.get("/:id", getSabias);
 router.get("/sabias/:id", getSabiasAll);
 router.post("/newSabia", newSabias);
 router.put("/updateSabia", editSabias);
-router.delete("/deleteSabia", deleteSabias);
+router.delete("/deleteSabia/:id", deleteSabias);
 
 module.exports = router;
