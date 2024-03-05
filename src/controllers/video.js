@@ -227,7 +227,7 @@ exports.deleteVideo = async (req, res) => {
                 id_recurso: recurso.id_recurso
             }
         });
-
+        
         await Recurso.destroy({
             where: {
                 id_recurso: recurso.id_recurso
