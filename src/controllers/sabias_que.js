@@ -7,7 +7,7 @@ exports.newSabias = async (req, res) => {
 
     try{
 
-        const {id_modulo, recurso, titulo} = req.body;
+        const {id_modulo, recurso, titulo, enunciado, archivo, imagen} = req.body;
 
         const recursoNuevo = await Recurso.create({
             nombre:recurso
@@ -19,7 +19,10 @@ exports.newSabias = async (req, res) => {
         });
         
         const sabias = await sabiasQue.create({
-            titulo
+            titulo,
+            enunciado,
+            archivo, 
+            imagen
         });
 
         await recursoSabias.create({
