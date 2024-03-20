@@ -576,13 +576,14 @@ const updatePersona = async (req, res) => {
   try {
     const { nombre, email, password, rol } = req.body;
 
-    const user = await Person.findOne({ where: { nombre:nombre } });
+    const token = req.headers.authorization?.split(" ")[1];
+    const secretKey = process.env.PASSWORD_KEY || "Magic Secret";
 
-    if (user) {
-      return res.status(400).json({ msg: "Existe usuario " + nombre });
-    }
+    const decodedToken = jwt.verify(token, secretKey) || {};
+    const userId = decodedToken.id_persona;
 
-    const usuario = await User.findAll({ where: { id_persona: user.id_persona } });
+    const user = await User.findOne({ where: {id_persona: userId}});
+    const usuario = await User.findAll({ where: { id_persona: userId } });
 
     let rolesInfo = [];
 
