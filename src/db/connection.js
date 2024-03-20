@@ -8,8 +8,8 @@ const sequelize = new Sequelize(process.env.DB_NAME || "osl-udes", process.env.D
     dialectModule: pg
 });
 
-// const sequelize = new Sequelize(process.env.DB_NAME || "verceldb", process.env.DB_USER || "default", process.env.DB_PASSWORD || "5BWgNImv0iOw", {
-//     host: "ep-raspy-water-a4kg3bn4-pooler.us-east-1.aws.neon.tech",
+// const sequelize = new Sequelize(process.env.DB_NAME || "verceldb", process.env.DB_USER || "default", process.env.DB_PASSWORD || "Kpgoe0Vq8OUv", {
+//     host: "ep-shrill-haze-39862407-pooler.us-east-1.aws.neon.tech",
 //     port: 5432,
 //     dialect: "postgres",
 //     dialectModule: pg,
